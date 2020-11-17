@@ -29,7 +29,6 @@ describe('Product Controller', () => {
     await productController.createProduct(mockProduct);
     const product = await productCollection.findOne({ name: 'abc' });
     expect(product._id).toBeTruthy();
-    expect(product.name).toBe('abc');
     expect(product.description).toBe('something');
     expect(product.price).toBe(10000);
     expect(product.brand).toBe('generic');
@@ -48,7 +47,6 @@ describe('Product Controller', () => {
     await productController.updateProduct(updateQuery, updatedValues);
     const product = await productCollection.findOne({ name: 'ps5' });
     expect(product._id).toBeTruthy();
-    expect(product.name).toBe('ps5');
     expect(product.description).toBe('something');
     expect(product.price).toBe(5000);
     expect(product.brand).toBe('sony');
