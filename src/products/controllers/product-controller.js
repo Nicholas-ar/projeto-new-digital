@@ -6,5 +6,10 @@ export class ProductController {
     await productCollection.insertOne(productData);
   };
 
+  updateProduct = async (query, valuesToChange) => {
+    const productCollection = await MongoHelper.getCollection('products');
+    await productCollection.updateOne(query, valuesToChange);
+  };
+
   getProduct = (id) => null;
 }
