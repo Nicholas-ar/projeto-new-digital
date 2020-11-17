@@ -1,5 +1,5 @@
 import { MongoHelper } from '../../src/helpers/mongoHelper';
-import { OrderController } from '../../src/orders/controllers/orders-controller';
+import { OrderMongoRepository } from '../../src/orders/repository/orders-mongo-repository';
 let orderCollection;
 
 describe('Order Controller', () => {
@@ -18,7 +18,7 @@ describe('Order Controller', () => {
     tid: 2134534253252,
     delivered: false,
   });
-  const makeSut = () => new OrderController();
+  const makeSut = () => new OrderMongoRepository();
   it('must insert an order into orders collection', async () => {
     const sut = makeSut();
     await sut.create(makeFakeOrder());
