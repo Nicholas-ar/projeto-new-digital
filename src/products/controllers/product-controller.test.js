@@ -25,7 +25,6 @@ describe('Product Controller', () => {
       dimensions: '50 x 50 x 50',
       releaseDate: '2010',
     };
-    console.log(mockProduct);
     await productController.createProduct(mockProduct);
     const product = await productCollection.findOne({ name: 'abc' });
     expect(product).toEqual(mockProduct);
