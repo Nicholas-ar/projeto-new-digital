@@ -13,7 +13,7 @@ export const MongoHelper = {
   },
 
   async getCollection(collectionName) {
-    if (!this.client.isConnected()) {
+    if (!this.client || !this.client.isConnected()) {
       await this.connect(this.uri);
     }
     return this.client.db().collection(collectionName);

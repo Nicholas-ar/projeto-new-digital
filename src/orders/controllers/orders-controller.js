@@ -10,7 +10,7 @@ export class OrderController {
     const orderCollection = await MongoHelper.getCollection('orders');
     return await orderCollection.findOne({ cpf });
   }
-  
+
   async create(orderData) {
     const orderCollection = await MongoHelper.getCollection('orders');
     await orderCollection.insertOne(orderData);
