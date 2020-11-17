@@ -54,4 +54,13 @@ describe('Product Controller', () => {
     expect(product.dimensions).toBe('50 x 50 x 50');
     expect(product.releaseDate).toBe(2020);
   });
+
+  it('must delete a product in products collections', async () => {
+    const productController = new ProductController();
+    await productCollection.insertOne(mockProduct);
+    const deleteQuery = { name: 'abc' };
+    await productController.deleteProduct(deleteQuery);
+    const product = await productCollection.findOne(deleteQuery);
+    expect(product).toBe(null);
+  });
 });
