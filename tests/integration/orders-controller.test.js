@@ -1,5 +1,5 @@
-import { MongoHelper } from '../../helpers/mongoHelper';
-import { OrderController } from '../../orders/controllers/orders-controller';
+import { MongoHelper } from '../../src/helpers/mongoHelper';
+import { OrderController } from '../../src/orders/controllers/orders-controller';
 let orderCollection;
 
 describe('Order Controller', () => {
