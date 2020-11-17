@@ -3,7 +3,13 @@ import { MongoClient } from 'mongodb';
 export const MongoHelper = {
   async connect(uri) {
     this.uri = uri;
-    const mongoOptions = { useNewUrlParser: true, useUnifiedTopology: true };
+    const mongoOptions = {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      reconnectTries: 40,
+      reconnectInterval: 1500,
+      autoReconnect: true,
+    };
     this.client = await MongoClient.connect(uri, mongoOptions);
   },
 
