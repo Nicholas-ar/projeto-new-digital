@@ -24,7 +24,17 @@ const makeRepository = () => {
         delivered: false,
       };
     }
+    async update(query) {
+      return {
+        _id: 1,
+        email: 'valid_email@email.com',
+        cpf: 12345612312,
+        tid: 2134534253252,
+        delivered: true,
+      };
+    }
   }
+
   return new RepositoryStub();
 };
 
@@ -94,5 +104,48 @@ describe('Order controller', () => {
     const httpRequest = makeFakeRequest();
     await sut.createOrder(httpRequest);
     expect(repositorySpy).toHaveBeenCalledWith(httpRequest);
+  });
+
+  it('it must return 400 status code if createOrder returns null', async () => {
+    const { sut, repositoryStub } = makeSut();
+    jest.spyOn(repositoryStub, 'create').mockReturnValueOnce(null);
+    const httpRequest = makeFakeRequest();
+    const httpResponse = await sut.createOrder(httpRequest);
+    expect(httpResponse).toEqual(
+      HTTP_BAD_REQUEST_400({ message: 'Invalid param' })
+    );
+  });
+
+  it('it must update an order with 200 status code given valid data', async () => {
+    const { sut } = makeSut();
+    const httpRequest = { delivered: true };
+    const httpResponse = await sut.updateOrder(httpRequest);
+    expect(httpResponse).toEqual(
+      HTTP_OK_200({
+        _id: 1,
+        email: 'valid_email@email.com',
+        cpf: 12345612312,
+        tid: 2134534253252,
+        delivered: true,
+      })
+    );
+  });
+
+  it('it must call Repository with correct update order value', async () => {
+    const { sut, repositoryStub } = makeSut();
+    const repositorySpy = jest.spyOn(repositoryStub, 'update');
+    const httpRequest = makeFakeRequest();
+    await sut.updateOrder(httpRequest);
+    expect(repositorySpy).toHaveBeenCalledWith(httpRequest);
+  });
+
+  it('it must return 400 status code if updateOrder returns null', async () => {
+    const { sut, repositoryStub } = makeSut();
+    jest.spyOn(repositoryStub, 'update').mockReturnValueOnce(null);
+    const httpRequest = makeFakeRequest();
+    const httpResponse = await sut.updateOrder(httpRequest);
+    expect(httpResponse).toEqual(
+      HTTP_BAD_REQUEST_400({ message: 'Invalid param' })
+    );
   });
 });

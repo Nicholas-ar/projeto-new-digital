@@ -19,7 +19,7 @@ export class OrdersMongoRepository {
 
   async update(query, newData) {
     const orderCollection = await MongoHelper.getCollection('orders');
-    await orderCollection.update(query, { $set: newData });
+    await orderCollection.updateOne(query, { $set: newData });
   }
 
   async delete(query) {
