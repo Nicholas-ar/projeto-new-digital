@@ -1,4 +1,4 @@
-import OrderController from './order-controller';
+import OrderController from '../../src/orders/controller/order-controller';
 
 const makeRepository = () => {
   class Repository {
@@ -32,7 +32,7 @@ describe('Order controller', () => {
     });
   });
 
-  it('It must return um erro message if order not found', async () => {
+  it('It must return an error message if order is not found', async () => {
     const repositorySpy = makeRepository();
     jest.spyOn(repositorySpy, 'retriveByCpf').mockReturnValueOnce(null);
     const orderController = new OrderController(repositorySpy);
