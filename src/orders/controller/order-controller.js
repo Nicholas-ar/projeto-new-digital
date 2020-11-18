@@ -13,9 +13,12 @@ class OrderController {
 
   async retrieveOrder(httpRequest) {
     try {
+      if (!this.cpfValidator.validate(httpRequest.cpf)) {
+        return HTTP_BAD_REQUEST_400({ message: 'Invalid param: cpf' });
+      }
       const orders = await this.repository.retriveByCpf(httpRequest.cpf);
       if (!orders)
-        return HTTP_BAD_REQUEST_400({ message: 'Invalid param: cpf' });
+        return HTTP_BAD_REQUEST_400({ message: 'No orders were found' });
       return HTTP_OK_200(orders);
     } catch (error) {
       return HTTP_SERVER_ERROR_500(error);

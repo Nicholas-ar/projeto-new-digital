@@ -80,6 +80,38 @@ describe('Order controller', () => {
     expect(httpResponse).toEqual(HTTP_OK_200(makeFakeRequest()));
   });
 
+  it('must call ValidarCPF with correct data', async () => {
+    const { sut, cpfValidatorStub } = makeSut();
+    const cpfValidatorSpy = jest.spyOn(cpfValidatorStub, 'validate');
+    const httpRequest = {
+      cpf: '12345612312',
+    };
+    await sut.retrieveOrder(httpRequest);
+    expect(cpfValidatorSpy).toHaveBeenCalledWith(httpRequest.cpf);
+  });
+
+  it('It must return 500 if ValidarCPF throws an error', async () => {
+    const { sut, cpfValidatorStub } = makeSut();
+    jest.spyOn(cpfValidatorStub, 'validate').mockImplementationOnce(new Error());
+    const httpRequest = {
+      cpf: '12345612312',
+    };
+    const httpResponse = await sut.retrieveOrder(httpRequest);
+    expect(httpResponse).toEqual(HTTP_SERVER_ERROR_500(new Error()));
+  });
+
+  it('it must return 400 status code if ValidarCPF returns false', async () => {
+    const { sut, cpfValidatorStub } = makeSut();
+    jest.spyOn(cpfValidatorStub, 'validate').mockReturnValueOnce(false);
+    const httpRequest = {
+      cpf: '12345612312',
+    };
+    const httpResponse = await sut.retrieveOrder(httpRequest);
+    expect(httpResponse).toEqual(
+      HTTP_BAD_REQUEST_400({ message: 'Invalid param: cpf' })
+    );
+  });
+
   it('It must return an error message and 400 status code if order is not found', async () => {
     const { sut, repositoryStub } = makeSut();
     jest.spyOn(repositoryStub, 'retriveByCpf').mockReturnValueOnce(null);
@@ -88,7 +120,7 @@ describe('Order controller', () => {
     };
     const httpResponse = await sut.retrieveOrder(httpRequest);
     expect(httpResponse).toEqual(
-      HTTP_BAD_REQUEST_400({ message: 'Invalid param: cpf' })
+      HTTP_BAD_REQUEST_400({ message: 'No orders were found' })
     );
   });
 
