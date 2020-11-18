@@ -1,6 +1,6 @@
 import { MongoHelper } from '../../helpers/mongoHelper';
 
-export class OrderMongoRepository {
+export class OrdersMongoRepository {
   async list() {
     const orderCollection = await MongoHelper.getCollection('orders');
     return await orderCollection.find({}).toArray();
@@ -14,11 +14,12 @@ export class OrderMongoRepository {
   async create(orderData) {
     const orderCollection = await MongoHelper.getCollection('orders');
     await orderCollection.insertOne(orderData);
+    return await orderCollection.findOne(orderData);
   }
 
   async update(query, newData) {
     const orderCollection = await MongoHelper.getCollection('orders');
-    await orderCollection.update(query, { $set: newData });
+    await orderCollection.updateOne(query, { $set: newData });
   }
 
   async delete(query) {
