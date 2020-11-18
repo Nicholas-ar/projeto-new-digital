@@ -43,7 +43,7 @@ describe('Order controller', () => {
     expect(httpResponse).toEqual({
       statusCode: 400,
       body: {
-        message: 'Invalid param : cpf',
+        message: 'Invalid param: cpf',
       },
     });
   });

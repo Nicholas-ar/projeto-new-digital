@@ -6,9 +6,6 @@ export const MongoHelper = {
     const mongoOptions = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      reconnectTries: 40,
-      reconnectInterval: 1500,
-      autoReconnect: true,
     };
     this.client = await MongoClient.connect(uri, mongoOptions);
   },

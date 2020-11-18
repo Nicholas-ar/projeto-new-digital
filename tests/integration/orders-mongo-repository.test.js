@@ -1,5 +1,5 @@
 import { MongoHelper } from '../../src/helpers/mongoHelper';
-import { OrderMongoRepository } from '../../src/orders/repository/orders-mongo-repository';
+import { OrdersMongoRepository } from '../../src/orders/repository/orders-mongo-repository';
 let orderCollection;
 
 describe('Order Controller', () => {
@@ -18,7 +18,7 @@ describe('Order Controller', () => {
     tid: 2134534253252,
     delivered: false,
   });
-  const makeSut = () => new OrderMongoRepository();
+  const makeSut = () => new OrdersMongoRepository();
   it('must insert an order into orders collection', async () => {
     const sut = makeSut();
     await sut.create(makeFakeOrder());
@@ -79,7 +79,9 @@ describe('Order Controller', () => {
     const fakeOrderData = makeFakeOrder();
     const updateSpy = jest.spyOn(sut, 'retrieveByCpf');
     await sut.retrieveByCpf(fakeOrderData.cpf, { delivered: true });
-    expect(updateSpy).toHaveBeenCalledWith(fakeOrderData.cpf, { delivered: true });
+    expect(updateSpy).toHaveBeenCalledWith(fakeOrderData.cpf, {
+      delivered: true,
+    });
   });
 
   it('must update a document given an existing cpf', async () => {
@@ -89,9 +91,11 @@ describe('Order Controller', () => {
     const orderCollection = await MongoHelper.getCollection('orders');
     await orderCollection.insertOne(fakeOrderData);
 
-    await sut.update({cpf: fakeOrderData.cpf}, { delivered: true });
+    await sut.update({ cpf: fakeOrderData.cpf }, { delivered: true });
 
-    const order = await orderCollection.findOne({email: 'valid_email@email.com'});
+    const order = await orderCollection.findOne({
+      email: 'valid_email@email.com',
+    });
 
     expect(order._id).toBeTruthy();
     expect(order.email).toBe('valid_email@email.com');
@@ -108,11 +112,10 @@ describe('Order Controller', () => {
     await orderCollection.insertOne(makeFakeOrder());
     await orderCollection.insertOne(makeFakeOrder());
 
-
     await sut.delete(fakeOrderData);
 
     const order = await orderCollection.find({}).toArray();
 
-    expect(order).toHaveLength(1)
+    expect(order).toHaveLength(1);
   });
 });
