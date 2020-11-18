@@ -48,12 +48,36 @@ const makeCpfValidator = () => {
   return new ValidarCpfStub();
 };
 
+const makePaymentAdapter = () => {
+  class PaymentAdapterStub {
+    pay(paymentData) {
+      return 'transaction_id';
+    }
+  }
+  return new PaymentAdapterStub();
+};
+
 const makeSut = () => {
   const repositoryStub = makeRepository();
   const cpfValidatorStub = makeCpfValidator();
-  const sut = new OrderController(repositoryStub, cpfValidatorStub);
-  return { sut, repositoryStub, cpfValidatorStub };
+  const paymentAdapterStub = makePaymentAdapter();
+  const sut = new OrderController(
+    repositoryStub,
+    cpfValidatorStub,
+    paymentAdapterStub
+  );
+  return { sut, repositoryStub, cpfValidatorStub, paymentAdapterStub };
 };
+
+const makeFakePaymentData = () => ({
+  orderPrice: 10,
+  orderReference: Math.floor(Math.random() * 10001),
+  cardNumber: '5448280000000007',
+  cvv: '235',
+  expirationMonth: '12',
+  expirationYear: '2020',
+  cardHolderName: 'Fulano de Tal',
+});
 
 const makeFakeRequest = () => ({
   email: 'valid_email@email.com',
@@ -148,9 +172,51 @@ describe('Order controller', () => {
     expect(httpResponse).toEqual(HTTP_SERVER_ERROR_500(new Error()));
   });
 
+  it('must call PaymentAdapter with correct data', async () => {
+    const { sut, paymentAdapterStub } = makeSut();
+    const paySpy = jest.spyOn(paymentAdapterStub, 'pay');
+    const orderData = {
+      email: 'valid_email@email.com',
+      cpf: '12345612312',
+      delivered: false,
+    };
+    const paymentData = {
+      orderPrice: 10,
+      orderReference: Math.floor(Math.random() * 10001),
+      cardNumber: '5448280000000007',
+      cvv: '235',
+      expirationMonth: '12',
+      expirationYear: '2020',
+      cardHolderName: 'Fulano de Tal',
+    };
+    const httpRequest = {
+      orderData,
+      paymentData,
+    };
+    await sut.createOrder(httpRequest);
+    expect(paySpy).toHaveBeenCalledWith(paymentData);
+  });
+
   it('it must create an order with 201 status code given valid data', async () => {
     const { sut } = makeSut();
-    const httpRequest = makeFakeRequest();
+    const orderData = {
+      email: 'valid_email@email.com',
+      cpf: '12345612312',
+      delivered: false,
+    };
+    const paymentData = {
+      orderPrice: 10,
+      orderReference: Math.floor(Math.random() * 10001),
+      cardNumber: '5448280000000007',
+      cvv: '235',
+      expirationMonth: '12',
+      expirationYear: '2020',
+      cardHolderName: 'Fulano de Tal',
+    };
+    const httpRequest = {
+      orderData,
+      paymentData,
+    };
     const httpResponse = await sut.createOrder(httpRequest);
     expect(httpResponse).toEqual(HTTP_CREATED_201(makeFakeOrder()));
   });
@@ -158,11 +224,26 @@ describe('Order controller', () => {
   it('must call ValidarCPF with correct data', async () => {
     const { sut, cpfValidatorStub } = makeSut();
     const cpfValidatorSpy = jest.spyOn(cpfValidatorStub, 'validate');
+    const orderData = {
+      email: 'valid_email@email.com',
+      cpf: '12345612312',
+      delivered: false,
+    };
+    const paymentData = {
+      orderPrice: 10,
+      orderReference: Math.floor(Math.random() * 10001),
+      cardNumber: '5448280000000007',
+      cvv: '235',
+      expirationMonth: '12',
+      expirationYear: '2020',
+      cardHolderName: 'Fulano de Tal',
+    };
     const httpRequest = {
-      cpf: '26306359028',
+      orderData,
+      paymentData,
     };
     await sut.createOrder(httpRequest);
-    expect(cpfValidatorSpy).toHaveBeenCalledWith(httpRequest.cpf);
+    expect(cpfValidatorSpy).toHaveBeenCalledWith(orderData.cpf);
   });
 
   it('It must return 500 if ValidarCPF throws an error', async () => {
@@ -177,7 +258,24 @@ describe('Order controller', () => {
   it('it must return 400 status code if ValidarCPF returns false', async () => {
     const { sut, cpfValidatorStub } = makeSut();
     jest.spyOn(cpfValidatorStub, 'validate').mockReturnValueOnce(false);
-    const httpRequest = makeFakeRequest();
+    const orderData = {
+      email: 'valid_email@email.com',
+      cpf: '12345612312',
+      delivered: false,
+    };
+    const paymentData = {
+      orderPrice: 10,
+      orderReference: Math.floor(Math.random() * 10001),
+      cardNumber: '5448280000000007',
+      cvv: '235',
+      expirationMonth: '12',
+      expirationYear: '2020',
+      cardHolderName: 'Fulano de Tal',
+    };
+    const httpRequest = {
+      orderData,
+      paymentData,
+    };
     const httpResponse = await sut.createOrder(httpRequest);
     expect(httpResponse).toEqual(
       HTTP_BAD_REQUEST_400({ message: 'Invalid param: cpf' })
@@ -187,7 +285,24 @@ describe('Order controller', () => {
   it('it must call Repository with correct order value', async () => {
     const { sut, repositoryStub } = makeSut();
     const repositorySpy = jest.spyOn(repositoryStub, 'create');
-    const httpRequest = makeFakeRequest();
+    const orderData = {
+      email: 'valid_email@email.com',
+      cpf: '12345612312',
+      delivered: false,
+    };
+    const paymentData = {
+      orderPrice: 10,
+      orderReference: Math.floor(Math.random() * 10001),
+      cardNumber: '5448280000000007',
+      cvv: '235',
+      expirationMonth: '12',
+      expirationYear: '2020',
+      cardHolderName: 'Fulano de Tal',
+    };
+    const httpRequest = {
+      orderData,
+      paymentData,
+    };
     await sut.createOrder(httpRequest);
     expect(repositorySpy).toHaveBeenCalledWith(httpRequest);
   });
