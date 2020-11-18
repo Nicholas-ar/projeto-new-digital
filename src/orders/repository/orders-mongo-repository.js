@@ -14,6 +14,7 @@ export class OrdersMongoRepository {
   async create(orderData) {
     const orderCollection = await MongoHelper.getCollection('orders');
     await orderCollection.insertOne(orderData);
+    return await orderCollection.findOne(orderData);
   }
 
   async update(query, newData) {

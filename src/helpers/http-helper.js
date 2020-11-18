@@ -7,3 +7,8 @@ export const HTTP_OK_200 = (data) => ({
   statusCode: 200,
   body: data,
 });
+
+export const HTTP_CREATED_201 = (data) => ({
+  statusCode: 201,
+  body: data,
+});

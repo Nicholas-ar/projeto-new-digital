@@ -1,6 +1,7 @@
 import {
   HTTP_BAD_REQUEST_400,
   HTTP_OK_200,
+  HTTP_CREATED_201,
 } from '../../src/helpers/http-helper';
 import OrderController from '../../src/orders/controller/order-controller';
 
@@ -10,6 +11,15 @@ const makeRepository = () => {
       return {
         email: 'valid_email@email.com',
         cpf,
+        tid: 2134534253252,
+        delivered: false,
+      };
+    }
+    async create(data) {
+      return {
+        _id: 1,
+        email: 'valid_email@email.com',
+        cpf: 12345612312,
         tid: 2134534253252,
         delivered: false,
       };
@@ -24,7 +34,15 @@ const makeSut = () => {
   return { sut, repositoryStub };
 };
 
+const makeFakeRequest = () => ({
+  email: 'valid_email@email.com',
+  cpf: 12345612312,
+  tid: 2134534253252,
+  delivered: false,
+});
+
 const makeFakeOrder = () => ({
+  _id: 1,
   email: 'valid_email@email.com',
   cpf: 12345612312,
   tid: 2134534253252,
@@ -32,22 +50,22 @@ const makeFakeOrder = () => ({
 });
 
 describe('Order controller', () => {
-  it('It must load an order', async () => {
+  it('It must load an order with 200 status code', async () => {
     const { sut } = makeSut();
     const httpRequest = {
       cpf: 12345612312,
     };
-    const httpResponse = await sut.handleRetrival(httpRequest);
-    expect(httpResponse).toEqual(HTTP_OK_200(makeFakeOrder()));
+    const httpResponse = await sut.retrieveOrder(httpRequest);
+    expect(httpResponse).toEqual(HTTP_OK_200(makeFakeRequest()));
   });
 
-  it('It must return an error message if order is not found', async () => {
+  it('It must return an error message and 400 status code if order is not found', async () => {
     const { sut, repositoryStub } = makeSut();
     jest.spyOn(repositoryStub, 'retriveByCpf').mockReturnValueOnce(null);
     const httpRequest = {
       cpf: 26306359028,
     };
-    const httpResponse = await sut.handleRetrival(httpRequest);
+    const httpResponse = await sut.retrieveOrder(httpRequest);
     expect(httpResponse).toEqual(
       HTTP_BAD_REQUEST_400({ message: 'Invalid param: cpf' })
     );
@@ -59,7 +77,22 @@ describe('Order controller', () => {
     const httpRequest = {
       cpf: 26306359028,
     };
-    await sut.handleRetrival(httpRequest);
+    await sut.retrieveOrder(httpRequest);
     expect(repositorySpy).toHaveBeenCalledWith(httpRequest.cpf);
+  });
+
+  it('it must create an order with 201 status code given valid data', async () => {
+    const { sut } = makeSut();
+    const httpRequest = makeFakeRequest();
+    const httpResponse = await sut.createOrder(httpRequest);
+    expect(httpResponse).toEqual(HTTP_CREATED_201(makeFakeOrder()));
+  });
+
+  it('it must Repository with correct order value', async () => {
+    const { sut, repositoryStub } = makeSut();
+    const repositorySpy = jest.spyOn(repositoryStub, 'create');
+    const httpRequest = makeFakeRequest();
+    await sut.createOrder(httpRequest);
+    expect(repositorySpy).toHaveBeenCalledWith(httpRequest);
   });
 });
