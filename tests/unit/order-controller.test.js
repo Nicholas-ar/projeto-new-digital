@@ -2,6 +2,7 @@ import {
   HTTP_BAD_REQUEST_400,
   HTTP_OK_200,
   HTTP_CREATED_201,
+  HTTP_SERVER_ERROR_500
 } from '../../src/helpers/http-helper';
 import OrderController from '../../src/orders/controller/order-controller';
 
@@ -91,6 +92,16 @@ describe('Order controller', () => {
     expect(repositorySpy).toHaveBeenCalledWith(httpRequest.cpf);
   });
 
+  it('It must return 500 if retriveByCpf throws an error', async () => {
+    const { sut, repositoryStub } = makeSut();
+    jest.spyOn(repositoryStub, 'retriveByCpf').mockImplementationOnce(new Error());
+    const httpRequest = {
+      cpf: 26306359028,
+    };
+    const httpResponse = await sut.retrieveOrder(httpRequest);
+    expect(httpResponse).toEqual(HTTP_SERVER_ERROR_500(new Error()));
+  });
+
   it('it must create an order with 201 status code given valid data', async () => {
     const { sut } = makeSut();
     const httpRequest = makeFakeRequest();
@@ -98,7 +109,7 @@ describe('Order controller', () => {
     expect(httpResponse).toEqual(HTTP_CREATED_201(makeFakeOrder()));
   });
 
-  it('it must Repository with correct order value', async () => {
+  it('it must call Repository with correct order value', async () => {
     const { sut, repositoryStub } = makeSut();
     const repositorySpy = jest.spyOn(repositoryStub, 'create');
     const httpRequest = makeFakeRequest();
@@ -106,15 +117,13 @@ describe('Order controller', () => {
     expect(repositorySpy).toHaveBeenCalledWith(httpRequest);
   });
 
-  it('it must return 400 status code if createOrder returns null', async () => {
+  it('It must return 500 if create throws an error', async () => {
     const { sut, repositoryStub } = makeSut();
-    jest.spyOn(repositoryStub, 'create').mockReturnValueOnce(null);
-    const httpRequest = makeFakeRequest();
-    const httpResponse = await sut.createOrder(httpRequest);
-    expect(httpResponse).toEqual(
-      HTTP_BAD_REQUEST_400({ message: 'Invalid param' })
-    );
+    jest.spyOn(repositoryStub, 'create').mockImplementationOnce(new Error());
+    const httpResponse = await sut.createOrder(makeFakeRequest());
+    expect(httpResponse).toEqual(HTTP_SERVER_ERROR_500(new Error()));
   });
+
 
   it('it must update an order with 200 status code given valid data', async () => {
     const { sut } = makeSut();
@@ -147,5 +156,12 @@ describe('Order controller', () => {
     expect(httpResponse).toEqual(
       HTTP_BAD_REQUEST_400({ message: 'Invalid param' })
     );
+  });
+
+  it('It must return 500 if update throws an error', async () => {
+    const { sut, repositoryStub } = makeSut();
+    jest.spyOn(repositoryStub, 'update').mockImplementationOnce(new Error());
+    const httpResponse = await sut.updateOrder(makeFakeRequest());
+    expect(httpResponse).toEqual(HTTP_SERVER_ERROR_500(new Error()));
   });
 });

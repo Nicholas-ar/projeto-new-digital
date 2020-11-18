@@ -1,3 +1,4 @@
+import { ServerError } from '../../errors/server-error';
 import { MongoHelper } from '../../helpers/mongoHelper';
 
 export class OrdersMongoRepository {
