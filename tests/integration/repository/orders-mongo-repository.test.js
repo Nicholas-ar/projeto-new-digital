@@ -1,5 +1,5 @@
-import { MongoHelper } from '../../src/helpers/mongoHelper';
-import { OrdersMongoRepository } from '../../src/orders/repository/orders-mongo-repository';
+import { MongoHelper } from '../../../src/helpers/mongoHelper';
+import { OrdersMongoRepository } from '../../../src/infra/db/mongodb/orders-mongo-repository';
 let orderCollection;
 
 describe('Order Controller', () => {
@@ -21,10 +21,7 @@ describe('Order Controller', () => {
   const makeSut = () => new OrdersMongoRepository();
   it('must insert an order into orders collection', async () => {
     const sut = makeSut();
-    await sut.create(makeFakeOrder());
-    const order = await orderCollection.findOne({
-      email: 'valid_email@email.com',
-    });
+    const order = await sut.create(makeFakeOrder());
     expect(order._id).toBeTruthy();
     expect(order.email).toBe('valid_email@email.com');
     expect(order.cpf).toBe(12345612312);

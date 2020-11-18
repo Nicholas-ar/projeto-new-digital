@@ -1,5 +1,4 @@
-import { ServerError } from '../../errors/server-error';
-import { MongoHelper } from '../../helpers/mongoHelper';
+import { MongoHelper } from '../../../helpers/mongoHelper';
 
 export class OrdersMongoRepository {
   async list() {
@@ -14,8 +13,8 @@ export class OrdersMongoRepository {
 
   async create(orderData) {
     const orderCollection = await MongoHelper.getCollection('orders');
-    await orderCollection.insertOne(orderData);
-    return await orderCollection.findOne(orderData);
+    const result = await orderCollection.insertOne(orderData);
+    return result.ops[0]
   }
 
   async update(query, newData) {
