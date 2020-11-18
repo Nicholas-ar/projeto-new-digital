@@ -3,8 +3,8 @@ import {
   HTTP_OK_200,
   HTTP_CREATED_201,
   HTTP_SERVER_ERROR_500,
-} from '../../../src/helpers/http-helper';
-import OrderController from '../../../src/orders/controller/order-controller';
+} from '../../../src/presentation/helpers/http-helper';
+import OrderController from '../../../src/presentation/controllers/order-controller';
 
 const makeRepository = () => {
   class RepositoryStub {
@@ -92,7 +92,9 @@ describe('Order controller', () => {
 
   it('It must return 500 if ValidarCPF throws an error', async () => {
     const { sut, cpfValidatorStub } = makeSut();
-    jest.spyOn(cpfValidatorStub, 'validate').mockImplementationOnce(new Error());
+    jest
+      .spyOn(cpfValidatorStub, 'validate')
+      .mockImplementationOnce(new Error());
     const httpRequest = {
       cpf: '12345612312',
     };
@@ -133,7 +135,7 @@ describe('Order controller', () => {
     await sut.retrieveOrder(httpRequest);
     expect(repositorySpy).toHaveBeenCalledWith(httpRequest.cpf);
   });
-  
+
   it('It must return 500 if retriveByCpf throws an error', async () => {
     const { sut, repositoryStub } = makeSut();
     jest
@@ -165,7 +167,9 @@ describe('Order controller', () => {
 
   it('It must return 500 if ValidarCPF throws an error', async () => {
     const { sut, cpfValidatorStub } = makeSut();
-    jest.spyOn(cpfValidatorStub, 'validate').mockImplementationOnce(new Error());
+    jest
+      .spyOn(cpfValidatorStub, 'validate')
+      .mockImplementationOnce(new Error());
     const httpResponse = await sut.createOrder(makeFakeRequest());
     expect(httpResponse).toEqual(HTTP_SERVER_ERROR_500(new Error()));
   });
