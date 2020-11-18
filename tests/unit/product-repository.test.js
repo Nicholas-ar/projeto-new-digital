@@ -1,5 +1,5 @@
-import { ProductController } from './product-controller';
-import { MongoHelper } from '../../helpers/mongoHelper';
+import { ProductRepository } from '../../src/products/repository/product-repository.js';
+import { MongoHelper } from '../../src/helpers/mongoHelper';
 
 let productCollection;
 
@@ -11,9 +11,10 @@ const mockProduct = {
   weight: '10 kg',
   dimensions: '50 x 50 x 50',
   releaseDate: 2010,
+  quantity: 10,
 };
 
-describe('Product Controller', () => {
+describe('Product Repository', () => {
   beforeAll(async () => await MongoHelper.connect(process.env.MONGO_URL));
 
   beforeEach(async () => {
@@ -24,9 +25,9 @@ describe('Product Controller', () => {
   afterAll(async () => await MongoHelper.disconnect());
 
   it('should insert a product into collection', async () => {
-    const productController = new ProductController();
+    const productRepository = new ProductRepository();
 
-    await productController.createProduct(mockProduct);
+    await productRepository.create(mockProduct);
     const product = await productCollection.findOne({ name: 'abc' });
     expect(product._id).toBeTruthy();
     expect(product.description).toBe('something');
@@ -35,16 +36,17 @@ describe('Product Controller', () => {
     expect(product.weight).toBe('10 kg');
     expect(product.dimensions).toBe('50 x 50 x 50');
     expect(product.releaseDate).toBe(2010);
+    expect(product.quantity).toBe(10);
   });
 
   it('must update a product in products collection', async () => {
-    const productController = new ProductController();
+    const productRepository = new ProductRepository();
     await productCollection.insertOne(mockProduct);
     const updateQuery = { name: 'abc' };
     const updatedValues = {
       $set: { name: 'ps5', price: 5000, brand: 'sony', releaseDate: 2020 },
     };
-    await productController.updateProduct(updateQuery, updatedValues);
+    await productRepository.update(updateQuery, updatedValues);
     const product = await productCollection.findOne({ name: 'ps5' });
     expect(product._id).toBeTruthy();
     expect(product.description).toBe('something');
@@ -53,13 +55,14 @@ describe('Product Controller', () => {
     expect(product.weight).toBe('10 kg');
     expect(product.dimensions).toBe('50 x 50 x 50');
     expect(product.releaseDate).toBe(2020);
+    expect(product.quantity).toBe(10);
   });
 
   it('must delete a product in products collections', async () => {
-    const productController = new ProductController();
+    const productRepository = new ProductRepository();
     await productCollection.insertOne(mockProduct);
     const deleteQuery = { name: 'abc' };
-    await productController.deleteProduct(deleteQuery);
+    await productRepository.delete(deleteQuery);
     const product = await productCollection.findOne(deleteQuery);
     expect(product).toBe(null);
   });
