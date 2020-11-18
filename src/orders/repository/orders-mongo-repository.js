@@ -1,6 +1,6 @@
 import { MongoHelper } from '../../helpers/mongoHelper';
 
-export class OrderMongoRepository {
+export class OrdersMongoRepository {
   async list() {
     const orderCollection = await MongoHelper.getCollection('orders');
     return await orderCollection.find({}).toArray();
