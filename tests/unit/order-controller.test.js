@@ -1,7 +1,11 @@
+import {
+  HTTP_BAD_REQUEST_400,
+  HTTP_OK_200,
+} from '../../src/helpers/http-helper';
 import OrderController from '../../src/orders/controller/order-controller';
 
 const makeRepository = () => {
-  class Repository {
+  class RepositoryStub {
     async retriveByCpf(cpf) {
       return {
         email: 'valid_email@email.com',
@@ -11,40 +15,41 @@ const makeRepository = () => {
       };
     }
   }
-  return new Repository();
+  return new RepositoryStub();
 };
+
+const makeSut = () => {
+  const repositorySpy = makeRepository();
+  const sut = new OrderController(repositorySpy);
+  return { sut, repositorySpy };
+};
+
+const makeFakeOrder = () => ({
+  email: 'valid_email@email.com',
+  cpf: 12345612312,
+  tid: 2134534253252,
+  delivered: false,
+});
 
 describe('Order controller', () => {
   it('It must load an order', async () => {
-    const orderController = new OrderController(makeRepository());
+    const { sut } = makeSut();
     const httpRequest = {
       cpf: 12345612312,
     };
-    const httpResponse = await orderController.handleRetrival(httpRequest);
-    expect(httpResponse).toEqual({
-      statusCode: 200,
-      body: {
-        email: 'valid_email@email.com',
-        cpf: 12345612312,
-        tid: 2134534253252,
-        delivered: false,
-      },
-    });
+    const httpResponse = await sut.handleRetrival(httpRequest);
+    expect(httpResponse).toEqual(HTTP_OK_200(makeFakeOrder()));
   });
 
   it('It must return an error message if order is not found', async () => {
-    const repositorySpy = makeRepository();
+    const { sut, repositorySpy } = makeSut();
     jest.spyOn(repositorySpy, 'retriveByCpf').mockReturnValueOnce(null);
-    const orderController = new OrderController(repositorySpy);
     const httpRequest = {
       cpf: 26306359028,
     };
-    const httpResponse = await orderController.handleRetrival(httpRequest);
-    expect(httpResponse).toEqual({
-      statusCode: 400,
-      body: {
-        message: 'Invalid param: cpf',
-      },
-    });
+    const httpResponse = await sut.handleRetrival(httpRequest);
+    expect(httpResponse).toEqual(
+      HTTP_BAD_REQUEST_400({ message: 'Invalid param: cpf' })
+    );
   });
 });
