@@ -6,8 +6,9 @@ import {
 } from '../../helpers/http-helper';
 
 class OrderController {
-  constructor(repository) {
+  constructor(repository, cpfValidator) {
     this.repository = repository;
+    this.cpfValidator = cpfValidator;
   }
 
   async retrieveOrder(httpRequest) {
@@ -23,9 +24,11 @@ class OrderController {
 
   async createOrder(httpRequest) {
     try {
+      if (!this.cpfValidator.validate(httpRequest.cpf)) {
+        return HTTP_BAD_REQUEST_400({ message: 'Invalid param: cpf' });
+      }
       const order = await this.repository.create(httpRequest);
-      if (!order) return HTTP_BAD_REQUEST_400({ message: 'Invalid param' });
-      return HTTP_CREATED_201(order);
+      if (order) return HTTP_CREATED_201(order);
     } catch (error) {
       return HTTP_SERVER_ERROR_500(error);
     }

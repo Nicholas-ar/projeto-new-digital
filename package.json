@@ -7,8 +7,8 @@
     "start": "node ./src/index.js",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:verbose": "jest --passWithNoTests --runInBand",
-    "test:unit": "npm test -- tests/unit -- --watch",
-    "test:integration": "npm test -- tests/integration -- --watch",
+    "test:unit": "jest tests/unit --watch",
+    "test:integration": "jest tests/integration --watch",
     "test:ci": "npm test -- --coverage"
   },
   "author": "Alexandre Xavier, Nicholas Araújo",

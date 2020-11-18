@@ -12,7 +12,7 @@ describe('CPF validator', () => {
   `(
     'must return $expectedResult when te user inputs $paramCPF',
     ({ paramCPF, expectedResult }) => {
-      const isValid = new ValidarCpf(paramCPF).initClass();
+      const isValid = new ValidarCpf(paramCPF).validate(paramCPF);
       expect(isValid).toEqual(expectedResult);
     }
   );

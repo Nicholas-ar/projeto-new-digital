@@ -1,10 +1,4 @@
 export default class ValidarCpf {
-  // primeira coisa em uma classe é o seu método de construção
-  // o element é o elemento que for selecionado no DOM, no nosso caso o input CPF
-  constructor(element) {
-    this.element = element;
-  }
-
   // primeiro método que vamos criar é o método de limpar o cpf
   cleanCPF(cpf) {
     // retorna o cpf substituindo por nada tudo que é ponto, espaço em braco, etc...
@@ -84,7 +78,7 @@ export default class ValidarCpf {
     return true;
   }
 
-  initClass() {
-    return this.validateCompositionCpf(this.element);
+  validate(cpf) {
+    return this.validateCompositionCpf(cpf);
   }
 }

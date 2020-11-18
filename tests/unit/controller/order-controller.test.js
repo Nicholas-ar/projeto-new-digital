@@ -2,7 +2,7 @@ import {
   HTTP_BAD_REQUEST_400,
   HTTP_OK_200,
   HTTP_CREATED_201,
-  HTTP_SERVER_ERROR_500
+  HTTP_SERVER_ERROR_500,
 } from '../../../src/helpers/http-helper';
 import OrderController from '../../../src/orders/controller/order-controller';
 
@@ -12,7 +12,7 @@ const makeRepository = () => {
       return {
         email: 'valid_email@email.com',
         cpf,
-        tid: 2134534253252,
+        tid: '2134534253252',
         delivered: false,
       };
     }
@@ -20,8 +20,8 @@ const makeRepository = () => {
       return {
         _id: 1,
         email: 'valid_email@email.com',
-        cpf: 12345612312,
-        tid: 2134534253252,
+        cpf: '12345612312',
+        tid: '2134534253252',
         delivered: false,
       };
     }
@@ -29,8 +29,8 @@ const makeRepository = () => {
       return {
         _id: 1,
         email: 'valid_email@email.com',
-        cpf: 12345612312,
-        tid: 2134534253252,
+        cpf: '12345612312',
+        tid: '2134534253252',
         delivered: true,
       };
     }
@@ -39,24 +39,34 @@ const makeRepository = () => {
   return new RepositoryStub();
 };
 
+const makeCpfValidator = () => {
+  class ValidarCpfStub {
+    validate(cpf) {
+      return true;
+    }
+  }
+  return new ValidarCpfStub();
+};
+
 const makeSut = () => {
   const repositoryStub = makeRepository();
-  const sut = new OrderController(repositoryStub);
-  return { sut, repositoryStub };
+  const cpfValidatorStub = makeCpfValidator();
+  const sut = new OrderController(repositoryStub, cpfValidatorStub);
+  return { sut, repositoryStub, cpfValidatorStub };
 };
 
 const makeFakeRequest = () => ({
   email: 'valid_email@email.com',
-  cpf: 12345612312,
-  tid: 2134534253252,
+  cpf: '12345612312',
+  tid: '2134534253252',
   delivered: false,
 });
 
 const makeFakeOrder = () => ({
   _id: 1,
   email: 'valid_email@email.com',
-  cpf: 12345612312,
-  tid: 2134534253252,
+  cpf: '12345612312',
+  tid: '2134534253252',
   delivered: false,
 });
 
@@ -64,7 +74,7 @@ describe('Order controller', () => {
   it('It must load an order with 200 status code', async () => {
     const { sut } = makeSut();
     const httpRequest = {
-      cpf: 12345612312,
+      cpf: '12345612312',
     };
     const httpResponse = await sut.retrieveOrder(httpRequest);
     expect(httpResponse).toEqual(HTTP_OK_200(makeFakeRequest()));
@@ -74,7 +84,7 @@ describe('Order controller', () => {
     const { sut, repositoryStub } = makeSut();
     jest.spyOn(repositoryStub, 'retriveByCpf').mockReturnValueOnce(null);
     const httpRequest = {
-      cpf: 26306359028,
+      cpf: '26306359028',
     };
     const httpResponse = await sut.retrieveOrder(httpRequest);
     expect(httpResponse).toEqual(
@@ -86,17 +96,19 @@ describe('Order controller', () => {
     const { sut, repositoryStub } = makeSut();
     const repositorySpy = jest.spyOn(repositoryStub, 'retriveByCpf');
     const httpRequest = {
-      cpf: 26306359028,
+      cpf: '26306359028',
     };
     await sut.retrieveOrder(httpRequest);
     expect(repositorySpy).toHaveBeenCalledWith(httpRequest.cpf);
   });
-
+  
   it('It must return 500 if retriveByCpf throws an error', async () => {
     const { sut, repositoryStub } = makeSut();
-    jest.spyOn(repositoryStub, 'retriveByCpf').mockImplementationOnce(new Error());
+    jest
+      .spyOn(repositoryStub, 'retriveByCpf')
+      .mockImplementationOnce(new Error());
     const httpRequest = {
-      cpf: 26306359028,
+      cpf: '26306359028',
     };
     const httpResponse = await sut.retrieveOrder(httpRequest);
     expect(httpResponse).toEqual(HTTP_SERVER_ERROR_500(new Error()));
@@ -107,6 +119,33 @@ describe('Order controller', () => {
     const httpRequest = makeFakeRequest();
     const httpResponse = await sut.createOrder(httpRequest);
     expect(httpResponse).toEqual(HTTP_CREATED_201(makeFakeOrder()));
+  });
+
+  it('must call ValidarCPF with correct data', async () => {
+    const { sut, cpfValidatorStub } = makeSut();
+    const cpfValidatorSpy = jest.spyOn(cpfValidatorStub, 'validate');
+    const httpRequest = {
+      cpf: '26306359028',
+    };
+    await sut.createOrder(httpRequest);
+    expect(cpfValidatorSpy).toHaveBeenCalledWith(httpRequest.cpf);
+  });
+
+  it('It must return 500 if ValidarCPF throws an error', async () => {
+    const { sut, cpfValidatorStub } = makeSut();
+    jest.spyOn(cpfValidatorStub, 'validate').mockImplementationOnce(new Error());
+    const httpResponse = await sut.createOrder(makeFakeRequest());
+    expect(httpResponse).toEqual(HTTP_SERVER_ERROR_500(new Error()));
+  });
+
+  it('it must return 400 status code if ValidarCPF returns false', async () => {
+    const { sut, cpfValidatorStub } = makeSut();
+    jest.spyOn(cpfValidatorStub, 'validate').mockReturnValueOnce(false);
+    const httpRequest = makeFakeRequest();
+    const httpResponse = await sut.createOrder(httpRequest);
+    expect(httpResponse).toEqual(
+      HTTP_BAD_REQUEST_400({ message: 'Invalid param: cpf' })
+    );
   });
 
   it('it must call Repository with correct order value', async () => {
@@ -124,7 +163,6 @@ describe('Order controller', () => {
     expect(httpResponse).toEqual(HTTP_SERVER_ERROR_500(new Error()));
   });
 
-
   it('it must update an order with 200 status code given valid data', async () => {
     const { sut } = makeSut();
     const httpRequest = { delivered: true };
@@ -133,8 +171,8 @@ describe('Order controller', () => {
       HTTP_OK_200({
         _id: 1,
         email: 'valid_email@email.com',
-        cpf: 12345612312,
-        tid: 2134534253252,
+        cpf: '12345612312',
+        tid: '2134534253252',
         delivered: true,
       })
     );
