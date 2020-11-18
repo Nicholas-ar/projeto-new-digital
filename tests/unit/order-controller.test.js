@@ -19,9 +19,9 @@ const makeRepository = () => {
 };
 
 const makeSut = () => {
-  const repositorySpy = makeRepository();
-  const sut = new OrderController(repositorySpy);
-  return { sut, repositorySpy };
+  const repositoryStub = makeRepository();
+  const sut = new OrderController(repositoryStub);
+  return { sut, repositoryStub };
 };
 
 const makeFakeOrder = () => ({
@@ -42,8 +42,8 @@ describe('Order controller', () => {
   });
 
   it('It must return an error message if order is not found', async () => {
-    const { sut, repositorySpy } = makeSut();
-    jest.spyOn(repositorySpy, 'retriveByCpf').mockReturnValueOnce(null);
+    const { sut, repositoryStub } = makeSut();
+    jest.spyOn(repositoryStub, 'retriveByCpf').mockReturnValueOnce(null);
     const httpRequest = {
       cpf: 26306359028,
     };
@@ -51,5 +51,15 @@ describe('Order controller', () => {
     expect(httpResponse).toEqual(
       HTTP_BAD_REQUEST_400({ message: 'Invalid param: cpf' })
     );
+  });
+
+  it('It must call Repository with correct value', async () => {
+    const { sut, repositoryStub } = makeSut();
+    const repositorySpy = jest.spyOn(repositoryStub, 'retriveByCpf');
+    const httpRequest = {
+      cpf: 26306359028,
+    };
+    await sut.handleRetrival(httpRequest);
+    expect(repositorySpy).toHaveBeenCalledWith(httpRequest.cpf);
   });
 });
