@@ -23,5 +23,7 @@ yarn-error.log*
 
 globalConfig.json
 
+.env
+
 .vscode
 .idea
