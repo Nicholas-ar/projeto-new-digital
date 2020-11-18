@@ -1,5 +1,6 @@
 # dependencies
 /node_modules
+/data
 /.pnp
 .pnp.js
 
@@ -19,3 +20,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+globalConfig.json
+
+.vscode
+.idea

@@ -1,14 +1,25 @@
 {
-  "name": "teste",
-  "version": "1.0.0",
+  "name": "QRoBuy-backend",
+  "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node ./src/index.js",
+    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
+    "test:verbose": "jest --passWithNoTests --runInBand",
+    "test:unit": "npm test -- tests/unit -- --watch",
+    "test:integration": "npm test -- tests/integration -- --watch",
+    "test:ci": "npm test -- --coverage"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Alexandre Xavier, Nicholas Araújo",
+  "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongodb": "^3.6.3"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.12.1",
+    "@shelf/jest-mongodb": "^1.2.3",
+    "jest": "^26.6.3"
   }
 }
