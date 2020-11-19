@@ -6,12 +6,15 @@ import {
 } from '../helpers/http-helper';
 
 export class SignUpController {
-  constructor(repository, authentication) {
+  constructor(repository, authentication, validator) {
     this._repository = repository;
     this._authentication = authentication;
+    this._validator = validator;
   }
   async createUser(httpRequest) {
     try {
+      const error = this._validator.validate(httpRequest);
+      if (error) return HTTP_BAD_REQUEST_400(error);
       const { name, email, password } = httpRequest;
       const user = await this._repository.create({ name, email, password });
       if (!user) return HTTP_BAD_REQUEST_400(new EmailInUseError());
