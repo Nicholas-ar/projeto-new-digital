@@ -7,16 +7,18 @@
     "start": "node ./src/index.js",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:verbose": "jest --passWithNoTests --runInBand",
-    "test:unit": "jest tests/unit --watch",
-    "test:integration": "jest tests/integration --watch",
-    "test:ci": "npm test -- --coverage"
+    "test:unit": "jest tests/unit --watch --passWithNoTests",
+    "test:integration": "jest tests/integration --watch --passWithNoTests",
+    "test:ci": "npm test -- --coverage --passWithNoTests"
   },
   "author": "Alexandre Xavier, Nicholas Araújo",
   "license": "MIT",
   "dependencies": {
+    "argon2": "^0.27.0",
     "dotenv": "^8.2.0",
     "erede-node": "^1.0.11",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.3"
   },
   "devDependencies": {
