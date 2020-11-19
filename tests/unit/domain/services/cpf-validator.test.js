@@ -1,4 +1,4 @@
-import ValidarCpf from '../../../src/domain/services/cpf-validator';
+import ValidarCpf from '../../../../src/domain/services/cpf-validator';
 
 describe('CPF validator', () => {
   it.each`
