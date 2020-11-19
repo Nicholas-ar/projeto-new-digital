@@ -12,7 +12,7 @@ export class SignUpController {
     this._validator = validator;
     this._hasherService = hasherService;
   }
-  async createUser(httpRequest) {
+  async execute(httpRequest) {
     try {
       const error = this._validator.validate(httpRequest);
       if (error) return HTTP_BAD_REQUEST_400(error);
