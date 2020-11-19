@@ -28,14 +28,16 @@ const makeRespository = () => {
   return new RepositoryStub();
 };
 
-const makeHashComparerServiceStub = () => {
-  class HashComparerServiceStub {
-    async compare(password, hashedPassword) {
-      return true;
+const makeHasherService = () => {
+  class HasherServiceStub {
+    async hash(value) {
+      return new Promise((resolve) => resolve('hashed_password'));
+    }
+    async compare(hash, value) {
+      return new Promise((resolve) => resolve(true));
     }
   }
-
-  return new HashComparerServiceStub();
+  return new HasherServiceStub();
 };
 
 const makeTokenGeneratorServiceStub = () => {
@@ -55,17 +57,17 @@ const makeAuthenticationData = () => ({
 
 const makeSut = () => {
   const repositoryStub = makeRespository();
-  const hashComparerServiceStub = makeHashComparerServiceStub();
+  const hashServiceStub = makeHasherService();
   const tokenGeneratorServiceStub = makeTokenGeneratorServiceStub();
   const sut = new DatabaseUserAuthentication(
     repositoryStub,
-    hashComparerServiceStub,
+    hashServiceStub,
     tokenGeneratorServiceStub
   );
   return {
     sut,
     repositoryStub,
-    hashComparerServiceStub,
+    hashServiceStub,
     tokenGeneratorServiceStub,
   };
 };
@@ -80,13 +82,13 @@ describe('DatabaseUserAuthentication', () => {
     });
 
     it('must return null if no user is found', async () => {
-        const { sut, repositoryStub } = makeSut();
-        jest
-          .spyOn(repositoryStub, 'retrieveByEmail')
-          .mockReturnValueOnce(new Promise((resolve) => resolve(null)));
-        const accessToken = await sut.authenticate(makeAuthenticationData());
-        expect(accessToken).toBeNull();
-      });
+      const { sut, repositoryStub } = makeSut();
+      jest
+        .spyOn(repositoryStub, 'retrieveByEmail')
+        .mockReturnValueOnce(new Promise((resolve) => resolve(null)));
+      const accessToken = await sut.authenticate(makeAuthenticationData());
+      expect(accessToken).toBeNull();
+    });
 
     it('must throw an error if retrieveByEmail throws', async () => {
       const { sut, repositoryStub } = makeSut();
@@ -101,8 +103,8 @@ describe('DatabaseUserAuthentication', () => {
   });
   describe('HashComparerService', () => {
     it('must call compare with correct data', async () => {
-      const { sut, hashComparerServiceStub } = makeSut();
-      const compareSpy = jest.spyOn(hashComparerServiceStub, 'compare');
+      const { sut, hashServiceStub } = makeSut();
+      const compareSpy = jest.spyOn(hashServiceStub, 'compare');
       await sut.authenticate(makeAuthenticationData());
       expect(compareSpy).toHaveBeenCalledWith(
         'any_password',
@@ -111,18 +113,18 @@ describe('DatabaseUserAuthentication', () => {
     });
 
     it('must return null if compare returns false', async () => {
-      const { sut, hashComparerServiceStub } = makeSut();
+      const { sut, hashServiceStub } = makeSut();
       jest
-        .spyOn(hashComparerServiceStub, 'compare')
+        .spyOn(hashServiceStub, 'compare')
         .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
       const accessToken = await sut.authenticate(makeAuthenticationData());
       expect(accessToken).toBeNull();
     });
 
     it('must throw an error if compare throws', async () => {
-      const { sut, hashComparerServiceStub } = makeSut();
+      const { sut, hashServiceStub } = makeSut();
       jest
-        .spyOn(hashComparerServiceStub, 'compare')
+        .spyOn(hashServiceStub, 'compare')
         .mockReturnValueOnce(
           new Promise((resolve, reject) => reject(new Error()))
         );
@@ -163,15 +165,15 @@ describe('DatabaseUserAuthentication', () => {
     });
 
     it('must throw if updateAcessToken throws', async () => {
-        const { sut, repositoryStub } = makeSut()
-        jest
-          .spyOn(repositoryStub, 'updateAccessToken')
-          .mockReturnValueOnce(
-            new Promise((resolve, reject) => reject(new Error()))
-          )
-        const result = sut.authenticate(makeAuthenticationData())
-        await expect(result).rejects.toThrow()
-      })
+      const { sut, repositoryStub } = makeSut();
+      jest
+        .spyOn(repositoryStub, 'updateAccessToken')
+        .mockReturnValueOnce(
+          new Promise((resolve, reject) => reject(new Error()))
+        );
+      const result = sut.authenticate(makeAuthenticationData());
+      await expect(result).rejects.toThrow();
+    });
   });
 
   it('must return the access token given correct values', async () => {
