@@ -42,7 +42,7 @@ describe('Users Repository', () => {
   it('must return null if retrieveByEmail fails', async () => {
     const sut = makeSut();
     const account = await sut.retrieveByEmail('valid_email@email.com');
-    expect(account).toBeFalsy();
+    expect(account).toBeNull();
   });
 
   it('must updateAcessToken on updateAcessToken', async () => {

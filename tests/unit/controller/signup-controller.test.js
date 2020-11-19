@@ -3,9 +3,11 @@ import {
   HTTP_BAD_REQUEST_400,
   HTTP_SERVER_ERROR_500,
 } from '../../../src/domain/helpers/http-helper';
-import { EmailInUseError } from '../../../src/domain/errors/email-in-use-error';
-import { MissingParameterError } from '../../../src/domain/errors/missing-parameter-error';
-import { ServerError } from '../../../src/domain/errors/server-error';
+import {
+  EmailInUseError,
+  MissingParameterError,
+  ServerError,
+} from '../../../src/domain/errors';
 import { SignUpController } from '../../../src/domain/controllers/signup-controller';
 
 const makeAuthentication = () => {
