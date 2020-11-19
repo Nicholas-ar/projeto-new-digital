@@ -1,5 +1,5 @@
-import { ProductController } from '../../../src/domain/controllers/product-controller';
-import { MongoHelper } from '../../../src/application/helpers/mongoHelper';
+import { ProductController } from '../../../../src/domain/controllers/product-controller';
+import { MongoHelper } from '../../../../src/application/helpers/mongoHelper';
 
 let productCollection;
 

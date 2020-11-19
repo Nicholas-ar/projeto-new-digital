@@ -1,4 +1,4 @@
-import { ServerError } from '../errors/server-error';
+import { ServerError } from '../errors';
 
 export const HTTP_BAD_REQUEST_400 = (error) => ({
   statusCode: 400,

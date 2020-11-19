@@ -19,7 +19,7 @@ describe('Users Repository', () => {
     password: 'hashed_password',
   });
 
-  it('must insert an user into users ', async () => {
+  it('must insert an user into users collection', async () => {
     const sut = makeSut();
     const account = await sut.create(makeFakeUserData());
     expect(account._id).toBeTruthy();
@@ -42,7 +42,7 @@ describe('Users Repository', () => {
   it('must return null if retrieveByEmail fails', async () => {
     const sut = makeSut();
     const account = await sut.retrieveByEmail('valid_email@email.com');
-    expect(account).toBeFalsy();
+    expect(account).toBeNull();
   });
 
   it('must updateAcessToken on updateAcessToken', async () => {
