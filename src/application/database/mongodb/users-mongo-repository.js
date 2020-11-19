@@ -1,4 +1,4 @@
-import { MongoHelper } from '../../../helpers/mongoHelper';
+import { MongoHelper } from '../../helpers/mongoHelper';
 
 export class UsersMongoRespository {
   async create(userData) {

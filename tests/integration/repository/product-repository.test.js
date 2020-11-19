@@ -1,5 +1,5 @@
-import { ProductRepository } from '../../../src/products/repository/product-repository.js';
-import { MongoHelper } from '../../../src/helpers/mongoHelper';
+import { ProductRepository } from '../../../src/application/database/mongodb/product-repository';
+import { MongoHelper } from '../../../src/application/helpers/mongoHelper';
 
 let productCollection;
 
