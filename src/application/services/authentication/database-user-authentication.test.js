@@ -42,7 +42,7 @@ const makeHasherService = () => {
 
 const makeTokenGeneratorServiceStub = () => {
   class TokenGeneratorServiceStub {
-    async generate(id) {
+    generate(id) {
       return 'any_token';
     }
   }
@@ -101,6 +101,7 @@ describe('DatabaseUserAuthentication', () => {
       await expect(result).rejects.toThrow();
     });
   });
+
   describe('HashComparerService', () => {
     it('must call compare with correct data', async () => {
       const { sut, hashServiceStub } = makeSut();

@@ -12,9 +12,7 @@ export class DatabaseUserAuthentication {
         user.password
       );
       if (isValid) {
-        const accessToken = await this._tokenGeneratorService.generate(
-          user._id
-        );
+        const accessToken = this._tokenGeneratorService.generate(user._id);
         await this._repository.updateAccessToken(user._id, accessToken);
         return accessToken;
       }
