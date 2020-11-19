@@ -1,5 +1,5 @@
-import { EmailValidator } from './email-validator';
-import { InvalidParameterError } from '../../../domain/errors';
+import { EmailValidator } from '../../../../../src/application/services/validators/email-validator';
+import { InvalidParameterError } from '../../../../../src/domain/errors';
 
 const makeEmailValidator = () => {
   class EmailValidatorStub {

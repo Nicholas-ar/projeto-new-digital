@@ -1,5 +1,5 @@
-import { MissingParameterError } from '../../../domain/errors';
-import { RequiredFieldValidator } from './required-field-validator';
+import { MissingParameterError } from '../../../../../src/domain/errors';
+import { RequiredFieldValidator } from '../../../../../src/application/services/validators/required-field-validator';
 
 const makeSut = () => new RequiredFieldValidator('field');
 
