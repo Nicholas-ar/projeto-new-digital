@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./src/index.js",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
-    "test:verbose": "jest --passWithNoTests --runInBand --passWithNoTests",
+    "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "jest tests/unit --watch --passWithNoTests",
     "test:integration": "jest tests/integration --watch --passWithNoTests",
     "test:ci": "npm test -- --coverage --passWithNoTests"
