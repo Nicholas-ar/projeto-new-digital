@@ -19,6 +19,18 @@ const makeAuthentication = () => {
   return new AuthenticationStub();
 };
 
+const makeHasherService = () => {
+  class HasherServiceStub {
+    async hash(value) {
+      return new Promise((resolve) => resolve('hashed_password'));
+    }
+    async compare(hash, value) {
+      return new Promise((resolve) => resolve(true));
+    }
+  }
+  return new HasherServiceStub();
+};
+
 const makeRespository = () => {
   class RepositoryStub {
     async create(userData) {
@@ -60,17 +72,30 @@ const makeSut = () => {
   const repositoryStub = makeRespository();
   const authenticationStub = makeAuthentication();
   const validatorStub = makeValidator();
+  const hasherServiceStub = makeHasherService();
   const sut = new SignUpController(
     repositoryStub,
     authenticationStub,
-    validatorStub
+    validatorStub,
+    hasherServiceStub
   );
-  return { sut, repositoryStub, authenticationStub, validatorStub };
+  return {
+    sut,
+    repositoryStub,
+    authenticationStub,
+    validatorStub,
+    hasherServiceStub,
+  };
 };
 
 const makeHttpRequest = () => ({
   email: 'any_email@email.com',
   password: 'any_password',
+});
+
+const makeHashedHttpRequest = () => ({
+  email: 'any_email@email.com',
+  password: 'hashed_password',
 });
 
 describe('Signup Controller', () => {
@@ -96,13 +121,34 @@ describe('Signup Controller', () => {
     });
   });
 
+  describe('HasherService', () => {
+    it('must call hash with correct data', async () => {
+      const { sut, hasherServiceStub } = makeSut();
+      const hashSpy = jest.spyOn(hasherServiceStub, 'hash');
+      const httpRequest = makeHttpRequest();
+      await sut.createUser(httpRequest);
+      expect(hashSpy).toHaveBeenCalledWith('any_password');
+    });
+
+    it('must return 500 if hash throws', async () => {
+      const { sut, hasherServiceStub } = makeSut();
+      jest.spyOn(hasherServiceStub, 'hash').mockImplementationOnce(async () => {
+        return new Promise((resolve, reject) => reject(new Error()));
+      });
+      const httpResponse = await sut.createUser(makeHashedHttpRequest());
+      expect(httpResponse).toEqual(
+        HTTP_SERVER_ERROR_500(new ServerError(null))
+      );
+    });
+  });
+
   describe('Repository', () => {
     it('must call the Repository create method with correct data', async () => {
       const { sut, repositoryStub } = makeSut();
       const createSpy = jest.spyOn(repositoryStub, 'create');
-      const httpRequest = makeHttpRequest();
-      await sut.createUser(httpRequest);
-      expect(createSpy).toHaveBeenCalledWith(httpRequest);
+      const hashedHttpRequest = makeHashedHttpRequest();
+      await sut.createUser(hashedHttpRequest);
+      expect(createSpy).toHaveBeenCalledWith(hashedHttpRequest);
     });
 
     it('must return 400 if no user is created', async () => {
@@ -110,11 +156,8 @@ describe('Signup Controller', () => {
       jest
         .spyOn(repositoryStub, 'create')
         .mockReturnValueOnce(new Promise((resolve) => resolve(null)));
-      const httpRequest = {
-        email: 'any_email@email.com',
-        password: 'any_password',
-      };
-      const httpResponse = await sut.createUser(httpRequest);
+      const hashedHttpRequest = makeHashedHttpRequest();
+      const httpResponse = await sut.createUser(hashedHttpRequest);
       expect(httpResponse).toEqual(HTTP_BAD_REQUEST_400(new EmailInUseError()));
     });
 
@@ -123,7 +166,7 @@ describe('Signup Controller', () => {
       jest.spyOn(repositoryStub, 'create').mockImplementationOnce(async () => {
         return new Promise((resolve, reject) => reject(new Error()));
       });
-      const httpResponse = await sut.createUser(makeHttpRequest());
+      const httpResponse = await sut.createUser(makeHashedHttpRequest());
       expect(httpResponse).toEqual(
         HTTP_SERVER_ERROR_500(new ServerError(null))
       );

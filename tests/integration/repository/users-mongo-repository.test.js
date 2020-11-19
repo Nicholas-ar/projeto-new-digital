@@ -19,7 +19,7 @@ describe('Users Repository', () => {
     password: 'hashed_password',
   });
 
-  it('must insert an user into users ', async () => {
+  it('must insert an user into users collection', async () => {
     const sut = makeSut();
     const account = await sut.create(makeFakeUserData());
     expect(account._id).toBeTruthy();
