@@ -58,7 +58,7 @@ describe('SignInController', () => {
       const { sut, validatorStub } = makeSut();
       const validateSpy = jest.spyOn(validatorStub, 'validate');
       const httpRequest = makeFakeHttpRequest();
-      await sut.execute(httpRequest);
+      sut.execute(httpRequest);
       expect(validateSpy).toHaveBeenCalledWith(httpRequest.body);
     });
   });

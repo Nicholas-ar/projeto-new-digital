@@ -89,8 +89,10 @@ const makeSut = () => {
 };
 
 const makeHttpRequest = () => ({
-  email: 'any_email@email.com',
-  password: 'any_password',
+  body: {
+    email: 'any_email@email.com',
+    password: 'any_password',
+  },
 });
 
 const makeHashedHttpRequest = () => ({
@@ -105,7 +107,7 @@ describe('Signup Controller', () => {
       const validateSpy = jest.spyOn(validatorStub, 'validate');
       const httpRequest = makeHttpRequest();
       await sut.execute(httpRequest);
-      expect(validateSpy).toHaveBeenCalledWith(httpRequest);
+      expect(validateSpy).toHaveBeenCalledWith(httpRequest.body);
     });
 
     it('must return a 400 if validation returns an error', async () => {
@@ -146,9 +148,8 @@ describe('Signup Controller', () => {
     it('must call the Repository create method with correct data', async () => {
       const { sut, repositoryStub } = makeSut();
       const createSpy = jest.spyOn(repositoryStub, 'create');
-      const hashedHttpRequest = makeHashedHttpRequest();
-      await sut.execute(hashedHttpRequest);
-      expect(createSpy).toHaveBeenCalledWith(hashedHttpRequest);
+      await sut.execute(makeHttpRequest());
+      expect(createSpy).toHaveBeenCalledWith(makeHashedHttpRequest());
     });
 
     it('must return 400 if no user is created', async () => {
@@ -156,8 +157,7 @@ describe('Signup Controller', () => {
       jest
         .spyOn(repositoryStub, 'create')
         .mockReturnValueOnce(new Promise((resolve) => resolve(null)));
-      const hashedHttpRequest = makeHashedHttpRequest();
-      const httpResponse = await sut.execute(hashedHttpRequest);
+      const httpResponse = await sut.execute(makeHttpRequest());
       expect(httpResponse).toEqual(HTTP_BAD_REQUEST_400(new EmailInUseError()));
     });
 
@@ -166,7 +166,7 @@ describe('Signup Controller', () => {
       jest.spyOn(repositoryStub, 'create').mockImplementationOnce(async () => {
         return new Promise((resolve, reject) => reject(new Error()));
       });
-      const httpResponse = await sut.execute(makeHashedHttpRequest());
+      const httpResponse = await sut.execute(makeHttpRequest());
       expect(httpResponse).toEqual(
         HTTP_SERVER_ERROR_500(new ServerError(null))
       );
@@ -177,11 +177,7 @@ describe('Signup Controller', () => {
     it('must call Authentication service with correct data', async () => {
       const { sut, authenticationStub } = makeSut();
       const authenticateSpy = jest.spyOn(authenticationStub, 'authenticate');
-      const httpRequest = {
-        email: 'any_email@email.com',
-        password: 'any_password',
-      };
-      await sut.execute(httpRequest);
+      await sut.execute(makeHttpRequest());
       expect(authenticateSpy).toHaveBeenCalledWith({
         email: 'any_email@email.com',
         password: 'any_password',
@@ -190,11 +186,7 @@ describe('Signup Controller', () => {
 
     it('must return a new accessToken and 201 status code, given valid data', async () => {
       const { sut } = makeSut();
-      const httpRequest = {
-        email: 'any_email@email.com',
-        password: 'any_password',
-      };
-      const httpResponse = await sut.execute(httpRequest);
+      const httpResponse = await sut.execute(makeHttpRequest());
       expect(httpResponse).toEqual(
         HTTP_CREATED_201({ accessToken: 'any_token' })
       );
@@ -207,11 +199,7 @@ describe('Signup Controller', () => {
         .mockReturnValueOnce(
           new Promise((resolve, reject) => reject(new Error()))
         );
-      const httpRequest = {
-        email: 'any_email@email.com',
-        password: 'any_password',
-      };
-      const httpResponse = await sut.execute(httpRequest);
+      const httpResponse = await sut.execute(makeHttpRequest());
       expect(httpResponse).toEqual(HTTP_SERVER_ERROR_500(new Error()));
     });
   });

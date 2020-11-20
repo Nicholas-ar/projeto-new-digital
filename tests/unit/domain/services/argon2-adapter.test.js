@@ -1,5 +1,5 @@
 import argon2 from 'argon2';
-import { Argon2Adapter } from '../../../../src/domain/services/argon2-adapter';
+import { Argon2Adapter } from '../../../../src/application/services/adapters/argon2-adapter';
 
 jest.mock('argon2', () => ({
   async hash(value) {

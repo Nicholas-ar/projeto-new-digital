@@ -5,16 +5,13 @@
 import { MongoClient } from 'mongodb';
 /**
  * Allows MongoClient interactions
- *
  * @method connect - Allows connection with MongoDB
- * @function disconnect - Disconnects from MongoDB
- * @function getCollection - Getter for a specific colection
+ * @method disconnect - Disconnects from MongoDB
+ * @method getCollection - Getter for a specific colection
  */
 export const MongoHelper = {
   /**
    * Async function that connects to MongoDB using an URI string as parameter.
-   * @async
-   * @function connect
    * @param {String} uri - Complete URI of MongoDB
    */
   async connect(uri) {
@@ -29,8 +26,6 @@ export const MongoHelper = {
   /**
    * Async function that disconnects from MongoDB, closing the existing
    * instance an stting the client to null ensuring complete disconnection.
-   * @async
-   * @function disconnect
    */
   async disconnect() {
     await this.client.close();
@@ -40,10 +35,8 @@ export const MongoHelper = {
   /**
    * Async function that returns a specific collection that is passed as string. 
    * If the database is not connected, it tries to reconnect before retrieving.
-   * @async
-   * @function disconnect
    * @param {String} collectionName - Name of the collection
-   * @returns @type {MongoCollection} - MongoDB collection
+   * @returns {Promise<MongoCollection>} - MongoDB collection
    */
   async getCollection(collectionName) {
     if (!this.client || !this.client.isConnected()) {
