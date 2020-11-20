@@ -6,10 +6,25 @@ import {
 } from '../helpers/http-helper';
 
 export class SignInController {
-  constructor(validation, authentication) {
-    this._validator = validation;
-    this._authenticator = authentication;
+  /**
+   * Controller for the user sign in use case.
+   * @param {Validador} validator - Validator for the request.
+   * @param {Authenticator} authenticator - Authenticator for the user that is inserted in the database.
+   */
+  constructor(validator, authenticator) {
+    this._validator = validator;
+    this._authenticator = authenticator;
   }
+
+  /**
+   * Main method,
+   * @param {import('../helpers/http-helper').HttpRequest} httpRequest
+   * @returns {Promise<Object>} - If the validation of request data returns an error,
+   * returns a Bad Request response with the error message in the body
+   *                            - Returns an UNATHORIZED response to the client.
+   *                            - Returns a SERVER ERROR response to the client with the error message in the body
+   *                            - Returns a successful response with the accessToken property and value in the body.
+   */
   async execute(httpRequest) {
     try {
       const error = this._validator.validate(httpRequest.body);

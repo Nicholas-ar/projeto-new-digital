@@ -1,3 +1,5 @@
+import { InvalidParameterError } from '../../../domain/errors';
+
 export default class ValidarCpf {
   // primeiro método que vamos criar é o método de limpar o cpf
   cleanCPF(cpf) {
@@ -79,6 +81,8 @@ export default class ValidarCpf {
   }
 
   validate(cpf) {
-    return this.validateCompositionCpf(cpf);
+    const isValid = this.validateCompositionCpf(cpf);
+    if (!isValid) return new InvalidParameterError('cpf');
+    return null;
   }
 }
