@@ -3,6 +3,9 @@ import { ValidatorComposite } from '../../../application/services/validators/val
 import { EmailValidator } from '../../../application/services/validators/email-validator';
 import { RequiredFieldValidator } from '../../../application/services/validators/required-field-validator';
 import { DatabaseUserAuthentication } from '../../../application/services/authentication/database-user-authentication';
+import { UsersMongoRespository } from '../../../application/database/mongodb/users-mongo-repository';
+import { Argon2Adapter } from '../../services/argon2-adapter';
+import { JwtAdapter } from '../../../application/services/token/jwt-adapter';
 
 
 /**
@@ -18,7 +21,14 @@ export const makeSignInController = () => {
     requiredFieldValidator,
   ]);
 
-  const databaseUserAuthentication = new DatabaseUserAuthentication();
+  const repository = new UsersMongoRespository();
+  const hasherService = new Argon2Adapter();
+  const tokenGeneratorService = new JwtAdapter(process.env.JWT_SECRET);
+  const authentication = new DatabaseUserAuthentication(
+    repository,
+    hasherService,
+    tokenGeneratorService
+  );
 
-  return new SignInController(validatorComposite, databaseUserAuthentication);
+  return new SignInController(validatorComposite, authentication);
 };

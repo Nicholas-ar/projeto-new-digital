@@ -5,6 +5,7 @@ import { EmailValidator } from '../../../application/services/validators/email-v
 import { RequiredFieldValidator } from '../../../application/services/validators/required-field-validator';
 import { ValidatorComposite } from '../../../application/services/validators/validator-composite';
 import { Argon2Adapter } from '../../services/argon2-adapter';
+import { JwtAdapter } from '../../../application/services/token/jwt-adapter';
 
 /**
  * Factory for the SignUpController.
@@ -12,8 +13,15 @@ import { Argon2Adapter } from '../../services/argon2-adapter';
  * @returns {SignUpController} - SignUp Controller object
  */
 export const makeSignUpController = () => {
+  
   const repository = new UsersMongoRespository();
-  const authentication = new DatabaseUserAuthentication();
+  const hasherService = new Argon2Adapter();
+  const tokenGeneratorService = new JwtAdapter(process.env.JWT_SECRET);
+  const authentication = new DatabaseUserAuthentication(
+    repository,
+    hasherService,
+    tokenGeneratorService
+  );
 
   const emailValidator = new EmailValidator();
   const requiredFieldValidator = new RequiredFieldValidator();
@@ -21,8 +29,6 @@ export const makeSignUpController = () => {
     requiredFieldValidator,
     emailValidator,
   ]);
-
-  const hasherService = new Argon2Adapter();
 
   return new SignUpController(
     repository,

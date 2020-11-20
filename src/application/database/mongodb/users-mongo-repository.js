@@ -1,13 +1,13 @@
 import { MongoHelper } from '../../helpers/mongoHelper';
 
 /**
- * @class
+ * Users repository for the Mongo database
  * @implements {Repository}
  */
 export class UsersMongoRespository {
   /**
-   *
-   * @param {User} userData
+   * Creates a user document into Mongo database.
+   * @param {import('../../services/authentication/database-user-authentication').User} userData
    */
   async create(userData) {
     const usersCollection = await MongoHelper.getCollection('users');
@@ -18,7 +18,7 @@ export class UsersMongoRespository {
   /**
    * Retrieves the first user from the database that matches the given email
    * @param {String} email 
-   * @returns {import('../../services/authentication/database-user-authentication').User}
+   * @returns {Promise<import('../../services/authentication/database-user-authentication').User>}
    */
   async retrieveByEmail(email) {
     const usersCollection = await MongoHelper.getCollection('users');

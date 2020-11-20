@@ -12,7 +12,7 @@ const makeEmailValidator = () => {
 
 const makeSut = () => {
   const emailValidatorStub = makeEmailValidator();
-  const sut = new EmailValidator(emailValidatorStub, 'email');
+  const sut = new EmailValidator(emailValidatorStub);
   return {
     sut,
     emailValidatorStub,

@@ -5,10 +5,6 @@ import {
   HTTP_SERVER_ERROR_500,
 } from '../helpers/http-helper';
 
-/**
- * @class
- * @implements {Controller}
- */
 export class SignUpController {
   /**
    * SignUp controller object
@@ -27,16 +23,16 @@ export class SignUpController {
   /**
    * Register the user into the database, given correct data in the HTTP request.
    * @param {import('../helpers/http-helper').HttpRequest} httpRequest
-   * @returns {HTTP_BAD_REQUEST_400} - If the data is invalid or the email is already registered into the database.
-   * @returns {HTTP_SERVER_ERROR_500} - If an error is thrown during the process.
-   * @returns {HTTP_CREATED_201} - If the user is registered into the database, returning the accessToken into he request body.
+   * @returns {Promise<Object>} - If the data is invalid or the email is already registered into the database.
+   *                            - If an error is thrown during the process.
+   *                            - If the user is registered into the database, returning the accessToken into he request body.
    */
   async execute(httpRequest) {
     try {
-      const error = this._validator.validate(httpRequest);
+      const error = this._validator.validate(httpRequest.body);
       if (error) return HTTP_BAD_REQUEST_400(error);
 
-      const { email, password } = httpRequest;
+      const { email, password } = httpRequest.body;
 
       const user = await this._repository.create({
         email,

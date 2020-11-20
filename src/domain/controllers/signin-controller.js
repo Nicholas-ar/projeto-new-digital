@@ -5,11 +5,6 @@ import {
   HTTP_BAD_REQUEST_400,
 } from '../helpers/http-helper';
 
-/**
- * Controller for the user sign in use case.
- * @class
- * @implements {Controller}
- */
 export class SignInController {
   /**
    * Controller for the user sign in use case.
@@ -22,13 +17,13 @@ export class SignInController {
   }
 
   /**
-   * Main method, 
-   * @param {import('../helpers/http-helper').HttpRequest} httpRequest 
-   * @returns {HTTP_BAD_REQUEST_400} - If the validation of request data returns an error, 
-   * returns a Bad Request response with the error message in the body 
-   * @returns {HTTP_UNAUTHORIZED_401} - Returns an UNATHORIZED response to the client.
-   * @returns {HTTP_SERVER_ERROR_500} - Returns a SERVER ERROR response to the client with the error message in the body
-   * @returns {HTTP_OK_200} - Returns a successful response with the accessToken property and value in the body.
+   * Main method,
+   * @param {import('../helpers/http-helper').HttpRequest} httpRequest
+   * @returns {Promise<Object>} - If the validation of request data returns an error,
+   * returns a Bad Request response with the error message in the body
+   *                            - Returns an UNATHORIZED response to the client.
+   *                            - Returns a SERVER ERROR response to the client with the error message in the body
+   *                            - Returns a successful response with the accessToken property and value in the body.
    */
   async execute(httpRequest) {
     try {

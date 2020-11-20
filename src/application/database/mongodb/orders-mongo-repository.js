@@ -26,7 +26,7 @@ import { MongoHelper } from '../../helpers/mongoHelper';
  */
 
 /**
- * @class
+ * Orders repository for the Mongo database
  * @implements {Repository}
  */
 export class OrdersMongoRepository {
@@ -42,7 +42,7 @@ export class OrdersMongoRepository {
   /**
    * Retrieves the first user that matches given CPF from the database
    * @param {String} cpf
-   * @returns {import('../../services/authentication/database-user-authentication').User | Null}
+   * @returns {Promise<import('../../services/authentication/database-user-authentication').User> | Null}
    */
   async retrieveByCpf(cpf) {
     const orderCollection = await MongoHelper.getCollection('orders');
@@ -52,7 +52,7 @@ export class OrdersMongoRepository {
   /**
    * Creates an User into the database
    * @param {OrderData} orderData
-   * @returns {Order}
+   * @returns {Promise<Order>}
    */
   async create(orderData) {
     const orderCollection = await MongoHelper.getCollection('orders');

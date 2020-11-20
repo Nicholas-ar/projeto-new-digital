@@ -19,8 +19,6 @@
  */
 export class DatabaseUserAuthentication {
   /**
-   * Autheticator object that retrieves an user by it's email, validates the
-   * given password with the hash found in the database and returns an access token
    * @param {Repository} repository
    * @param {HashService} hashComparerService
    * @param {TokenGeneratorService} tokenGeneratorService
@@ -34,7 +32,7 @@ export class DatabaseUserAuthentication {
   /**
    * Authenticates the given user returning the accessToken if given data is valid.
    * @param {User} data
-   * @return {String | Null} The access token
+   * @return {Promise<String> | Null} - The access token if succeeds authenticating, Null otherwise.
    */
   async authenticate(data) {
     const user = await this._repository.retrieveByEmail(data.email);

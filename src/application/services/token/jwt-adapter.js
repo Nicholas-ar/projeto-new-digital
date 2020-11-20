@@ -22,6 +22,7 @@ export class JwtAdapter {
   /**
    * Generates a JWT given an index value and a secret
    * @param {String} value - Reference value that will be used for associating a JSON web token.
+   * @returns {String} - Access token generated based on ID value
    */
   generate(value) {
     const accessToken = jwt.sign({ id: value }, this.secret);
