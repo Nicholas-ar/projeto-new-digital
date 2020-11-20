@@ -1,28 +1,28 @@
 import { MongoHelper } from '../../helpers/mongoHelper';
 
 export class ProductRepository {
-  create = async (productData) => {
+  async create(productData) {
     const productCollection = await MongoHelper.getCollection('products');
     await productCollection.insertOne(productData);
-  };
+  }
 
-  getByName = async (productName) => {
+  async getByName(productName) {
     const productCollection = await MongoHelper.getCollection('products');
-    await productCollection.findOne(name);
-  };
+    return await productCollection.findOne(productName);
+  }
 
-  getAll = async () => {
+  async getAll() {
     const productCollection = await MongoHelper.getCollection('products');
     return await productCollection.find({}).toArray();
-  };
+  }
 
-  update = async (productQuery, valuesToChange) => {
+  async update(productQuery, valuesToChange) {
     const productCollection = await MongoHelper.getCollection('products');
     await productCollection.updateOne(productQuery, valuesToChange);
-  };
+  }
 
-  delete = async (productQuery) => {
+  async delete(productQuery) {
     const productCollection = await MongoHelper.getCollection('products');
     await productCollection.deleteOne(productQuery);
-  };
+  }
 }
