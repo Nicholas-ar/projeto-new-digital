@@ -1,5 +1,7 @@
+import { OrdersRepository } from '../../application/database/repository.d';
+import { PaymentService } from '../../application/services/payment/payment-service.d';
+import { ValidationService } from '../../application/services/validators/protocols/validator-service.d';
 import {
-  InvalidParameterError,
   InvalidTransactionCredentialsError,
   InvalidQueryError,
   OrderNotFoundError,
@@ -23,8 +25,8 @@ export default class OrderController {
    * const orderController = new OrderController(validator, payment, cpfValidador);
    * ```
    *
-   * @param {Repository} repository - Database repository.
-   * @param {Validator} cpfValidator - Validator object for validating the CPF.
+   * @param {OrdersRepository} repository - Database repository.
+   * @param {ValidationService} cpfValidator - Validator object for validating the CPF.
    * @param {PaymentService} paymentAdapter - Payment service that allows credit card transactions.
    */
   constructor(repository, cpfValidator, paymentAdapter) {

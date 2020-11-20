@@ -8,9 +8,9 @@ import {
 export class SignUpController {
   /**
    * SignUp controller object
-   * @param {Repository} repository
-   * @param {Authenticator} authentication
-   * @param {Validator} validator
+   * @param {UsersRepository} repository
+   * @param {AuthenticationService} authentication
+   * @param {ValidationService} validator
    * @param {HasherService} hasherService
    */
   constructor(repository, authentication, validator, hasherService) {
