@@ -1,0 +1,6 @@
+{
+    "hooks": {
+      "pre-push": "./scripts/production-pre-push.sh"
+    }
+  }
+  
