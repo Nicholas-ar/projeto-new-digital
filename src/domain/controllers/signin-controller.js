@@ -8,8 +8,8 @@ import {
 export class SignInController {
   /**
    * Controller for the user sign in use case.
-   * @param {Validador} validator - Validator for the request.
-   * @param {Authenticator} authenticator - Authenticator for the user that is inserted in the database.
+   * @param {ValidationService} validator - Validator for the request.
+   * @param {AuthenticationService} authenticator - Authenticator for the user that is inserted in the database.
    */
   constructor(validator, authenticator) {
     this._validator = validator;
