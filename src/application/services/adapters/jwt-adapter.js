@@ -1,18 +1,12 @@
 import jwt from 'jsonwebtoken';
 
 /**
- * @interface TokenGenerator
- * @method generate
- */
-
-/**
  * Adapter for the jwt dependency
  * @class
- * @implements {TokenGenerator}
+ * @method generate
  */
 export class JwtAdapter {
   /**
-   * 
    * @param {String} secret - String hash that is used to generate the JWT token
    */
   constructor(secret) {

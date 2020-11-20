@@ -3,9 +3,9 @@
  * running the validate method of each one.
  * @method validate
  */
-export class ValidatorComposite {
+export class ValidatorServiceComposite {
   /**
-   * @param {Array<Validator>} validators 
+   * @param {Array<ValidationService>} validators 
    */
   constructor(validators) {
     this._validators = validators;

@@ -45,7 +45,7 @@ describe('Users Repository', () => {
     expect(account).toBeNull();
   });
 
-  it('must updateAcessToken on updateAcessToken', async () => {
+  it('must updateAccessToken on updateAccessToken', async () => {
     const sut = makeSut();
     const fakeUser = await usersCollection.insertOne({
       name: 'valid_name',
@@ -54,7 +54,7 @@ describe('Users Repository', () => {
     });
     const fakeAccount = fakeUser.ops[0];
 
-    await sut.updateAcessToken(fakeAccount._id, 'any_token');
+    await sut.updateAccessToken(fakeAccount._id, 'any_token');
 
     const user = await usersCollection.findOne({ _id: fakeAccount._id });
     expect(user).toHaveProperty('accessToken');

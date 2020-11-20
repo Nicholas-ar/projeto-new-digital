@@ -19,7 +19,7 @@ const makeSut = () => {
   };
 };
 
-describe('EmailValidator', () => {
+describe('EmailValidatorService', () => {
   it('must return an InvalidParameterError if EmailValidatorAdapter returns false', () => {
     const { sut, emailValidatorStub } = makeSut();
     jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false);

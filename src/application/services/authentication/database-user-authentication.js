@@ -1,25 +1,11 @@
 /**
- * @interface Authenticator
- * @method authenticate
- */
-
-/**
- * @typedef User
- * @property {string} _id
- * @property {string} email
- * @property {string} password
- */
-
-/**
  * Autheticator object that retrieves an user by it's email, validates the
  * given password with the hash found in the database and returns an access token
- * @class
- * @implements {Authenticator}
  * @method authenticate
  */
 export class DatabaseUserAuthentication {
   /**
-   * @param {Repository} repository
+   * @param {UsersRepository} repository
    * @param {HashService} hashComparerService
    * @param {TokenGeneratorService} tokenGeneratorService
    */

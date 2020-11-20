@@ -2,12 +2,15 @@ import { MongoHelper } from '../../helpers/mongoHelper';
 
 /**
  * Users repository for the Mongo database
- * @implements {Repository}
+ * @method create
+ * @method retrieveByEmail
+ * @method updateAcessToken
+ * 
  */
 export class UsersMongoRespository {
   /**
    * Creates a user document into Mongo database.
-   * @param {import('../../services/authentication/database-user-authentication').User} userData
+   * @param {User} userData
    */
   async create(userData) {
     const usersCollection = await MongoHelper.getCollection('users');
@@ -18,7 +21,7 @@ export class UsersMongoRespository {
   /**
    * Retrieves the first user from the database that matches the given email
    * @param {String} email 
-   * @returns {Promise<import('../../services/authentication/database-user-authentication').User>}
+   * @returns {Promise<User>}
    */
   async retrieveByEmail(email) {
     const usersCollection = await MongoHelper.getCollection('users');
@@ -31,7 +34,7 @@ export class UsersMongoRespository {
    * @param {String} id 
    * @param {String} token 
    */
-  async updateAcessToken(id, token) {
+  async updateAccessToken(id, token) {
     const usersCollection = await MongoHelper.getCollection('users');
     await usersCollection.updateOne(
       { _id: id },

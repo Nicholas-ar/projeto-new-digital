@@ -1,8 +1,8 @@
-import { ValidatorComposite } from '../../../../../src/application/services/validators/validator-composite';
+import { ValidatorServiceComposite } from '../../../../../src/application/services/validators/validator-composite';
 import { MissingParameterError } from '../../../../../src/domain/errors';
 const makeSut = () => {
   const validatorStubs = [makeValidator(), makeValidator()];
-  const sut = new ValidatorComposite(validatorStubs);
+  const sut = new ValidatorServiceComposite(validatorStubs);
   return { sut, validatorStubs };
 };
 
@@ -15,7 +15,7 @@ const makeValidator = () => {
   return new ValidatorStub();
 };
 
-describe('ValidatorComposite', () => {
+describe('ValidatorServiceComposite', () => {
   it('must throw an error if any of validators throws', () => {
     const { sut, validatorStubs } = makeSut();
     jest

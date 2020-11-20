@@ -1,11 +1,9 @@
 import { SignUpController } from '../signup-controller';
 import { UsersMongoRespository } from '../../../application/database/mongodb/users-mongo-repository';
 import { DatabaseUserAuthentication } from '../../../application/services/authentication/database-user-authentication';
-import { EmailValidator } from '../../../application/services/validators/email-validator';
-import { RequiredFieldValidator } from '../../../application/services/validators/required-field-validator';
-import { ValidatorComposite } from '../../../application/services/validators/validator-composite';
-import { Argon2Adapter } from '../../services/argon2-adapter';
-import { JwtAdapter } from '../../../application/services/token/jwt-adapter';
+import { Argon2Adapter } from '../../../application/services/adapters/argon2-adapter';
+import { JwtAdapter } from '../../../application/services/adapters/jwt-adapter';
+import { makeSignInUpValidatorComposite } from './sign-in-up-validator-factory';
 
 /**
  * Factory for the SignUpController.
@@ -13,27 +11,21 @@ import { JwtAdapter } from '../../../application/services/token/jwt-adapter';
  * @returns {SignUpController} - SignUp Controller object
  */
 export const makeSignUpController = () => {
-  
   const repository = new UsersMongoRespository();
   const hasherService = new Argon2Adapter();
   const tokenGeneratorService = new JwtAdapter(process.env.JWT_SECRET);
-  const authentication = new DatabaseUserAuthentication(
+  const authenticator = new DatabaseUserAuthentication(
     repository,
     hasherService,
     tokenGeneratorService
   );
 
-  const emailValidator = new EmailValidator();
-  const requiredFieldValidator = new RequiredFieldValidator();
-  const validator = new ValidatorComposite([
-    requiredFieldValidator,
-    emailValidator,
-  ]);
+  const validatorComposite = makeSignInUpValidatorComposite();
 
   return new SignUpController(
     repository,
-    authentication,
-    validator,
+    authenticator,
+    validatorComposite,
     hasherService
   );
 };

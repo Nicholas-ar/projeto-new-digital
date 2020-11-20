@@ -8,7 +8,7 @@ export class EmailValidator {
   /**
    * Email validator service that returns true if the email is valid,
    * raising InvalidParameterError otherwise.
-   * @param {Validator} emailValidatorAdapter
+   * @param {ValidatorAdapter} emailValidatorAdapter
    */
   constructor(emailValidatorAdapter) {
     this._emailValidatorAdapter = emailValidatorAdapter;

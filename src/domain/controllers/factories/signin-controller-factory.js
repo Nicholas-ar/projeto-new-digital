@@ -1,12 +1,9 @@
 import { SignInController } from '../signin-controller';
-import { ValidatorComposite } from '../../../application/services/validators/validator-composite';
-import { EmailValidator } from '../../../application/services/validators/email-validator';
-import { RequiredFieldValidator } from '../../../application/services/validators/required-field-validator';
 import { DatabaseUserAuthentication } from '../../../application/services/authentication/database-user-authentication';
 import { UsersMongoRespository } from '../../../application/database/mongodb/users-mongo-repository';
-import { Argon2Adapter } from '../../services/argon2-adapter';
-import { JwtAdapter } from '../../../application/services/token/jwt-adapter';
-
+import { Argon2Adapter } from '../../../application/services/adapters/argon2-adapter';
+import { JwtAdapter } from '../../../application/services/adapters/jwt-adapter';
+import { makeSignInUpValidatorComposite } from './sign-in-up-validator-factory';
 
 /**
  * Factory for the SignIpController.
@@ -14,13 +11,7 @@ import { JwtAdapter } from '../../../application/services/token/jwt-adapter';
  * @returns {SignInController} - SignIn controller object
  */
 export const makeSignInController = () => {
-  const emailValidator = new EmailValidator();
-  const requiredFieldValidator = new RequiredFieldValidator();
-  const validatorComposite = new ValidatorComposite([
-    emailValidator,
-    requiredFieldValidator,
-  ]);
-
+  const validatorComposite = makeSignInUpValidatorComposite();
   const repository = new UsersMongoRespository();
   const hasherService = new Argon2Adapter();
   const tokenGeneratorService = new JwtAdapter(process.env.JWT_SECRET);
