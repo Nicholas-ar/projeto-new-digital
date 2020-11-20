@@ -14,8 +14,9 @@ import { InvalidTransactionCredentialsError } from '../../../../src/domain/error
 
 const makeRepository = () => {
   class RepositoryStub {
-    async retriveByCpf(cpf) {
+    async retrieveByCpf(cpf) {
       return {
+        _id: '1',
         email: 'valid_email@email.com',
         cpf,
         tid: '2134534253252',
@@ -24,7 +25,7 @@ const makeRepository = () => {
     }
     async create(data) {
       return {
-        _id: 1,
+        _id: '1',
         email: 'valid_email@email.com',
         cpf: '12345612312',
         tid: '2134534253252',
@@ -33,7 +34,7 @@ const makeRepository = () => {
     }
     async update(query) {
       return {
-        _id: 1,
+        _id: '1',
         email: 'valid_email@email.com',
         cpf: '12345612312',
         tid: '2134534253252',
@@ -48,7 +49,7 @@ const makeRepository = () => {
 const makeCpfValidator = () => {
   class ValidarCpfStub {
     validate(cpf) {
-      return true;
+      return null;
     }
   }
   return new ValidarCpfStub();
@@ -89,6 +90,7 @@ describe('Order controller', () => {
       const httpResponse = await sut.retrieveOrder(httpRequest);
       expect(httpResponse).toEqual(
         HTTP_OK_200({
+          _id: '1',
           email: 'valid_email@email.com',
           cpf: '12345612312',
           tid: '2134534253252',
@@ -115,9 +117,11 @@ describe('Order controller', () => {
       expect(httpResponse).toEqual(HTTP_SERVER_ERROR_500(new Error()));
     });
 
-    it('must return 400 status code if ValidarCPF returns false', async () => {
+    it('must return 400 status code if ValidarCPF returns InvalidParameterError', async () => {
       const { sut, cpfValidatorStub } = makeSut();
-      jest.spyOn(cpfValidatorStub, 'validate').mockReturnValueOnce(false);
+      jest
+        .spyOn(cpfValidatorStub, 'validate')
+        .mockReturnValueOnce(new InvalidParameterError('cpf'));
       const httpRequest = makeFakeRetrievalRequest();
       const httpResponse = await sut.retrieveOrder(httpRequest);
       expect(httpResponse).toEqual(
@@ -127,7 +131,7 @@ describe('Order controller', () => {
 
     it('must return an error message and 400 status code if order is not found', async () => {
       const { sut, repositoryStub } = makeSut();
-      jest.spyOn(repositoryStub, 'retriveByCpf').mockReturnValueOnce(null);
+      jest.spyOn(repositoryStub, 'retrieveByCpf').mockReturnValueOnce(null);
       const httpRequest = makeFakeRetrievalRequest();
       const httpResponse = await sut.retrieveOrder(httpRequest);
       expect(httpResponse).toEqual(
@@ -137,16 +141,16 @@ describe('Order controller', () => {
 
     it('It must call Repository with correct value', async () => {
       const { sut, repositoryStub } = makeSut();
-      const repositorySpy = jest.spyOn(repositoryStub, 'retriveByCpf');
+      const repositorySpy = jest.spyOn(repositoryStub, 'retrieveByCpf');
       const httpRequest = makeFakeRetrievalRequest();
       await sut.retrieveOrder(httpRequest);
       expect(repositorySpy).toHaveBeenCalledWith(httpRequest.body.cpf);
     });
 
-    it('must return 500 if retriveByCpf throws an error', async () => {
+    it('must return 500 if retrieveOrder throws an error', async () => {
       const { sut, repositoryStub } = makeSut();
       jest
-        .spyOn(repositoryStub, 'retriveByCpf')
+        .spyOn(repositoryStub, 'retrieveByCpf')
         .mockImplementationOnce(new Error());
       const httpRequest = makeFakeRetrievalRequest();
       const httpResponse = await sut.retrieveOrder(httpRequest);
@@ -156,7 +160,7 @@ describe('Order controller', () => {
 
   describe('createOrder', () => {
     const makeFakeOrder = () => ({
-      _id: 1,
+      _id: '1',
       email: 'valid_email@email.com',
       cpf: '12345612312',
       tid: '2134534253252',
@@ -209,7 +213,9 @@ describe('Order controller', () => {
 
     it('must return 400 status code if ValidarCPF returns false', async () => {
       const { sut, cpfValidatorStub } = makeSut();
-      jest.spyOn(cpfValidatorStub, 'validate').mockReturnValueOnce(false);
+      jest
+        .spyOn(cpfValidatorStub, 'validate')
+        .mockReturnValueOnce(new InvalidParameterError('cpf'));
       const httpRequest = makeHttpRequest();
       const httpResponse = await sut.createOrder(httpRequest);
       expect(httpResponse).toEqual(
@@ -267,7 +273,7 @@ describe('Order controller', () => {
       const httpResponse = await sut.updateOrder(httpRequest);
       expect(httpResponse).toEqual(
         HTTP_OK_200({
-          _id: 1,
+          _id: '1',
           email: 'valid_email@email.com',
           cpf: '12345612312',
           tid: '2134534253252',

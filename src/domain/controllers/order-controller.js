@@ -42,10 +42,9 @@ export default class OrderController {
    */
   async retrieveOrder(httpRequest) {
     try {
-      if (!this.cpfValidator.validate(httpRequest.body.cpf)) {
-        return HTTP_BAD_REQUEST_400(new InvalidParameterError('cpf'));
-      }
-      const order = await this.repository.retriveByCpf(httpRequest.body.cpf);
+      const error = this.cpfValidator.validate(httpRequest.body.cpf);
+      if (error) return HTTP_BAD_REQUEST_400(error);
+      const order = await this.repository.retrieveByCpf(httpRequest.body.cpf);
       if (!order) return HTTP_BAD_REQUEST_400(new OrderNotFoundError());
       return HTTP_OK_200(order);
     } catch (error) {
@@ -65,9 +64,8 @@ export default class OrderController {
   async createOrder(httpRequest) {
     try {
       const { orderData, paymentData } = httpRequest.body;
-      if (!this.cpfValidator.validate(orderData.cpf)) {
-        return HTTP_BAD_REQUEST_400(new InvalidParameterError('cpf'));
-      }
+      const error = this.cpfValidator.validate(httpRequest.body.orderData.cpf);
+      if (error) return HTTP_BAD_REQUEST_400(error);
       const transactionId = this.paymentAdapter.pay(paymentData);
       if (transactionId) {
         orderData.transactionId = transactionId;
