@@ -8,7 +8,7 @@ import OrderController from '../../../../src/domain/controllers/order-controller
 
 const makeRepository = () => {
   class RepositoryStub {
-    async retriveByCpf(cpf) {
+    async retrieveByCpf(cpf) {
       return {
         email: 'valid_email@email.com',
         cpf,
@@ -140,7 +140,7 @@ describe('Order controller', () => {
 
   it('It must return an error message and 400 status code if order is not found', async () => {
     const { sut, repositoryStub } = makeSut();
-    jest.spyOn(repositoryStub, 'retriveByCpf').mockReturnValueOnce(null);
+    jest.spyOn(repositoryStub, 'retrieveByCpf').mockReturnValueOnce(null);
     const httpRequest = {
       cpf: '26306359028',
     };
@@ -152,7 +152,7 @@ describe('Order controller', () => {
 
   it('It must call Repository with correct value', async () => {
     const { sut, repositoryStub } = makeSut();
-    const repositorySpy = jest.spyOn(repositoryStub, 'retriveByCpf');
+    const repositorySpy = jest.spyOn(repositoryStub, 'retrieveByCpf');
     const httpRequest = {
       cpf: '26306359028',
     };
@@ -160,10 +160,10 @@ describe('Order controller', () => {
     expect(repositorySpy).toHaveBeenCalledWith(httpRequest.cpf);
   });
 
-  it('It must return 500 if retriveByCpf throws an error', async () => {
+  it('It must return 500 if retrieveByCpf throws an error', async () => {
     const { sut, repositoryStub } = makeSut();
     jest
-      .spyOn(repositoryStub, 'retriveByCpf')
+      .spyOn(repositoryStub, 'retrieveByCpf')
       .mockImplementationOnce(new Error());
     const httpRequest = {
       cpf: '26306359028',

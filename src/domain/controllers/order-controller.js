@@ -17,7 +17,7 @@ class OrderController {
       if (!this.cpfValidator.validate(httpRequest.cpf)) {
         return HTTP_BAD_REQUEST_400({ message: 'Invalid param: cpf' });
       }
-      const orders = await this.repository.retriveByCpf(httpRequest.cpf);
+      const orders = await this.repository.retrieveByCpf(httpRequest.cpf);
       if (!orders)
         return HTTP_BAD_REQUEST_400({ message: 'No orders were found' });
       return HTTP_OK_200(orders);
@@ -38,7 +38,9 @@ class OrderController {
         const order = await this.repository.create(httpRequest);
         if (order) return HTTP_CREATED_201(order);
       }
-      return HTTP_BAD_REQUEST_400({ message: 'Invalid transaction credentials' })
+      return HTTP_BAD_REQUEST_400({
+        message: 'Invalid transaction credentials',
+      });
     } catch (error) {
       return HTTP_SERVER_ERROR_500(error);
     }
