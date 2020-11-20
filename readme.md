@@ -27,5 +27,3 @@ Pronto! Você conseguiu rodar a aplicação.
 ## :fire: Task list
 
 - [x] Criar repositório no GithHub
-
-Como rodar:
