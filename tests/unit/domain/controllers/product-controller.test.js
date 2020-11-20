@@ -12,7 +12,7 @@ const mockProduct = {
   weight: '10 kg',
   dimensions: '50 x 50 x 50',
   releaseDate: 2010,
-  quantity: 10,
+  stock: 10,
 };
 
 describe('Product Controller', () => {
@@ -43,6 +43,6 @@ describe('Product Controller', () => {
     expect(product.weight).toBe('10 kg');
     expect(product.dimensions).toBe('50 x 50 x 50');
     expect(product.releaseDate).toBe(2010);
-    expect(product.quantity).toBe(10);
+    expect(product.stock).toBe(10);
   });
 });

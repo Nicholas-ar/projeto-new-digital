@@ -11,7 +11,7 @@ const mockProduct = {
   weight: '10 kg',
   dimensions: '50 x 50 x 50',
   releaseDate: 2010,
-  quantity: 10,
+  stock: 10,
 };
 
 describe('Product Repository', () => {
@@ -35,7 +35,7 @@ describe('Product Repository', () => {
     expect(product.weight).toBe('10 kg');
     expect(product.dimensions).toBe('50 x 50 x 50');
     expect(product.releaseDate).toBe(2010);
-    expect(product.quantity).toBe(10);
+    expect(product.stock).toBe(10);
   });
 
   it('must update a product in products collection', async () => {
@@ -54,7 +54,7 @@ describe('Product Repository', () => {
     expect(product.weight).toBe('10 kg');
     expect(product.dimensions).toBe('50 x 50 x 50');
     expect(product.releaseDate).toBe(2020);
-    expect(product.quantity).toBe(10);
+    expect(product.stock).toBe(10);
   });
 
   it('must delete a product in products collection', async () => {
@@ -77,6 +77,6 @@ describe('Product Repository', () => {
     expect(product.weight).toBe('10 kg');
     expect(product.dimensions).toBe('50 x 50 x 50');
     expect(product.releaseDate).toBe(2010);
-    expect(product.quantity).toBe(10);
+    expect(product.stock).toBe(10);
   });
 });
