@@ -6,6 +6,11 @@ import { RequiredFieldValidator } from '../../../application/services/validators
 import { ValidatorComposite } from '../../../application/services/validators/validator-composite';
 import { Argon2Adapter } from '../../services/argon2-adapter';
 
+/**
+ * Factory for the SignUpController.
+ * Instantiates all required dependencies and injects it into the OrderController object.
+ * @returns {SignUpController} - SignUp Controller object
+ */
 export const makeSignUpController = () => {
   const repository = new UsersMongoRespository();
   const authentication = new DatabaseUserAuthentication();

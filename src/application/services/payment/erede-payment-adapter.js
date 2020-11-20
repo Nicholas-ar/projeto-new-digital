@@ -7,7 +7,32 @@ require('dotenv').config();
 
 const inProduction = process.env.NODE_ENV == 'production';
 
+/**
+ * @interface PaymentService
+ * @method pay
+ */
+
+/**
+ * @typedef PaymentData
+ * @property {String} orderPrice
+ * @property {String} orderReference
+ * @property {String} cardNumber
+ * @property {String} cvv
+ * @property {String} expirationMonth
+ * @property {String} expirationYear
+ * @property {String} cardHolderName
+ */
+
+/**
+ * @class
+ * @implements {PaymentService}
+ */
 export default class RedecardPaymentAdapter {
+  /**
+   * Makes a transaction with RedeCard, returning the TID if successful
+   * @param {PaymentData} paymentData
+   * @returns {Promise<string>} Transaction ID
+   */
   async pay(paymentData) {
     try {
       const {
