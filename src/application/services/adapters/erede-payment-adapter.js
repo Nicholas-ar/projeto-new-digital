@@ -1,3 +1,5 @@
+import { PaymentData } from '../protocols/payment-service.d';
+
 const eRede = require('erede-node/lib/erede');
 const Transaction = require('erede-node/lib/transaction');
 const Store = require('erede-node/lib/store');
@@ -6,18 +8,6 @@ const Environment = require('erede-node/lib/environment');
 require('dotenv').config();
 
 const inProduction = process.env.NODE_ENV == 'production';
-
-
-/**
- * @typedef PaymentData
- * @property {String} orderPrice
- * @property {String} orderReference
- * @property {String} cardNumber
- * @property {String} cvv
- * @property {String} expirationMonth
- * @property {String} expirationYear
- * @property {String} cardHolderName
- */
 
 /**
  * Payment adapter for the Redecard package

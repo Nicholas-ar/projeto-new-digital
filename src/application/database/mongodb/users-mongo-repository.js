@@ -1,3 +1,4 @@
+import { User, UserData } from '../../../domain/entities/user';
 import { MongoHelper } from '../../helpers/mongoHelper';
 
 /**
@@ -10,7 +11,8 @@ import { MongoHelper } from '../../helpers/mongoHelper';
 export class UsersMongoRespository {
   /**
    * Creates a user document into Mongo database.
-   * @param {User} userData
+   * @param {UserData} userData
+   * @returns {Promise<User>} 
    */
   async create(userData) {
     const usersCollection = await MongoHelper.getCollection('users');

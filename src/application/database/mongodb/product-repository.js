@@ -1,28 +1,53 @@
 import { MongoHelper } from '../../helpers/mongoHelper';
 
+/**
+ * @typedef ProductData
+ * @property {String} name
+ * @property {String} description
+ * @property {Number} price
+ * @property {String} brand
+ * @property {String} weight
+ * @property {String} dimensions
+ * @property {Number} releaseDate
+ * @property {Number} stock
+ */
+
+/**
+ * Products repository for the Mongo database
+ * @method create
+ * @method getByName
+ * @method getAll
+ * @method update
+ * @method delete
+ */
+
 export class ProductRepository {
-  create = async (productData) => {
+  async create(productData) {
     const productCollection = await MongoHelper.getCollection('products');
     await productCollection.insertOne(productData);
-  };
+  }
 
-  getByName = async (productName) => {
+  async getByName(productName) {
     const productCollection = await MongoHelper.getCollection('products');
-    await productCollection.findOne(name);
-  };
+    return await productCollection.findOne(productName);
+  }
 
-  getAll = async () => {
+  /**
+   * Gets all Products in the database
+   * @returns {Promise<Array<Product>>}
+   */
+  async getAll() {
     const productCollection = await MongoHelper.getCollection('products');
     return await productCollection.find({}).toArray();
-  };
+  }
 
-  update = async (productQuery, valuesToChange) => {
+  async update(productQuery, valuesToChange) {
     const productCollection = await MongoHelper.getCollection('products');
     await productCollection.updateOne(productQuery, valuesToChange);
-  };
+  }
 
-  delete = async (productQuery) => {
+  async delete(productQuery) {
     const productCollection = await MongoHelper.getCollection('products');
     await productCollection.deleteOne(productQuery);
-  };
+  }
 }

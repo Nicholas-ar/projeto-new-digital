@@ -1,9 +1,12 @@
+import { AuthenticationService } from '../../application/services/protocols/authentication-service.d';
+import { ValidationService } from '../../application/services/protocols/validation-service.d';
 import {
   HTTP_OK_200,
   HTTP_SERVER_ERROR_500,
   HTTP_UNAUTHORIZED_401,
   HTTP_BAD_REQUEST_400,
 } from '../helpers/http-helper';
+import { HttpRequest, HttpResponse } from './protocols/http.d';
 
 export class SignInController {
   /**
@@ -18,8 +21,8 @@ export class SignInController {
 
   /**
    * Main method,
-   * @param {import('../helpers/http-helper').HttpRequest} httpRequest
-   * @returns {Promise<Object>} - If the validation of request data returns an error,
+   * @param {HttpRequest} httpRequest
+   * @returns {Promise<HttpResponse>} - If the validation of request data returns an error,
    * returns a Bad Request response with the error message in the body
    *                            - Returns an UNATHORIZED response to the client.
    *                            - Returns a SERVER ERROR response to the client with the error message in the body
