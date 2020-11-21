@@ -10,19 +10,36 @@ export class ProductController {
     this.repository = repository;
   }
 
+  /**
+   * Receives an HttpRequest containing a valid product field in the body
+   * @param httpRequest
+   * - A 500 http response will be returned if an error is thrown during the process.
+   * - A 201 http response will be returned otherwise, with an empty body.
+   *
+   */
   async createProduct(httpRequest) {
     try {
+      const product = await this.repository.create(
+        httpRequest.body.mockProduct
+      );
+      if (!product) {
+        return HTTP_BAD_REQUEST_400({
+          message: 'Error ocurred when inserting product in database',
+        });
+      }
+
+      return { statusCode: 201, body: product };
     } catch (error) {
       return HTTP_SERVER_ERROR_500(error);
     }
   }
 
   /**
-   * Receives an HttpRequest containing a valid cpf field in the body
+   * Receives an HttpRequest containing a valid product query field in the body
    * @param httpRequest
-   * @returns {Promise<Object>} - A 400 http response will be returned if no matches are found in the database.
-   *                            - A 500 http response will be returned if an error is thrown during the process.
-   *                            - A 200 http response will be returned otherwise, containing the product info in the body.
+   * - A 400 http response will be returned if no matches are found in the database.
+   * - A 500 http response will be returned if an error is thrown during the process.
+   * - A 200 http response will be returned otherwise, containing the product info in the body.
    */
   async retrieveProduct(httpRequest) {
     try {

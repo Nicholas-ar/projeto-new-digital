@@ -15,7 +15,8 @@ export class ProductRepository {
    */
   async create(productData) {
     const productCollection = await MongoHelper.getCollection('products');
-    await productCollection.insertOne(productData);
+    const createdproduct = await productCollection.insertOne(productData);
+    return createdproduct.ops[0];
   }
 
   /**

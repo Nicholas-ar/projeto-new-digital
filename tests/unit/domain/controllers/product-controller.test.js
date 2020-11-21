@@ -29,8 +29,22 @@ describe('Product Controller', () => {
   describe('createProduct', () => {
     it('must create a product with 201 status code given valid data', async () => {
       const httpRequest = {
-        body: {},
+        body: { mockProduct },
       };
+      const productRepository = new ProductRepository();
+      const productController = new ProductController(productRepository);
+      const res = await productController.createProduct(httpRequest);
+      const product = res.body;
+      expect(res.statusCode).toBe(201);
+      expect(product._id).toBeTruthy();
+      expect(product.description).toBe('something');
+      expect(product.price).toBe(10000);
+      expect(product.brand).toBe('generic');
+      expect(product.category).toBe('generic');
+      expect(product.weight).toBe('10 kg');
+      expect(product.dimensions).toBe('50 x 50 x 50');
+      expect(product.releaseDate).toBe(2010);
+      expect(product.stock).toBe(10);
     });
   });
 
