@@ -117,16 +117,48 @@ describe('Product Controller', () => {
   describe('updateProduct', () => {
     it('must update an order with 200 status code given valid data', async () => {
       const httpRequest = {
-        body: {},
+        body: {
+          updateQuery: { name: 'abc' },
+          updatedValues: {
+            $set: {
+              name: 'ps5',
+              price: 5000,
+              brand: 'sony',
+              releaseDate: 2020,
+            },
+          },
+        },
       };
+      const productRepository = new ProductRepository();
+      const productController = new ProductController(productRepository);
+      productCollection.insertOne(mockProduct);
+      const res = await productController.updateProduct(httpRequest);
+      expect(res.statusCode).toBe(200);
     });
-  });
 
-  describe('deleteProduct', () => {
-    it('must delete a product with 200 status code given valid data', async () => {
+    it('must return an order with 400 status code given invalid data', async () => {
       const httpRequest = {
-        body: {},
+        body: {
+          updateQuery: { name: 'abc' },
+          updatedValues: {
+            $set: {
+              name: 'ps5',
+            },
+          },
+        },
       };
+      const productRepository = new ProductRepository();
+      const productController = new ProductController(productRepository);
+      const res = await productController.updateProduct(httpRequest);
+      expect(res.statusCode).toBe(400);
+    });
+
+    describe('deleteProduct', () => {
+      it('must delete a product with 200 status code given valid data', async () => {
+        const httpRequest = {
+          body: {},
+        };
+      });
     });
   });
 });

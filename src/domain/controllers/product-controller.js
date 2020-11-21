@@ -62,19 +62,31 @@ export class ProductController {
     }
   }
 
-  /*
-  async update(httpRequest) {
+  /**
+   * Receives an HttpRequest with an update query and the values to be updated in the format $set: {...}
+   * @param httpRequest
+   * - A 400 http response will be returned if no matches are found to be updated in the database.
+   * - A 500 http response will be returned if an error is thrown during the process.
+   * - A 200 http response will be returned otherwise, containing an binary value in the body, indicating if the update has been successful.
+   */
+  async updateProduct(httpRequest) {
     try {
-      const allProducts = await this.repository.getAll();
-      if (!allProducts) {
+      const response = await this.repository.update(
+        httpRequest.body.updateQuery,
+        httpRequest.body.updatedValues
+      );
+      const updated = response.modifiedCount;
+
+      if (!updated) {
         return HTTP_BAD_REQUEST_400({ message: 'No products found' });
       }
-      return HTTP_OK_200(allProducts);
+      return HTTP_OK_200(updated);
     } catch (error) {
       return HTTP_SERVER_ERROR_500(error);
     }
   }
 
+  /*
   async deleteProduct(httpRequest) {
     try {
       const allProducts = await this.repository.getAll();

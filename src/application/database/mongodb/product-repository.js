@@ -47,7 +47,7 @@ export class ProductRepository {
    */
   async update(productQuery, valuesToChange) {
     const productCollection = await MongoHelper.getCollection('products');
-    await productCollection.updateOne(productQuery, valuesToChange);
+    return await productCollection.updateOne(productQuery, valuesToChange);
   }
 
   /**
