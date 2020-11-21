@@ -156,8 +156,26 @@ describe('Product Controller', () => {
     describe('deleteProduct', () => {
       it('must delete a product with 200 status code given valid data', async () => {
         const httpRequest = {
-          body: {},
+          body: {
+            deleteQuery: { name: 'abc' },
+          },
         };
+        const productRepository = new ProductRepository();
+        const productController = new ProductController(productRepository);
+        productCollection.insertOne(mockProduct);
+        const res = await productController.deleteProduct(httpRequest);
+        expect(res.statusCode).toBe(200);
+      });
+      it('must delete a product with 400 status code given invalid data', async () => {
+        const httpRequest = {
+          body: {
+            deleteQuery: { name: 'abc' },
+          },
+        };
+        const productRepository = new ProductRepository();
+        const productController = new ProductController(productRepository);
+        const res = await productController.deleteProduct(httpRequest);
+        expect(res.statusCode).toBe(400);
       });
     });
   });

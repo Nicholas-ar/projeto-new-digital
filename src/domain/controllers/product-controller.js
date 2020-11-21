@@ -77,7 +77,7 @@ export class ProductController {
       );
       const updated = response.modifiedCount;
 
-      if (!updated) {
+      if (updated === 0) {
         return HTTP_BAD_REQUEST_400({ message: 'No products found' });
       }
       return HTTP_OK_200(updated);
@@ -86,17 +86,25 @@ export class ProductController {
     }
   }
 
-  /*
+  /**
+   * Receives an HttpRequest with an delete query
+   * @param httpRequest
+   * - A 400 http response will be returned if no matches are found to be deleted in the database.
+   * - A 500 http response will be returned if an error is thrown during the process.
+   * - A 200 http response will be returned otherwise, containing an binary value in the body, indicating if the deletion has been successful.
+   */
   async deleteProduct(httpRequest) {
     try {
-      const allProducts = await this.repository.getAll();
-      if (!allProducts) {
+      const response = await this.repository.delete(
+        httpRequest.body.deleteQuery
+      );
+      const found = response.deletedCount;
+      if (found === 0) {
         return HTTP_BAD_REQUEST_400({ message: 'No products found' });
       }
-      return HTTP_OK_200(allProducts);
+      return HTTP_OK_200(found);
     } catch (error) {
       return HTTP_SERVER_ERROR_500(error);
     }
   }
-  */
 }

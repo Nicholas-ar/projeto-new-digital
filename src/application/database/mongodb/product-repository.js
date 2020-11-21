@@ -56,6 +56,6 @@ export class ProductRepository {
    */
   async delete(productQuery) {
     const productCollection = await MongoHelper.getCollection('products');
-    await productCollection.deleteOne(productQuery);
+    return await productCollection.deleteOne(productQuery);
   }
 }
