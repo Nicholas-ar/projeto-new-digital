@@ -1,15 +1,5 @@
+import { HttpResponse } from '../controllers/protocols/http.d';
 import { ServerError, UnauthorizedError } from '../errors';
-
-/**
- * @typedef HttpResponse
- * @property {Number} statusCode
- * @property {any} body
- */
-
-/**
- * @typedef HttpRequest
- * @property {any} body
- */
 
 /**
  * That returns a Bad Request response, with a 400 statusCode and an error body.
@@ -43,7 +33,6 @@ export const HTTP_CREATED_201 = (data) => ({
 
 /**
  * That returns an UNAUTHORIZED response, with a 401 statusCode and a data object, message inside the message.
- * @param {any} data
  * @returns {HttpResponse} -
  */
 export const HTTP_UNAUTHORIZED_401 = () => ({
@@ -53,7 +42,7 @@ export const HTTP_UNAUTHORIZED_401 = () => ({
 
 /**
  * That returns an SERVER ERROR response, with a 500 statusCode and a data object, message inside the message.
- * @param {any} data
+ * @param {Error} error
  * @returns {HttpResponse} -
  */
 export const HTTP_SERVER_ERROR_500 = (error) => ({

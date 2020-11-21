@@ -14,6 +14,27 @@ import { InvalidTransactionCredentialsError } from '../../../../src/domain/error
 
 const makeRepository = () => {
   class RepositoryStub {
+    async list() {
+      return new Promise((resolve) => {
+        resolve([
+          {
+            _id: '1',
+            email: 'valid_email@email.com',
+            cpf: '12345612312',
+            tid: '2134534253252',
+            delivered: false,
+          },
+          {
+            _id: '2',
+            email: 'valid_email@email.com',
+            cpf: '12345612312',
+            tid: '2134534253252',
+            delivered: true,
+          },
+        ]);
+      });
+    }
+
     async retrieveByCpf(cpf) {
       return {
         _id: '1',
@@ -23,6 +44,7 @@ const makeRepository = () => {
         delivered: false,
       };
     }
+
     async create(data) {
       return {
         _id: '1',
@@ -32,14 +54,9 @@ const makeRepository = () => {
         delivered: false,
       };
     }
+
     async update(query) {
-      return {
-        _id: '1',
-        email: 'valid_email@email.com',
-        cpf: '12345612312',
-        tid: '2134534253252',
-        delivered: true,
-      };
+      return true;
     }
   }
 
@@ -83,6 +100,41 @@ const makeFakeRetrievalRequest = () => ({
 });
 
 describe('Order controller', () => {
+  describe('list', () => {
+    const makeHttpRequest = () => ({ body: {} });
+    it('must list all orders returning a 200 status code', async () => {
+      const { sut } = makeSut();
+      const httpRequest = makeHttpRequest();
+      const httpResponse = await sut.list(httpRequest);
+      expect(httpResponse).toEqual(
+        HTTP_OK_200([
+          {
+            _id: '1',
+            email: 'valid_email@email.com',
+            cpf: '12345612312',
+            tid: '2134534253252',
+            delivered: false,
+          },
+          {
+            _id: '2',
+            email: 'valid_email@email.com',
+            cpf: '12345612312',
+            tid: '2134534253252',
+            delivered: true,
+          },
+        ])
+      );
+    });
+
+    it('must return 500 if list throws an error', async () => {
+      const { sut, repositoryStub } = makeSut();
+      jest.spyOn(repositoryStub, 'list').mockImplementationOnce(new Error());
+      const httpRequest = makeFakeRetrievalRequest();
+      const httpResponse = await sut.list(httpRequest);
+      expect(httpResponse).toEqual(HTTP_SERVER_ERROR_500(new Error()));
+    });
+  });
+
   describe('retrieveOrder', () => {
     it('must load an order with 200 status code', async () => {
       const { sut } = makeSut();
@@ -265,20 +317,16 @@ describe('Order controller', () => {
   });
 
   describe('updateOrder', () => {
-    const makeHttpRequest = () => ({ body: { delivered: true } });
+    const makeHttpRequest = () => ({
+      body: { query: { _id: '1' }, newValue: { delivered: true } },
+    });
 
     it('must update an order with 200 status code given valid data', async () => {
       const { sut } = makeSut();
       const httpRequest = makeHttpRequest();
       const httpResponse = await sut.updateOrder(httpRequest);
       expect(httpResponse).toEqual(
-        HTTP_OK_200({
-          _id: '1',
-          email: 'valid_email@email.com',
-          cpf: '12345612312',
-          tid: '2134534253252',
-          delivered: true,
-        })
+        HTTP_OK_200(true)
       );
     });
 
@@ -287,12 +335,17 @@ describe('Order controller', () => {
       const repositorySpy = jest.spyOn(repositoryStub, 'update');
       const httpRequest = makeHttpRequest();
       await sut.updateOrder(httpRequest);
-      expect(repositorySpy).toHaveBeenCalledWith(httpRequest);
+      expect(repositorySpy).toHaveBeenCalledWith(
+        { _id: '1' },
+        { delivered: true }
+      );
     });
 
-    it('must return 400 status code if updateOrder returns null', async () => {
+    it('must return 400 status code if updateOrder returns false', async () => {
       const { sut, repositoryStub } = makeSut();
-      jest.spyOn(repositoryStub, 'update').mockReturnValueOnce(null);
+      jest
+        .spyOn(repositoryStub, 'update')
+        .mockReturnValueOnce(new Promise((resolve, reject) => resolve(false)));
       const httpRequest = makeHttpRequest();
       const httpResponse = await sut.updateOrder(httpRequest);
       expect(httpResponse).toEqual(

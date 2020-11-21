@@ -1,12 +1,5 @@
+import { Order, OrderData } from '../../../domain/entities/order';
 import { MongoHelper } from '../../helpers/mongoHelper';
-
-/**
- * @typedef OrderData
- * @property {String} cpf
- * @property {String} email
- * @property {String} tid
- * @property {String} delivered
- */
 
 /**
  * Orders repository for the Mongo database
@@ -27,9 +20,9 @@ export class OrdersMongoRepository {
   }
 
   /**
-   * Retrieves the first user that matches given CPF from the database
+   * Retrieves the first Order that matches given CPF from the database
    * @param {String} cpf
-   * @returns {Promise<User> | Null}
+   * @returns {Promise<Order> | Null}
    */
   async retrieveByCpf(cpf) {
     const orderCollection = await MongoHelper.getCollection('orders');
@@ -52,10 +45,13 @@ export class OrdersMongoRepository {
    * property and value from the database
    * @param {Object} query
    * @param {Object} newData
+   * @returns {Promise<boolean>}
    */
   async update(query, newData) {
     const orderCollection = await MongoHelper.getCollection('orders');
-    await orderCollection.updateOne(query, { $set: newData });
+    const result = await orderCollection.updateOne(query, { $set: newData });
+    if (result.result.ok === 0) return true;
+    return false;
   }
 
   /**

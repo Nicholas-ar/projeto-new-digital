@@ -34,7 +34,7 @@ export class ProductRepository {
 
   /**
    * Gets all Products in the database
-   * @returns {Promise<Array<Order>>}
+   * @returns {Promise<Array<Product>>}
    */
   async getAll() {
     const productCollection = await MongoHelper.getCollection('products');

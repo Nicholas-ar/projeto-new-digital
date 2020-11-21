@@ -1,3 +1,8 @@
+import { User } from "../../../domain/entities/user";
+import { UsersRepository } from "../../database/protocols/users-repository.d";
+import { HasherService } from "../protocols/hash-service.d";
+import { TokenGeneratorService } from "../protocols/token-generator-service.d";
+
 /**
  * Autheticator object that retrieves an user by it's email, validates the
  * given password with the hash found in the database and returns an access token
@@ -6,7 +11,7 @@
 export class DatabaseUserAuthentication {
   /**
    * @param {UsersRepository} repository
-   * @param {HashService} hashComparerService
+   * @param {HasherService} hashComparerService
    * @param {TokenGeneratorService} tokenGeneratorService
    */
   constructor(repository, hashComparerService, tokenGeneratorService) {

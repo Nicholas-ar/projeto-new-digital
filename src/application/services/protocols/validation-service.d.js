@@ -7,7 +7,13 @@ export class ValidationService {
   constructor() {
     throw Error('Not implemmented');
   }
-  validate() {
+
+  /**
+   * Loops through the list of validators validating the input value
+   * @param {any} input
+   * @returns {null | Error}
+   */
+  validate(input) {
     throw Error('Not implemmented');
   }
 }
