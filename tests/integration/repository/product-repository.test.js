@@ -8,10 +8,23 @@ const mockProduct = {
   description: 'something',
   price: 10000,
   brand: 'generic',
+  category: 'generic',
   weight: '10 kg',
   dimensions: '50 x 50 x 50',
   releaseDate: 2010,
   stock: 10,
+};
+
+const ps5 = {
+  name: 'PS5',
+  description: 'Expensive gaming console',
+  price: 5000,
+  brand: 'Sony',
+  category: 'Console',
+  weight: '50 kg',
+  dimensions: '50 x 50 x 50',
+  releaseDate: 2020,
+  stock: 1,
 };
 
 describe('Product Repository', () => {
@@ -65,6 +78,7 @@ describe('Product Repository', () => {
     const product = await productCollection.findOne(deleteQuery);
     expect(product).toBe(null);
   });
+
   it('must find a product in products collection', async () => {
     const productRepository = new ProductRepository();
     await productCollection.insertOne(mockProduct);
@@ -78,5 +92,15 @@ describe('Product Repository', () => {
     expect(product.dimensions).toBe('50 x 50 x 50');
     expect(product.releaseDate).toBe(2010);
     expect(product.stock).toBe(10);
+  });
+
+  it('must return all products in products collection', async () => {
+    const productRepository = new ProductRepository();
+    await productCollection.insertOne(mockProduct);
+    await productCollection.insertOne(ps5);
+
+    const product = await productRepository.getAll();
+    expect(product[0].name).toBe('abc');
+    expect(product[1].name).toBe('PS5');
   });
 });
