@@ -48,7 +48,7 @@ export class ProductController {
   }
 
   /**
-   * Receives an empty HttpRequest containing a valid product query field in the body
+   * Receives an empty HttpRequest
    * @param httpRequest
    * - A 500 http response will be returned if an error is thrown during the process.
    * - A 200 http response will be returned otherwise, containing an array with the products info in the body.

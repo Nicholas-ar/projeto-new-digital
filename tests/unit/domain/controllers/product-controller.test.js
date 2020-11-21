@@ -106,6 +106,7 @@ describe('Product Controller', () => {
       const productController = new ProductController(productRepository);
       productCollection.insertOne(mockProduct);
       const res = await productController.retrieveAll();
+      expect(res.statusCode).toBe(200);
       expect(res.body[0]._id).toBeTruthy();
       expect(res.body[0].name).toBe('abc');
       expect(res.body[0].description).toBe('something');
