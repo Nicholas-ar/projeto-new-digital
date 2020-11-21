@@ -1,4 +1,3 @@
-import { OrdersRepository } from '../../application/database/protocols/users-repository.d';
 import { PaymentService } from '../../application/services/protocols/payment-service.d';
 import { ValidationService } from '../../application/services/protocols/validation-service.d';
 import {
