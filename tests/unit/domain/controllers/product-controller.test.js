@@ -46,6 +46,18 @@ describe('Product Controller', () => {
       expect(product.releaseDate).toBe(2010);
       expect(product.stock).toBe(10);
     });
+
+    it('must return with 500 status code given duplicate data', async () => {
+      const httpRequest = {
+        body: { mockProduct },
+      };
+      const productRepository = new ProductRepository();
+      const productController = new ProductController(productRepository);
+      await productController.createProduct(httpRequest);
+      const res = await productController.createProduct(httpRequest);
+      console.log(res);
+      expect(res.statusCode).toBe(500);
+    });
   });
 
   describe('RetrieveProduct', () => {
