@@ -36,10 +36,10 @@ export class ProductController {
    */
   async retrieveProduct(httpRequest) {
     try {
-      const product = await this.repository.getByName(httpRequest.body);
+      const product = await this.repository.getByQuery(httpRequest.body);
       if (!product)
         return HTTP_BAD_REQUEST_400({
-          message: 'No products with this name found',
+          message: 'No products with this query found',
         });
       return HTTP_OK_200(product);
     } catch (error) {
