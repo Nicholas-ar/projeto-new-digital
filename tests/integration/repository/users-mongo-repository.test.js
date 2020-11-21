@@ -45,7 +45,7 @@ describe('Users Repository', () => {
     expect(account).toBeNull();
   });
 
-  it('must updateAccessToken on updateAccessToken', async () => {
+  it('must return true on updateAccessToken success', async () => {
     const sut = makeSut();
     const fakeUser = await usersCollection.insertOne({
       name: 'valid_name',

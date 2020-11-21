@@ -1,4 +1,11 @@
-import { EmailInUseError } from '../errors/email-in-use-error';
+import { UsersRepository } from '../../application/database/protocols';
+import {
+  AuthenticationService,
+  HasherService,
+  ValidationService,
+} from '../../application/services/protocols';
+import { HttpRequest, HttpResponse } from './protocols/http.d';
+import { EmailInUseError } from '../errors';
 import {
   HTTP_BAD_REQUEST_400,
   HTTP_CREATED_201,
@@ -8,9 +15,9 @@ import {
 export class SignUpController {
   /**
    * SignUp controller object
-   * @param {Repository} repository
-   * @param {Authenticator} authentication
-   * @param {Validator} validator
+   * @param {UsersRepository} repository
+   * @param {AuthenticationService} authentication
+   * @param {ValidationService} validator
    * @param {HasherService} hasherService
    */
   constructor(repository, authentication, validator, hasherService) {
@@ -22,8 +29,8 @@ export class SignUpController {
 
   /**
    * Register the user into the database, given correct data in the HTTP request.
-   * @param {import('../helpers/http-helper').HttpRequest} httpRequest
-   * @returns {Promise<Object>} - If the data is invalid or the email is already registered into the database.
+   * @param {HttpRequest} httpRequest
+   * @returns {Promise<HttpResponse>} - If the data is invalid or the email is already registered into the database.
    *                            - If an error is thrown during the process.
    *                            - If the user is registered into the database, returning the accessToken into he request body.
    */

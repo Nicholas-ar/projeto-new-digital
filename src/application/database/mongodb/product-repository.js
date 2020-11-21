@@ -29,8 +29,9 @@ export class ProductRepository {
   }
 
   /**
-   * Gets all products in the database
-   * @returns {Promise<Array<Object>>}
+
+   * Gets all Products in the database
+   * @returns {Promise<Array<Product>>}
    */
   async getAll() {
     const productCollection = await MongoHelper.getCollection('products');

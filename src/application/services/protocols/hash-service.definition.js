@@ -1,9 +1,13 @@
-import argon2 from 'argon2';
-
 /**
- * Adapter for the Argon2 module. Allows hashing and comparing passwords.
+ * @abstract
+ * @name HasherService
+ * @method hash
+ * @method compare
  */
-export class Argon2Adapter {
+export class HasherService {
+  constructor() {
+    throw new Error('Not implemented');
+  }
   
   /**
    * Method that hashes a password string
@@ -11,7 +15,7 @@ export class Argon2Adapter {
    * @returns {Promise<string>} - Hashed value that is returned as string.
    */
   async hash(value) {
-    return await argon2.hash(value);
+    throw new Error('Not implemented');
   }
 
   /**
@@ -21,6 +25,6 @@ export class Argon2Adapter {
    * @returns {Promise<boolean>} True if the hash matches the value. False otherwise.
    */
   async compare(hash, value) {
-    return await argon2.verify(hash, value);
+    throw new Error('Not implemented');
   }
 }

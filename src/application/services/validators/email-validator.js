@@ -1,4 +1,5 @@
 import { InvalidParameterError } from '../../../domain/errors/invalid-parameter-error';
+import { ValidatorAdapter } from '../../services/adapters/protocols/validator-adapter.definition';
 
 /**
  * Email validator service that implements a validate method

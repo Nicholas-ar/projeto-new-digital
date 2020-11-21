@@ -1,3 +1,5 @@
+import { AuthenticationService, ValidationService } from '../../application/services/protocols';
+import { HttpRequest, HttpResponse } from './protocols/http.d';
 import {
   HTTP_OK_200,
   HTTP_SERVER_ERROR_500,
@@ -8,8 +10,8 @@ import {
 export class SignInController {
   /**
    * Controller for the user sign in use case.
-   * @param {Validador} validator - Validator for the request.
-   * @param {Authenticator} authenticator - Authenticator for the user that is inserted in the database.
+   * @param {ValidationService} validator - Validator for the request.
+   * @param {AuthenticationService} authenticator - Authenticator for the user that is inserted in the database.
    */
   constructor(validator, authenticator) {
     this._validator = validator;
@@ -18,8 +20,8 @@ export class SignInController {
 
   /**
    * Main method,
-   * @param {import('../helpers/http-helper').HttpRequest} httpRequest
-   * @returns {Promise<Object>} - If the validation of request data returns an error,
+   * @param {HttpRequest} httpRequest
+   * @returns {Promise<HttpResponse>} - If the validation of request data returns an error,
    * returns a Bad Request response with the error message in the body
    *                            - Returns an UNATHORIZED response to the client.
    *                            - Returns a SERVER ERROR response to the client with the error message in the body

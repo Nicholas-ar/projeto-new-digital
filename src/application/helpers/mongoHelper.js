@@ -1,8 +1,9 @@
+import { MongoClient } from 'mongodb';
+
 /**
  * @typedef { import('mongodb').Collection } MongoCollection
  */
 
-import { MongoClient } from 'mongodb';
 /**
  * Allows MongoClient interactions
  * @method connect - Allows connection with MongoDB
@@ -10,11 +11,12 @@ import { MongoClient } from 'mongodb';
  * @method getCollection - Getter for a specific colection
  */
 export const MongoHelper = {
+  
   /**
    * Async function that connects to MongoDB using an URI string as parameter.
    * @param {String} uri - Complete URI of MongoDB
    */
-  async connect(uri) {
+   async connect(uri) {
     this.uri = uri;
     const mongoOptions = {
       useNewUrlParser: true,
@@ -33,7 +35,7 @@ export const MongoHelper = {
   },
 
   /**
-   * Async function that returns a specific collection that is passed as string. 
+   * Async function that returns a specific collection that is passed as string.
    * If the database is not connected, it tries to reconnect before retrieving.
    * @param {String} collectionName - Name of the collection
    * @returns {Promise<MongoCollection>} - MongoDB collection

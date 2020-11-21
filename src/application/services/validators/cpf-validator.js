@@ -1,6 +1,6 @@
 import { InvalidParameterError } from '../../../domain/errors';
 
-export default class ValidarCpf {
+export class ValidarCpf {
   // primeiro método que vamos criar é o método de limpar o cpf
   cleanCPF(cpf) {
     // retorna o cpf substituindo por nada tudo que é ponto, espaço em braco, etc...

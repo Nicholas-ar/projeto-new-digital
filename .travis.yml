@@ -3,7 +3,7 @@ node_js:
 - stable
 branches:
   only:
-  - main
+  - production
   - development
 env:
   - NODE_ENV=test
