@@ -55,7 +55,6 @@ describe('Product Controller', () => {
       const productController = new ProductController(productRepository);
       await productController.createProduct(httpRequest);
       const res = await productController.createProduct(httpRequest);
-      console.log(res);
       expect(res.statusCode).toBe(500);
     });
   });
@@ -95,6 +94,22 @@ describe('Product Controller', () => {
       const res = await productController.retrieveProduct(httpRequest);
       expect(res.statusCode).toBe(400);
       expect(res.body.message).toBe('No products with this name found');
+    });
+  });
+
+  describe('retrieveAll', () => {
+    it('must return all products with 200 status code given valid data', async () => {
+      const httpRequest = {
+        body: {},
+      };
+      const productRepository = new ProductRepository();
+      const productController = new ProductController(productRepository);
+      productCollection.insertOne(mockProduct);
+      const res = await productController.retrieveAll();
+      expect(res.body[0]._id).toBeTruthy();
+      expect(res.body[0].name).toBe('abc');
+      expect(res.body[0].description).toBe('something');
+      expect(res.body[0].price).toBe(10000);
     });
   });
 
