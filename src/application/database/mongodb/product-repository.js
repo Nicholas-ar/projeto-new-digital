@@ -6,6 +6,7 @@ import { MongoHelper } from '../../helpers/mongoHelper';
  * @property {String} description
  * @property {Number} price
  * @property {String} brand
+ * @property {String} category
  * @property {String} weight
  * @property {String} dimensions
  * @property {Number} releaseDate
@@ -34,7 +35,7 @@ export class ProductRepository {
 
   /**
    * Gets all Products in the database
-   * @returns {Promise<Array<Order>>}
+   * @returns {Promise<Array<Object>>}
    */
   async getAll() {
     const productCollection = await MongoHelper.getCollection('products');
