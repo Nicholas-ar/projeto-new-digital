@@ -1,12 +1,11 @@
-import { AuthenticationService } from '../../application/services/protocols/authentication-service.d';
-import { ValidationService } from '../../application/services/protocols/validation-service.d';
+import { AuthenticationService, ValidationService } from '../../application/services/protocols';
+import { HttpRequest, HttpResponse } from './protocols/http.d';
 import {
   HTTP_OK_200,
   HTTP_SERVER_ERROR_500,
   HTTP_UNAUTHORIZED_401,
   HTTP_BAD_REQUEST_400,
 } from '../helpers/http-helper';
-import { HttpRequest, HttpResponse } from './protocols/http.d';
 
 export class SignInController {
   /**

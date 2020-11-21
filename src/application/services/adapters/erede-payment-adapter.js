@@ -1,4 +1,4 @@
-import { PaymentData } from '../protocols/payment-service.d';
+import { PaymentData } from '../protocols';
 
 const eRede = require('erede-node/lib/erede');
 const Transaction = require('erede-node/lib/transaction');

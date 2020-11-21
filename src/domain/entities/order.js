@@ -4,7 +4,7 @@
  * @property {String} cpf
  * @property {String} email
  * @property {String} tid
- * @property {String} delivered
+ * @property {Boolean} delivered
  */
 export const Order = {
   _id: String,
@@ -19,7 +19,7 @@ export const Order = {
  * @property {String} cpf
  * @property {String} email
  * @property {String} tid
- * @property {String} delivered
+ * @property {Boolean} delivered
  */
 export const OrderData = {
   cpf: String,

@@ -1,14 +1,16 @@
-import { UsersRepository } from '../../application/database/protocols/users-repository.d';
-import { AuthenticationService } from '../../application/services/protocols/authentication-service.d';
-import { HasherService } from '../../application/services/protocols/hash-service.d';
-import { ValidationService } from '../../application/services/protocols/validation-service.d';
-import { EmailInUseError } from '../errors/email-in-use-error';
+import { UsersRepository } from '../../application/database/protocols';
+import {
+  AuthenticationService,
+  HasherService,
+  ValidationService,
+} from '../../application/services/protocols';
+import { HttpRequest, HttpResponse } from './protocols/http.d';
+import { EmailInUseError } from '../errors';
 import {
   HTTP_BAD_REQUEST_400,
   HTTP_CREATED_201,
   HTTP_SERVER_ERROR_500,
 } from '../helpers/http-helper';
-import { HttpRequest, HttpResponse } from './protocols/http.d';
 
 export class SignUpController {
   /**
