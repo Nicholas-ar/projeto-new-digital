@@ -9,5 +9,5 @@ import { ProductController } from '../product-controller';
 export const makeProductController = () => {
   const repository = new ProductRepository();
 
-  return new OrderController(repository);
+  return new ProductController(repository);
 };
