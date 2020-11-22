@@ -23,6 +23,9 @@ router.get('/signup', expressRouterAdapter(makeSignUpController(), 'execute'));
 router.get('/products', expressRouterAdapter(makeProductController(), 'retrieveAll'));
 router.get('/product', expressRouterAdapter(makeProductController(), 'retrieveProduct'));
 router.post('/newProduct', expressRouterAdapter(makeProductController(), 'createProduct'));
+router.patch('/updateProduct',expressRouterAdapter(makeOrderController(), 'updateProduct'));
+router.delete('/deleteProduct',expressRouterAdapter(makeOrderController(), 'deleteProduct'));
+
 
 
 export default router;
