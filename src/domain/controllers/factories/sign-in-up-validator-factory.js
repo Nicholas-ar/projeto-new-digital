@@ -1,6 +1,9 @@
-import { EmailValidator } from '../../../application/services/validators/email-validator';
-import { RequiredFieldValidator } from '../../../application/services/validators/required-field-validator';
-import { ValidatorServiceComposite } from '../../../application/services/validators/validator-composite';
+import {
+  EmailValidator,
+  RequiredFieldValidator,
+  ValidatorServiceComposite,
+} from '../../../application/services/validators';
+
 import { ValidatorEmailAdapter } from '../../../application/services/adapters/validator-email-adapter';
 
 /**

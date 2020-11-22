@@ -11,7 +11,7 @@ export class ValidationService {
   /**
    * Loops through the list of validators validating the input value
    * @param {any} input
-   * @returns {null | Error}
+   * @returns {any}
    */
   validate(input) {
     throw Error('Not implemmented');

@@ -4,6 +4,7 @@ import argon2 from 'argon2';
  * Adapter for the Argon2 module. Allows hashing and comparing passwords.
  */
 export class Argon2Adapter {
+  
   /**
    * Method that hashes a password string
    * @param {string} value - Password string that will be hashed.

@@ -1,4 +1,4 @@
-import { ValidationService } from "../protocols/validation-service.d";
+import { ValidationService } from "../protocols";
 
 /**
  * Validator composit that receives a list of Validators,
@@ -13,6 +13,9 @@ export class ValidatorServiceComposite {
     this._validators = validators;
   }
 
+  /**
+   * @param {any} input 
+   */
   validate(input) {
     for (const validation of this._validators) {
       const error = validation.validate(input);
