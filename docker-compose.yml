@@ -1,12 +1,6 @@
 version: "3.8"
 
 services:
-  server:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "5000:5000"
 
   mongo:
     image: mongo
