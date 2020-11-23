@@ -1,5 +1,5 @@
+import { ValidarCpf } from '../../../../../src/application/services/validators/cpf-validator';
 import { InvalidParameterError } from '../../../../../src/domain/errors';
-import ValidarCpf from '../../../../../src/application/services/validators/cpf-validator';
 
 describe('CPF validator', () => {
   it.each`

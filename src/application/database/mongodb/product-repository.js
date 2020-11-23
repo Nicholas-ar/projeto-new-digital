@@ -3,7 +3,7 @@ import { MongoHelper } from '../../helpers/mongoHelper';
 /**
  * Products repository for the Mongo database
  * @method create
- * @method getByName
+ * @method getByQuery
  * @method getAll
  * @method update
  * @method delete
@@ -20,12 +20,12 @@ export class ProductRepository {
   }
 
   /**
-   * Gets a product in the database specified by its name
+   * Gets a product in the database specified by a query
    * @returns {Promise<Object>}
    */
-  async getByName(productName) {
+  async getByQuery(productQuery) {
     const productCollection = await MongoHelper.getCollection('products');
-    return await productCollection.findOne(productName);
+    return await productCollection.findOne(productQuery);
   }
 
   /**
@@ -39,7 +39,7 @@ export class ProductRepository {
   }
 
   /**
-   * Updates a product in the database specified by its name
+   * Updates a product in the database specified by a query
    * @param {Object} productQuery - Query to find the product in the database
    * @param {Object} valuesToChange - Must have a $set property, with another object as its key,
    * this object must have properties and keys that will update the ones currently in the product.

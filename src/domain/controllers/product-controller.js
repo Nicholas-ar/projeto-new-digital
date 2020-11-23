@@ -5,8 +5,9 @@ import {
 } from '../helpers/http-helper';
 
 export class ProductController {
-  constructor(repository) {
+  constructor(repository, imageUploaderService) {
     this.repository = repository;
+    this.imageUploaderService = imageUploaderService
   }
 
   /**
@@ -18,6 +19,9 @@ export class ProductController {
    */
   async createProduct(httpRequest) {
     try {
+      // presigned url that needs to be sent to the client for a PUT request containing the image file
+      const pressignedUrl = await this.imageUploaderService.execute(httpRequest.body.imageName)
+      // https://qrobuy.s3-sa-east-1.amazonaws.com/${imageName}.jpg => URL that needs to be save into product document
       const product = await this.repository.create(
         httpRequest.body.mockProduct
       );
@@ -36,10 +40,10 @@ export class ProductController {
    */
   async retrieveProduct(httpRequest) {
     try {
-      const product = await this.repository.getByName(httpRequest.body);
+      const product = await this.repository.getByQuery(httpRequest.body);
       if (!product)
         return HTTP_BAD_REQUEST_400({
-          message: 'No products with this name found',
+          message: 'No products with this query found',
         });
       return HTTP_OK_200(product);
     } catch (error) {
