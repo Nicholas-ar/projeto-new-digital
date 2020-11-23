@@ -1,5 +1,10 @@
-import { PaymentService } from '../../application/services/protocols/payment-service.d';
-import { ValidationService } from '../../application/services/protocols/validation-service.d';
+import { OrdersRepository } from '../../application/database/protocols/orders-repository.definition';
+
+import {
+  PaymentService,
+  ValidationService,
+} from '../../application/services/protocols';
+
 import {
   InvalidTransactionCredentialsError,
   InvalidQueryError,

@@ -47,7 +47,7 @@ export class ProductRepository {
    */
   async update(productQuery, valuesToChange) {
     const productCollection = await MongoHelper.getCollection('products');
-    await productCollection.updateOne(productQuery, valuesToChange);
+    return await productCollection.updateOne(productQuery, valuesToChange);
   }
 
   /**
@@ -56,6 +56,6 @@ export class ProductRepository {
    */
   async delete(productQuery) {
     const productCollection = await MongoHelper.getCollection('products');
-    await productCollection.deleteOne(productQuery);
+    return await productCollection.deleteOne(productQuery);
   }
 }
