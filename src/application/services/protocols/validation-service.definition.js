@@ -5,7 +5,7 @@
  */
 export class ValidationService {
   constructor() {
-    throw Error('Not implemmented');
+    throw Error('Not implemented');
   }
 
   /**
@@ -14,6 +14,6 @@ export class ValidationService {
    * @returns {any}
    */
   validate(input) {
-    throw Error('Not implemmented');
+    throw Error('Not implemented');
   }
 }
