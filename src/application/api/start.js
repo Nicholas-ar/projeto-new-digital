@@ -2,6 +2,10 @@ import app from './app';
 
 require('dotenv').config();
 
+import { MongoHelper } from '../helpers/mongoHelper';
+
+const PORT = process.env.PORT || 3333;
+
 if (!process.env.TOKEN) {
   throw new Error('TOKEN environment variable must be defined');
 }
@@ -18,8 +22,10 @@ if (!process.env.KEY) {
   throw new Error('KEY environment variable must be defined');
 }
 
-const PORT = process.env.PORT || 3333;
-
-app.listen(PORT, () => {
-  console.log(`server listening on port ${PORT}`);
-});
+MongoHelper.connect(process.env.MONGOURL || 'mongodb://localhost:27017/mongo')
+  .then(async () => {
+    app.listen(PORT, () => {
+      console.log(`server listening on port ${PORT}`);
+    });
+  })
+  .catch(console.error);
