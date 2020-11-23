@@ -5,9 +5,8 @@ import {
 } from '../helpers/http-helper';
 
 export class ProductController {
-  constructor(repository, imageUploaderService) {
+  constructor(repository) {
     this.repository = repository;
-    this.imageUploaderService = imageUploaderService
   }
 
   /**
@@ -20,7 +19,6 @@ export class ProductController {
   async createProduct(httpRequest) {
     try {
       // presigned url that needs to be sent to the client for a PUT request containing the image file
-      const pressignedUrl = await this.imageUploaderService.execute(httpRequest.body.imageName)
       // https://qrobuy.s3-sa-east-1.amazonaws.com/${imageName}.jpg => URL that needs to be save into product document
       const product = await this.repository.create(
         httpRequest.body.mockProduct
