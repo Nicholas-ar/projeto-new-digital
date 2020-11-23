@@ -19,10 +19,9 @@ export class ProductController {
   async createProduct(httpRequest) {
     try {
       // presigned url that needs to be sent to the client for a PUT request containing the image file
-      // https://qrobuy.s3-sa-east-1.amazonaws.com/${imageName}.jpg => URL that needs to be save into product document
-      const product = await this.repository.create(
-        httpRequest.body.mockProduct
-      );
+      // https://qrobuy.s3-sa-east-1.amazonaws.com/${imageName}.jpg => URL that needs to be saved into product document
+      // httpRequest.body.product.URLimage = `https://qrobuy.s3-sa-east-1.amazonaws.com/${imageName}.jpg`
+      const product = await this.repository.create(httpRequest.body.product);
       return { statusCode: 201, body: product };
     } catch (error) {
       return HTTP_SERVER_ERROR_500(error);
@@ -38,12 +37,12 @@ export class ProductController {
    */
   async retrieveProduct(httpRequest) {
     try {
-      const product = await this.repository.getByQuery(httpRequest.body);
-      if (!product)
+      const resProduct = await this.repository.getByQuery(httpRequest.body);
+      if (!resProduct)
         return HTTP_BAD_REQUEST_400({
           message: 'No products with this query found',
         });
-      return HTTP_OK_200(product);
+      return HTTP_OK_200(resProduct);
     } catch (error) {
       return HTTP_SERVER_ERROR_500(error);
     }
