@@ -19,8 +19,9 @@ export class ProductController {
    */
   async createProduct(httpRequest) {
     try {
-      const imageUrl = await this.imageUploaderService.execute(httpRequest.body.imageName)
-      console.log(imageUrl)
+      // presigned url that needs to be sent to the client for a PUT request containing the image file
+      const pressignedUrl = await this.imageUploaderService.execute(httpRequest.body.imageName)
+      // https://qrobuy.s3-sa-east-1.amazonaws.com/${imageName}.jpg => URL that needs to be save into product document
       const product = await this.repository.create(
         httpRequest.body.mockProduct
       );
