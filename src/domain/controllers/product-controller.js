@@ -5,8 +5,9 @@ import {
 } from '../helpers/http-helper';
 
 export class ProductController {
-  constructor(repository) {
+  constructor(repository, imageUploaderService) {
     this.repository = repository;
+    this.imageUploaderService = imageUploaderService
   }
 
   /**
@@ -18,6 +19,8 @@ export class ProductController {
    */
   async createProduct(httpRequest) {
     try {
+      const imageUrl = await this.imageUploaderService.execute(httpRequest.body.imageName)
+      console.log(imageUrl)
       const product = await this.repository.create(
         httpRequest.body.mockProduct
       );
