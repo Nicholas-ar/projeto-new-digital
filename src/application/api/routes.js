@@ -13,6 +13,8 @@ router.get('/order', expressRouterAdapter(makeOrderController(), 'retrieveOrder'
 router.post('/newOrder',expressRouterAdapter(makeOrderController(), 'createOrder'));
 router.patch('/updateOrder',expressRouterAdapter(makeOrderController(), 'updateOrder'));
 
+router.get('/order/:id', expressRouterAdapter(makeOrderController(), 'retrieveOrderById'));
+
 //rotas do Signin
 router.get('/signin', expressRouterAdapter(makeSignInController(), 'execute'));
 
