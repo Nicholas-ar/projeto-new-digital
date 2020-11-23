@@ -5,6 +5,7 @@ const Transaction = require('erede-node/lib/transaction');
 const Store = require('erede-node/lib/store');
 const Environment = require('erede-node/lib/environment');
 
+// TODO: Pass these env variables to a single file that will require the dotenv.config
 require('dotenv').config();
 
 const inProduction = process.env.NODE_ENV == 'production';

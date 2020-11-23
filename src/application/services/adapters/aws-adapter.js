@@ -1,26 +1,25 @@
 import {
-  awsPresignedParametersConfig,
+  awsSignedUrlPromise,
   s3Config,
 } from '../image-uploader/aws/aws-config';
 
 /**
  * Controller for the AWS routes.
- * @property {method} execute Method used to fetch a presigned URL.
+ * @method execute Method used to fetch a presigned URL.
  */
 export class AWSPresignedAdapter {
   /**
-   * @param {String} imageName
+   * @param {function} [makeAwsParams=awsSignedUrlPromise] - Promise with AWS signed URL parameters
+   * @param {String} imageName - Name of the file that will be added into the S3.
+   *                            It will also be the name of the retrieval URL.
+   *                            ex.: https://qrobuy.s3-sa-east-1.amazonaws.com/${imageName}.jpg
    */
-  async execute(imageName) {
-    const awsPresignedParameters = awsPresignedParametersConfig(imageName);
-    const s3 = s3Config;
-    s3.getSignedUrl('putObject', awsPresignedParameters, (err, url) => {
-      if (err) {
-        throw new Error('There was an error');
-      } else {
-          console.log(url)
-        return url;
-      }
-    });
+  async execute(imageName, makeAwsParams = awsSignedUrlPromise) {
+    const awsPresignedParameters = makeAwsParams(imageName);
+    const result = await s3Config.getSignedUrlPromise(
+      'putObject',
+      awsPresignedParameters
+    );
+    return result;
   }
 }
