@@ -4,6 +4,15 @@ import { ProductRepository } from '../../../../src/application/database/mongodb/
 
 let productCollection;
 
+const makeImageUploaderService = () => {
+  class ImageUploaderServiceStub {
+    async execute(fileName) {
+      return new Promise((resolve) => resolve('pressigned_url'));
+    }
+  }
+  return new ImageUploaderServiceStub();
+};
+
 const mockProduct = {
   name: 'abc',
   description: 'something',
@@ -31,8 +40,9 @@ describe('Product Controller', () => {
       const httpRequest = {
         body: { mockProduct },
       };
+      const imageUploaderServiceStub = makeImageUploaderService();
       const productRepository = new ProductRepository();
-      const productController = new ProductController(productRepository);
+      const productController = new ProductController(productRepository, imageUploaderServiceStub);
       const res = await productController.createProduct(httpRequest);
       const product = res.body;
       expect(res.statusCode).toBe(201);
