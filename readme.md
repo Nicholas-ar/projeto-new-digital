@@ -9,7 +9,7 @@
 
 ## :boom: Tecnologias utilizadas
 
-- NodeJS
+- NodeJS (versão 14.7 ou superior)
 - MongoDB
 - Express.js
 - JWT
