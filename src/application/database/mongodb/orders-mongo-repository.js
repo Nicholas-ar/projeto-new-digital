@@ -30,6 +30,16 @@ export class OrdersMongoRepository {
   }
 
   /**
+   * Retrieves the first Order that matches given id from the database
+   * @param {String} id
+   * @returns {Promise<Order> | Null}
+   */
+  async retrieveById(id) {
+    const orderCollection = await MongoHelper.getCollection('orders');
+    return await orderCollection.findOne({ _id:id });
+  }
+
+  /**
    * Creates an User into the database
    * @param {OrderData} orderData
    * @returns {Promise<Order>}

@@ -73,6 +73,24 @@ export default class OrderController {
     }
   }
 
+   /**
+   * Receives a HttpRequest containing a valid id field in the parameters
+   * @param {HttpRequest} httpRequest
+   * @returns {Promise<HttpResponse>} - A 400 http response will be returned if the CPF is invalid or no matches are found in the database.
+   *                                  - A 500 http response will be returned if an error is thrown during the process.
+   *                                  - A 200 http response will be returned otherwise, containing the Order entity in the body.
+   */
+  async retrieveOrderById(httpRequest) {
+    try {
+      const order = await this.repository.retrieveById(httpRequest.params.id);
+      if (!order) return HTTP_BAD_REQUEST_400(new OrderNotFoundError()); 
+      return HTTP_OK_200(order);
+    } catch (error) {
+      return HTTP_SERVER_ERROR_500(error);
+    }
+  }
+
+
   /**
    * Receives a HttpRequest containing the order and payment information.
    * It will make a transaction if the given values are valid, and insert
