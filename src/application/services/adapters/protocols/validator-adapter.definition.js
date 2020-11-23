@@ -5,7 +5,7 @@
  */
 export class ValidatorAdapter {
   constructor() {
-    throw Error('Not implemmented');
+    throw Error('Not implemented');
   }
 
   /**
@@ -14,6 +14,6 @@ export class ValidatorAdapter {
    * @returns {boolean}
    */
   isValid(input) {
-    throw Error('Not implemmented');
+    throw Error('Not implemented');
   }
 }
