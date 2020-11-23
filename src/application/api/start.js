@@ -1,6 +1,7 @@
 import app from './app';
 import {MongoHelper} from '../helpers/mongoHelper'
 
+// TODO: Pass these env variables to a single file that will require the dotenv.config
 require('dotenv').config();
 
 
