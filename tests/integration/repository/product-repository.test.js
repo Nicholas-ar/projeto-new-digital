@@ -82,8 +82,8 @@ describe('Product Repository', () => {
   it('must find a product in products collection', async () => {
     const productRepository = new ProductRepository();
     await productCollection.insertOne(mockProduct);
-    const nameQuery = { name: 'abc' };
-    const product = await productRepository.getByName(nameQuery);
+    const query = { name: 'abc' };
+    const product = await productRepository.getByQuery(query);
     expect(product._id).toBeTruthy();
     expect(product.description).toBe('something');
     expect(product.price).toBe(10000);

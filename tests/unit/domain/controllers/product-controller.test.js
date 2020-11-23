@@ -93,7 +93,7 @@ describe('Product Controller', () => {
       const productController = new ProductController(productRepository);
       const res = await productController.retrieveProduct(httpRequest);
       expect(res.statusCode).toBe(400);
-      expect(res.body.message).toBe('No products with this name found');
+      expect(res.body.message).toBe('No products with this query found');
     });
   });
 
