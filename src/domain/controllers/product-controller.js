@@ -1,6 +1,7 @@
 import {
   HTTP_BAD_REQUEST_400,
   HTTP_OK_200,
+  HTTP_CREATED_201,
   HTTP_SERVER_ERROR_500,
 } from '../helpers/http-helper';
 
@@ -22,7 +23,7 @@ export class ProductController {
       // https://qrobuy.s3-sa-east-1.amazonaws.com/${imageName}.jpg => URL that needs to be saved into product document
       // httpRequest.body.product.URLimage = `https://qrobuy.s3-sa-east-1.amazonaws.com/${imageName}.jpg`
       const product = await this.repository.create(httpRequest.body.product);
-      return { statusCode: 201, body: product };
+      return HTTP_CREATED_201(product);
     } catch (error) {
       return HTTP_SERVER_ERROR_500(error);
     }
