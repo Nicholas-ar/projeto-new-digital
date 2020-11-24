@@ -1,6 +1,6 @@
-import { ProductController } from '../../../../src/domain/controllers/product-controller';
-import { MongoHelper } from '../../../../src/application/helpers/mongoHelper';
-import { ProductRepository } from '../../../../src/application/database/mongodb/product-repository';
+import { ProductRepository } from '../../../src/application/database/mongodb';
+import { MongoHelper } from '../../../src/application/helpers/mongo-helper';
+import { ProductController } from '../../../src/domain/controllers';
 
 let productCollection;
 
@@ -27,29 +27,30 @@ describe('Product Controller', () => {
   afterAll(async () => await MongoHelper.disconnect());
 
   describe('createProduct', () => {
+    const product = mockProduct;
     it('must create a product with 201 status code given valid data', async () => {
       const httpRequest = {
-        body: { mockProduct },
+        body: { product },
       };
       const productRepository = new ProductRepository();
       const productController = new ProductController(productRepository);
       const res = await productController.createProduct(httpRequest);
-      const product = res.body;
+      const resProduct = res.body;
       expect(res.statusCode).toBe(201);
-      expect(product._id).toBeTruthy();
-      expect(product.description).toBe('something');
-      expect(product.price).toBe(10000);
-      expect(product.brand).toBe('generic');
-      expect(product.category).toBe('generic');
-      expect(product.weight).toBe('10 kg');
-      expect(product.dimensions).toBe('50 x 50 x 50');
-      expect(product.releaseDate).toBe(2010);
-      expect(product.stock).toBe(10);
+      expect(resProduct._id).toBeTruthy();
+      expect(resProduct.description).toBe('something');
+      expect(resProduct.price).toBe(10000);
+      expect(resProduct.brand).toBe('generic');
+      expect(resProduct.category).toBe('generic');
+      expect(resProduct.weight).toBe('10 kg');
+      expect(resProduct.dimensions).toBe('50 x 50 x 50');
+      expect(resProduct.releaseDate).toBe(2010);
+      expect(resProduct.stock).toBe(10);
     });
 
     it('must return with 500 status code given duplicate data', async () => {
       const httpRequest = {
-        body: { mockProduct },
+        body: { product },
       };
       const productRepository = new ProductRepository();
       const productController = new ProductController(productRepository);
@@ -115,7 +116,7 @@ describe('Product Controller', () => {
   });
 
   describe('updateProduct', () => {
-    it('must update an order with 200 status code given valid data', async () => {
+    it('must update a product with 200 status code given valid data', async () => {
       const httpRequest = {
         body: {
           updateQuery: { name: 'abc' },

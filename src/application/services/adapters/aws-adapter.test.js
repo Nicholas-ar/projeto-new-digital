@@ -1,10 +1,8 @@
 import { AWSPresignedAdapter } from './aws-adapter';
-import { awsSignedUrlPromise } from '../image-uploader/aws/aws-config';
 
 const makeSut = () => new AWSPresignedAdapter();
 
 describe('AWSPresignedAdapter', () => {
-    
   it('execute must call awsSignedUrlPromise with correct parameters ', async () => {
     const awsSignedUrlPromiseSpy = jest.fn((fileName) => ({
       Bucket: 'some_bucket',

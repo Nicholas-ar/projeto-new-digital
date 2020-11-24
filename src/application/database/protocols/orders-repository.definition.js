@@ -6,6 +6,7 @@ import { Order, OrderData } from '../../../domain/entities/order';
  * @method list
  * @method create
  * @method retrieveByCpf
+ * @method retrieveById
  * @method update
  * @method delete
  */
@@ -37,6 +38,15 @@ export class OrdersRepository {
    * @returns {Promise<Order> | Null}
    */
   async retrieveByCpf(cpf) {
+    throw Error('Not implemmented');
+  }
+
+  /**
+   * Retrieves the first order that matches given ID from the database
+   * @param {String} id
+   * @returns {Promise<Order> | Null}
+   */
+  async retrieveById(id) {
     throw Error('Not implemmented');
   }
 

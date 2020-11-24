@@ -7,7 +7,7 @@ import { UserData } from '../../../domain/entities/user';
  */
 export class AuthenticationService {
   constructor() {
-    throw new Error('Not implemmented');
+    throw new Error('Not implemented');
   }
 
   /**
@@ -16,6 +16,6 @@ export class AuthenticationService {
    * @return {Promise<String> | Null} - The access token if succeeds authenticating, Null otherwise.
    */
   async authenticate(data) {
-    throw new Error('Not implemmented');
+    throw new Error('Not implemented');
   }
 }

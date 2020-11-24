@@ -9,7 +9,7 @@ import { User, UserData } from '../../../domain/entities/user';
  */
 export class UsersRepository {
   constructor() {
-    throw Error('Not implemmented');
+    throw Error('Not implemented');
   }
 
   /**
@@ -18,7 +18,7 @@ export class UsersRepository {
    * @returns {Promise<User>}
    */
   async create(userData) {
-    throw Error('Not implemmented');
+    throw Error('Not implemented');
   }
 
   /**
@@ -27,7 +27,7 @@ export class UsersRepository {
    * @returns {Promise<User>}
    */
   async retrieveByEmail(email) {
-    throw Error('Not implemmented');
+    throw Error('Not implemented');
   }
 
   /**
@@ -37,7 +37,6 @@ export class UsersRepository {
    * @param {String} token
    */
   async updateAccessToken(id, token) {
-    throw Error('Not implemmented');
+    throw Error('Not implemented');
   }
 }
-

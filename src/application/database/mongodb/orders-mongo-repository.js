@@ -1,5 +1,5 @@
 import { Order, OrderData } from '../../../domain/entities/order';
-import { MongoHelper } from '../../helpers/mongoHelper';
+import { MongoHelper } from '../../helpers/mongo-helper';
 
 /**
  * Orders repository for the Mongo database
@@ -36,7 +36,7 @@ export class OrdersMongoRepository {
    */
   async retrieveById(id) {
     const orderCollection = await MongoHelper.getCollection('orders');
-    return await orderCollection.findOne({ _id:id });
+    return await orderCollection.findOne({ _id: id });
   }
 
   /**
@@ -60,7 +60,8 @@ export class OrdersMongoRepository {
   async update(query, newData) {
     const orderCollection = await MongoHelper.getCollection('orders');
     const result = await orderCollection.updateOne(query, { $set: newData });
-    if (result.result.ok === 0) return true;
+    const order = await orderCollection.findOne({ _id: query._id });
+    if (result.result.ok) return order
     return false;
   }
 

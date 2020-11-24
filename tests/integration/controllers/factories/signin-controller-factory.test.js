@@ -1,5 +1,5 @@
-import { SignInController } from '../../../../../src/domain/controllers/signin-controller';
-import { makeSignInController } from '../../../../../src/domain/controllers/factories/signin-controller-factory';
+import { SignInController } from '../../../../src/domain/controllers/signin-controller';
+import { makeSignInController } from '../../../../src/domain/controllers/factories/signin-controller-factory';
 
 describe('makeSignInController', () => {
   it('must return an SignInController with correct injected dependencies', () => {

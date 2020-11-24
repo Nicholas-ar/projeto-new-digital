@@ -24,6 +24,6 @@ export class EmailValidator {
   validate(input) {
     const isValid = this._emailValidatorAdapter.isValid(input[this.fieldName]);
     if (!isValid) return new InvalidParameterError(this.fieldName);
-    return isValid;
+    return null;
   }
 }

@@ -17,9 +17,9 @@ import {
   HTTP_CREATED_201,
   HTTP_SERVER_ERROR_500,
 } from '../helpers/http-helper';
-import { HttpRequest, HttpResponse } from './protocols/http.d';
+import { HttpRequest, HttpResponse } from './protocols/http.definition';
 
-export default class OrderController {
+export class OrderController {
   /**
    * @example
    * ```js
@@ -107,10 +107,11 @@ export default class OrderController {
       const { orderData, paymentData } = httpRequest.body;
       const error = this.cpfValidator.validate(httpRequest.body.orderData.cpf);
       if (error) return HTTP_BAD_REQUEST_400(error);
-      const transactionId = this.paymentAdapter.pay(paymentData);
+      const transactionId = await this.paymentAdapter.pay(paymentData);
       if (transactionId) {
         orderData.transactionId = transactionId;
-        const order = await this.repository.create(httpRequest.body);
+        const order = await this.repository.create(httpRequest.body.orderData);
+        
         if (order) return HTTP_CREATED_201(order);
       }
       return HTTP_BAD_REQUEST_400(new InvalidTransactionCredentialsError());
