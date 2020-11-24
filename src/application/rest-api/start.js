@@ -2,8 +2,6 @@ import app from './app';
 import { MongoHelper } from '../helpers/mongoHelper';
 import env from '../config/environment';
 
-const PORT = env.PORT;
-
 if (!env.AWS_TOKEN) {
   throw new Error('TOKEN environment variable must be defined');
 }
@@ -19,8 +17,8 @@ if (!env.AWS_REGION) {
 
 MongoHelper.connect(env.MONGOURL)
   .then(async () => {
-    app.listen(PORT, () => {
-      console.log(`server listening on port ${PORT}`);
+    app.listen(env.PORT, () => {
+      console.log(`server listening on port ${env.PORT}`);
     });
   })
   .catch(console.error);
