@@ -5,6 +5,7 @@ branches:
   only:
   - production
   - development
+  - main
 env:
   - NODE_ENV=test
 install: npm install
