@@ -1,14 +1,14 @@
-import { PaymentData } from '../protocols';
+import env from '../../../config/environment';
+import { PaymentData } from '../../protocols';
 
 const eRede = require('erede-node/lib/erede');
 const Transaction = require('erede-node/lib/transaction');
 const Store = require('erede-node/lib/store');
 const Environment = require('erede-node/lib/environment');
 
-// TODO: Pass these env variables to a single file that will require the dotenv.config
-require('dotenv').config();
 
-const inProduction = process.env.NODE_ENV == 'production';
+
+const inProduction = env.NODE_ENV == 'production' ;
 
 /**
  * Payment adapter for the Redecard package
@@ -41,7 +41,8 @@ export default class RedecardPaymentAdapter {
         expirationYear,
         cardHolderName
       );
-      return this._makePaymentRequest(store, transaction);
+
+      return await this._makePaymentRequest(store, transaction);
     } catch (error) {
       throw error;
     }
@@ -51,8 +52,8 @@ export default class RedecardPaymentAdapter {
    */
   _makeStore() {
     return new Store(
-      process.env.REDECARD_TOKEN,
-      process.env.REDECARD_PV,
+      env.REDECARD_TOKEN,
+      env.REDECARD_PV,
       inProduction ? Environment.production() : Environment.sandbox()
     );
   }
@@ -90,12 +91,9 @@ export default class RedecardPaymentAdapter {
    * @param {Transaction} transaction
    * @returns {Promise<String | Null>}
    */
-  _makePaymentRequest(store, transaction) {
-    new eRede(store).create(transaction).then((transaction) => {
-      if (transaction.returnCode === '00') {
-        return transaction.tid;
-      }
-    });
+  async _makePaymentRequest(store, transaction) {
+    const result = await new eRede(store).create(transaction);
+    if (result.returnCode === '00') return result.tid;
     return null;
   }
 }
