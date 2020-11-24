@@ -7,12 +7,8 @@ export class qrCodeAdapter {
    * @returns {string}
    */
 
-  generateQRCode(url) {
-    toDataURL(url, (err, src) => {
-      if (err) {
-        return Error(err);
-      }
-      return src;
-    });
+  async generateQRCode(url) {
+    const qrUrl = await toDataURL(url);
+    return qrUrl;
   }
 }

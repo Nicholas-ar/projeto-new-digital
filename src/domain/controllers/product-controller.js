@@ -38,7 +38,7 @@ export class ProductController {
    */
   async retrieveProduct(httpRequest) {
     try {
-      const resProduct = await this.repository.getByQuery(httpRequest.body);
+      const resProduct = await this.repository.getByQuery(httpRequest.params);
       if (!resProduct)
         return HTTP_BAD_REQUEST_400({
           message: 'No products with this query found',
@@ -74,8 +74,8 @@ export class ProductController {
   async updateProduct(httpRequest) {
     try {
       const response = await this.repository.update(
-        httpRequest.body.updateQuery,
-        httpRequest.body.updatedValues
+        httpRequest.params.updateQuery,
+        httpRequest.params.updatedValues
       );
       const updated = response.modifiedCount;
 
@@ -98,7 +98,7 @@ export class ProductController {
   async deleteProduct(httpRequest) {
     try {
       const response = await this.repository.delete(
-        httpRequest.body.deleteQuery
+        httpRequest.params.deleteQuery
       );
       const found = response.deletedCount;
       if (found === 0) {
