@@ -305,7 +305,12 @@ describe('Order controller', () => {
       const repositorySpy = jest.spyOn(repositoryStub, 'create');
       const httpRequest = makeHttpRequest();
       await sut.createOrder(httpRequest);
-      expect(repositorySpy).toHaveBeenCalledWith(httpRequest.body);
+      expect(repositorySpy).toHaveBeenCalledWith({
+        cpf: '12345612312',
+        delivered: false,
+        email: 'valid_email@email.com',
+        transactionId: 'transaction_id',
+      });
     });
 
     it('must return 500 if create throws an error', async () => {
@@ -325,9 +330,7 @@ describe('Order controller', () => {
       const { sut } = makeSut();
       const httpRequest = makeHttpRequest();
       const httpResponse = await sut.updateOrder(httpRequest);
-      expect(httpResponse).toEqual(
-        HTTP_OK_200(true)
-      );
+      expect(httpResponse).toEqual(HTTP_OK_200(true));
     });
 
     it('must call Repository with correct update order value', async () => {

@@ -1,3 +1,4 @@
+import { InvalidQueryError } from '../errors';
 import {
   HTTP_BAD_REQUEST_400,
   HTTP_OK_200,

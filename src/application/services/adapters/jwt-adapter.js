@@ -1,16 +1,15 @@
 import jwt from 'jsonwebtoken';
 
+// TODO: Pass these env variables to a single file that will require the dotenv.config
+require('dotenv').config();
 /**
  * Adapter for the jwt dependency
  * @class
  * @method generate
  */
 export class JwtAdapter {
-  /**
-   * @param {String} secret - String hash that is used to generate the JWT token
-   */
-  constructor(secret) {
-    this.secret = secret;
+  constructor() {
+    this.secret = process.env.JWT_SECRET;
   }
 
   /**

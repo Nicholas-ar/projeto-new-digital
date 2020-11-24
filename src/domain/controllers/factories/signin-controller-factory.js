@@ -14,7 +14,7 @@ export const makeSignInController = () => {
   const validatorComposite = makeSignInUpValidatorComposite();
   const repository = new UsersMongoRespository();
   const hasherService = new Argon2Adapter();
-  const tokenGeneratorService = new JwtAdapter(process.env.JWT_SECRET);
+  const tokenGeneratorService = new JwtAdapter();
   const authentication = new DatabaseUserAuthentication(
     repository,
     hasherService,

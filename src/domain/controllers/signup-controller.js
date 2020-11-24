@@ -38,14 +38,11 @@ export class SignUpController {
     try {
       const error = this._validator.validate(httpRequest.body);
       if (error) return HTTP_BAD_REQUEST_400(error);
-
       const { email, password } = httpRequest.body;
-
       const user = await this._repository.create({
         email,
         password: await this._hasherService.hash(password),
       });
-
       if (!user) return HTTP_BAD_REQUEST_400(new EmailInUseError());
       const accessToken = await this._authentication.authenticate({
         email,

@@ -1,5 +1,4 @@
 import Router from 'express';
-import { makeOrderController } from '../../../domain/controllers/factories/order-controller-factory';
 import { makeProductController } from '../../../domain/controllers/factories/product-controller-factory';
 import { expressRouterAdapter } from '../../services/adapters/express-adapter';
 
@@ -9,19 +8,19 @@ productRoutes.get(
   '/products',
   expressRouterAdapter(makeProductController(), 'retrieveAll')
 );
-productRoutes.get(
-  '/product',
-  expressRouterAdapter(makeProductController(), 'retrieveProduct')
-);
 productRoutes.post(
-  '/newProduct',
+  '/product',
   expressRouterAdapter(makeProductController(), 'createProduct')
 );
+productRoutes.get(
+  '/product/:id',
+  expressRouterAdapter(makeProductController(), 'retrieveById')
+);
 productRoutes.patch(
-  '/updateProduct',
-  expressRouterAdapter(makeOrderController(), 'updateProduct')
+  '/product/:id',
+  expressRouterAdapter(makeProductController(), 'updateProduct')
 );
 productRoutes.delete(
-  '/deleteProduct',
-  expressRouterAdapter(makeOrderController(), 'deleteProduct')
+  '/product/:id',
+  expressRouterAdapter(makeProductController(), 'deleteProduct')
 );
