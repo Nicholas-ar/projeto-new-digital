@@ -1,6 +1,6 @@
 import { OrdersMongoRepository } from '../../../application/database/mongodb';
 import { ValidarCpf } from '../../../application/services/validators';
-import RedecardPaymentAdapter from '../../../application/services/adapters/erede-payment-adapter';
+import RedecardPaymentAdapter from '../../../application/services/adapters/payment/erede-payment-adapter';
 import { OrderController } from '../index';
 
 /**

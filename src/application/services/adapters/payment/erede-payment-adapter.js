@@ -1,5 +1,5 @@
-import env from '../../config/environment';
-import { PaymentData } from '../protocols';
+import env from '../../../config/environment';
+import { PaymentData } from '../../protocols';
 
 const eRede = require('erede-node/lib/erede');
 const Transaction = require('erede-node/lib/transaction');
