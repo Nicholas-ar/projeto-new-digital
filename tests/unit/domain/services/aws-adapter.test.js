@@ -1,4 +1,4 @@
-import { AWSPresignedAdapter } from './aws-adapter';
+import { AWSPresignedAdapter } from '../../../../src/application/services/adapters/aws/aws-adapter';
 
 const makeSut = () => new AWSPresignedAdapter();
 

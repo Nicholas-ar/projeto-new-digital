@@ -1,6 +1,6 @@
 import Router from 'express';
 import { makeProductController } from '../../../domain/controllers/factories/product-controller-factory';
-import { expressRouterAdapter } from '../../services/adapters/express-adapter';
+import { expressRouterAdapter } from '../../services/adapters/web/express-adapter';
 
 export const productRoutes = Router();
 

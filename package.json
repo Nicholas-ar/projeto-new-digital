@@ -10,7 +10,7 @@
     "test:unit": "jest tests/unit --watch --passWithNoTests --runInBand",
     "test:integration": "jest tests/integration --watch --passWithNoTests --passWithNoTests",
     "test:ci": "npm test -- --coverage --passWithNoTests",
-    "test:cov": "jest --coverage --runInBand --passWithNoTests",
+    "test:cov": "jest --coverage --passWithNoTests --runInBand",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "author": "Alexandre Xavier, Nicholas Araújo",

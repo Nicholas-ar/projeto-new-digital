@@ -4,7 +4,7 @@ import {
   ValidatorServiceComposite,
 } from '../../../application/services/validators';
 
-import { ValidatorEmailAdapter } from '../../../application/services/adapters/validator-email-adapter';
+import { ValidatorEmailAdapter } from '../../../application/services/adapters/validator/validator-email-adapter';
 
 /**
  * Factory for the SignUp and SignIn validator composite
