@@ -8,6 +8,11 @@ export class qrCodeAdapter {
    */
 
   generateQRCode(url) {
-    return toDataURL(url);
+    toDataURL(url, (err, src) => {
+      if (err) {
+        return Error(err);
+      }
+      return src;
+    });
   }
 }
