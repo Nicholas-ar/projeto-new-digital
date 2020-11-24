@@ -32,6 +32,16 @@ export const HTTP_CREATED_201 = (data) => ({
 });
 
 /**
+ * That returns an OK response, with a 204 statusCode and an empty body.
+ * @param {any} data
+ * @returns {HttpResponse} -
+ */
+export const HTTP_NO_CONTENT_204 = () => ({
+  statusCode: 204,
+  body: {},
+});
+
+/**
  * That returns an UNAUTHORIZED response, with a 401 statusCode and a data object, message inside the message.
  * @returns {HttpResponse} -
  */
