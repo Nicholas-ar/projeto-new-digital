@@ -3,14 +3,14 @@ import {
   HTTP_OK_200,
   HTTP_CREATED_201,
   HTTP_SERVER_ERROR_500,
-} from '../../../../src/domain/helpers/http-helper';
-import OrderController from '../../../../src/domain/controllers/order-controller';
+} from '../../../src/domain/helpers/http-helper';
+import { OrderController } from '../../../src/domain/controllers/';
 import {
   InvalidParameterError,
   InvalidQueryError,
   OrderNotFoundError,
-} from '../../../../src/domain/errors';
-import { InvalidTransactionCredentialsError } from '../../../../src/domain/errors/invalid-transaction-credentials-error';
+} from '../../../src/domain/errors';
+import { InvalidTransactionCredentialsError } from '../../../src/domain/errors/invalid-transaction-credentials-error';
 
 const makeRepository = () => {
   class RepositoryStub {

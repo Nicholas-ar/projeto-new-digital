@@ -1,5 +1,5 @@
 import app from './app';
-import { MongoHelper } from '../helpers/mongoHelper';
+import { MongoHelper } from '../helpers/mongo-helper';
 import env from '../config/environment';
 
 if (!env.AWS_TOKEN) {

@@ -1,6 +1,6 @@
-import { ProductController } from '../../../../src/domain/controllers/product-controller';
-import { MongoHelper } from '../../../../src/application/helpers/mongoHelper';
-import { ProductRepository } from '../../../../src/application/database/mongodb/product-repository';
+import { ProductRepository } from '../../../src/application/database/mongodb';
+import { MongoHelper } from '../../../src/application/helpers/mongo-helper';
+import { ProductController } from '../../../src/domain/controllers';
 
 let productCollection;
 
@@ -116,7 +116,7 @@ describe('Product Controller', () => {
   });
 
   describe('updateProduct', () => {
-    it('must update an order with 200 status code given valid data', async () => {
+    it('must update a product with 200 status code given valid data', async () => {
       const httpRequest = {
         body: {
           updateQuery: { name: 'abc' },

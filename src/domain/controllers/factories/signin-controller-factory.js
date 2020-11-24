@@ -1,6 +1,6 @@
-import { SignInController } from '../signin-controller';
+import { SignInController } from '../index';
 import { DatabaseUserAuthentication } from '../../../application/services/authentication/database-user-authentication';
-import { UsersMongoRespository } from '../../../application/database/mongodb/users-mongo-repository';
+import { UsersMongoRespository } from '../../../application/database/mongodb';
 import { Argon2Adapter } from '../../../application/services/adapters/argon2-adapter';
 import { JwtAdapter } from '../../../application/services/adapters/jwt-adapter';
 import { makeSignInUpValidatorComposite } from './sign-in-up-validator-factory';

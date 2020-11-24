@@ -4,7 +4,7 @@ import {
   HasherService,
   ValidationService,
 } from '../../application/services/protocols';
-import { HttpRequest, HttpResponse } from './protocols/http.d';
+import { HttpRequest, HttpResponse } from './protocols/http.definition';
 import { EmailInUseError } from '../errors';
 import {
   HTTP_BAD_REQUEST_400,

@@ -12,12 +12,12 @@ import { ValidatorEmailAdapter } from '../../../application/services/adapters/va
  */
 export const makeSignInUpValidatorComposite = () => {
   const emailValidator = new EmailValidator(new ValidatorEmailAdapter());
-  // const passwordRequiredFieldValidator = new RequiredFieldValidator('password');
-  // const emailRequiredFieldValidator = new RequiredFieldValidator('email');
+  const passwordRequiredFieldValidator = new RequiredFieldValidator('password');
+  const emailRequiredFieldValidator = new RequiredFieldValidator('email');
   const validatorComposite = new ValidatorServiceComposite([
     emailValidator,
-    // emailRequiredFieldValidator,
-    // passwordRequiredFieldValidator,
+    emailRequiredFieldValidator,
+    passwordRequiredFieldValidator,
   ]);
   return validatorComposite;
 };

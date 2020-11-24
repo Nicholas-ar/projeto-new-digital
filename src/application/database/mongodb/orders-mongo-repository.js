@@ -1,5 +1,5 @@
 import { Order, OrderData } from '../../../domain/entities/order';
-import { MongoHelper } from '../../helpers/mongoHelper';
+import { MongoHelper } from '../../helpers/mongo-helper';
 
 /**
  * Orders repository for the Mongo database

@@ -1,6 +1,6 @@
 import request from 'supertest';
 import app from '../../../../src/application/rest-api/app';
-import { MongoHelper } from '../../../../src/application/helpers/mongoHelper';
+import { MongoHelper } from '../../../../src/application/helpers/mongo-helper';
 import { hash } from 'argon2';
 
 let usersCollection;

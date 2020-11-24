@@ -1,5 +1,5 @@
 import { ProductRepository } from '../../../application/database/mongodb';
-import { ProductController } from '../product-controller';
+import { ProductController } from '../index';
 
 /**
  * Factory for the ProductController.

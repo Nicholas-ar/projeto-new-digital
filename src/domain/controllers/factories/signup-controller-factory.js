@@ -1,5 +1,5 @@
-import { SignUpController } from '../signup-controller';
-import { UsersMongoRespository } from '../../../application/database/mongodb/users-mongo-repository';
+import { SignUpController } from '../index';
+import { UsersMongoRespository } from '../../../application/database/mongodb';
 import { DatabaseUserAuthentication } from '../../../application/services/authentication/database-user-authentication';
 import { Argon2Adapter } from '../../../application/services/adapters/argon2-adapter';
 import { JwtAdapter } from '../../../application/services/adapters/jwt-adapter';

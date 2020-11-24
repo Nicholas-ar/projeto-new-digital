@@ -6,11 +6,11 @@
   "scripts": {
     "start:dev": "nodemon src/application/api/start.js",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
-    "test:verbose": "jest --passWithNoTests --runInBand",
-    "test:unit": "jest tests/unit --watch --passWithNoTests",
-    "test:integration": "jest src/application/api/routes --watch --passWithNoTests",
+    "test:verbose": "jest --passWithNoTests --watch --runInBand",
+    "test:unit": "jest tests/unit --watch --passWithNoTests --runInBand",
+    "test:integration": "jest tests/integration --watch --passWithNoTests --passWithNoTests",
     "test:ci": "npm test -- --coverage --passWithNoTests",
-    "test:cov": "jest --coverage --runInBand",
+    "test:cov": "jest --coverage --runInBand --passWithNoTests",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "author": "Alexandre Xavier, Nicholas Araújo",

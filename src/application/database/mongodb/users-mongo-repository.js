@@ -1,5 +1,5 @@
 import { User, UserData } from '../../../domain/entities/user';
-import { MongoHelper } from '../../helpers/mongoHelper';
+import { MongoHelper } from '../../helpers/mongo-helper';
 
 /**
  * Users repository for the Mongo database

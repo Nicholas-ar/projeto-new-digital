@@ -17,9 +17,9 @@ import {
   HTTP_CREATED_201,
   HTTP_SERVER_ERROR_500,
 } from '../helpers/http-helper';
-import { HttpRequest, HttpResponse } from './protocols/http.d';
+import { HttpRequest, HttpResponse } from './protocols/http.definition';
 
-export default class OrderController {
+export class OrderController {
   /**
    * @example
    * ```js
