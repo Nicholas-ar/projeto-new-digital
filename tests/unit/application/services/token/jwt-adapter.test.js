@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { JwtAdapter } from '../../../../../src/application/services/adapters/jwt-adapter';
+import { JwtAdapter } from '../../../../../src/application/services/adapters/token/jwt-adapter';
 
 jest.mock('jsonwebtoken', () => ({
   sign() {
@@ -7,11 +7,12 @@ jest.mock('jsonwebtoken', () => ({
   },
 }));
 
-const makeSut = () => new JwtAdapter('secret');
+const makeSut = () => new JwtAdapter();
 
 describe('JwtAdapter', () => {
   it('must call jwt with correct values', async () => {
     const sut = makeSut();
+    sut.secret = 'secret';
     const signSpy = jest.spyOn(jwt, 'sign');
     sut.generate('any_id');
     expect(signSpy).toHaveBeenCalledWith({ id: 'any_id' }, 'secret');

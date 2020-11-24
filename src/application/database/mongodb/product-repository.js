@@ -1,4 +1,4 @@
-import { MongoHelper } from '../../helpers/mongoHelper';
+import { MongoHelper } from '../../helpers/mongo-helper';
 
 /**
  * Products repository for the Mongo database

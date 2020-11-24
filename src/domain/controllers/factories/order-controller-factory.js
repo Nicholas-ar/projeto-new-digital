@@ -1,7 +1,7 @@
 import { OrdersMongoRepository } from '../../../application/database/mongodb';
 import { ValidarCpf } from '../../../application/services/validators';
-import RedecardPaymentAdapter from '../../../application/services/adapters/erede-payment-adapter';
-import OrderController from '../order-controller';
+import RedecardPaymentAdapter from '../../../application/services/adapters/payment/erede-payment-adapter';
+import { OrderController } from '../index';
 
 /**
  * Factory for the SignIpController.

@@ -28,8 +28,8 @@ export class DatabaseUserAuthentication {
     const user = await this._repository.retrieveByEmail(data.email);
     if (user) {
       const isValid = await this._hashComparerService.compare(
-        data.password,
-        user.password
+        user.password,
+        data.password
       );
       if (isValid) {
         const accessToken = this._tokenGeneratorService.generate(user._id);

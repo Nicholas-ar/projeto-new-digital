@@ -1,5 +1,5 @@
-import { UsersMongoRespository } from '../../../src/application/database/mongodb/users-mongo-repository';
-import { MongoHelper } from '../../../src/application/helpers/mongoHelper';
+import { UsersMongoRespository } from '../../../src/application/database/mongodb';
+import { MongoHelper } from '../../../src/application/helpers/mongo-helper';
 
 let usersCollection;
 describe('Users Repository', () => {

@@ -12,14 +12,14 @@ export class RequiredFieldValidator {
   }
 
   /**
-   * Validates if the field exists returning null on success 
-   * otherwise MissingParameterError 
-   * @param {string} input 
+   * Validates if the field exists returning null on success
+   * otherwise MissingParameterError
+   * @param {string} input
    * @returns {null | MissingParameterError}
    */
   validate(input) {
     if (!input[this.fieldName])
       return new MissingParameterError(this.fieldName);
-    return null
+    return null;
   }
 }

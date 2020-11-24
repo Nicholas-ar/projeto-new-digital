@@ -108,8 +108,8 @@ describe('DatabaseUserAuthentication', () => {
       const compareSpy = jest.spyOn(hashServiceStub, 'compare');
       await sut.authenticate(makeAuthenticationData());
       expect(compareSpy).toHaveBeenCalledWith(
-        'any_password',
-        'hashed_password'
+        'hashed_password',
+        'any_password'
       );
     });
 

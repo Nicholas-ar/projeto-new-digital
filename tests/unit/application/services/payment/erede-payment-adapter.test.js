@@ -1,4 +1,4 @@
-import RedecardPaymentAdapter from '../../../../../src/application/services/adapters/erede-payment-adapter';
+import RedecardPaymentAdapter from '../../../../../src/application/services/adapters/payment/erede-payment-adapter';
 const makeSut = () => new RedecardPaymentAdapter();
 
 const makeFakePaymentData = () => ({

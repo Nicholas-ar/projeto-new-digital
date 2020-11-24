@@ -1,14 +1,18 @@
 language: node_js
 node_js:
-- stable
+  - stable
 branches:
   only:
-  - production
-  - development
+    - production
+    - development
+    - main
 env:
   - NODE_ENV=test
 install: npm install
 cache:
   directories:
     - node_modules
-script: npm test
+script: npm run test:ci
+after_success:
+  - npm run coverage
+  - bash <(curl -s https://codecov.io/bash)

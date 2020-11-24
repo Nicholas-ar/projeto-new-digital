@@ -1,5 +1,5 @@
 import { AuthenticationService, ValidationService } from '../../application/services/protocols';
-import { HttpRequest, HttpResponse } from './protocols/http.d';
+import { HttpRequest, HttpResponse } from './protocols/http.definition';
 import {
   HTTP_OK_200,
   HTTP_SERVER_ERROR_500,
