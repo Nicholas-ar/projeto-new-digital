@@ -3,7 +3,7 @@ import { InvalidParameterError } from '../../../domain/errors';
 export class ValidarCpf {
   // primeiro método que vamos criar é o método de limpar o cpf
   cleanCPF(cpf) {
-    // retorna o cpf substituindo por nada tudo que é ponto, espaço em braco, etc...
+    // retorna o cpf substituindo por nada tudo que é ponto, espaço em branco, etc...
     return cpf.replace(/\D/g, '');
   }
 
@@ -21,8 +21,8 @@ export class ValidarCpf {
 
   // método que irá validar o CPF, se foram digitados apenas números e se o tamanho está correto
   validationCpf(cpf) {
-    // o regerxp que valida o cpf é
-    // 3 dígitos seguidos de traço ou ponto repetiddos 3 vezes
+    // o regexp que valida o cpf é
+    // 3 dígitos seguidos de traço ou ponto repetidos 3 vezes
     // o match vai retornar um array, sendo o primeiro item [0] desse array o cpf formatado e validado pelo regexp
     const matchCpf = cpf.match(/(?:\d{3}[-.\s]?){3}\d{2}/g);
 
