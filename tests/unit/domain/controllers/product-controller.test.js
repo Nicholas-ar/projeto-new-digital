@@ -63,7 +63,7 @@ describe('Product Controller', () => {
   describe('RetrieveProduct', () => {
     it('must return a product with 200 status code given a valid product name', async () => {
       const httpRequest = {
-        body: {
+        params: {
           name: 'abc',
         },
       };
@@ -86,7 +86,7 @@ describe('Product Controller', () => {
 
     it('must return an error message with 400 status code if order is not found', async () => {
       const httpRequest = {
-        body: {
+        params: {
           name: 'wrong name',
         },
       };
@@ -118,7 +118,7 @@ describe('Product Controller', () => {
   describe('updateProduct', () => {
     it('must update an order with 200 status code given valid data', async () => {
       const httpRequest = {
-        body: {
+        params: {
           updateQuery: { name: 'abc' },
           updatedValues: {
             $set: {
@@ -139,7 +139,7 @@ describe('Product Controller', () => {
 
     it('must return an order with 400 status code given invalid data', async () => {
       const httpRequest = {
-        body: {
+        params: {
           updateQuery: { name: 'abc' },
           updatedValues: {
             $set: {
@@ -153,31 +153,31 @@ describe('Product Controller', () => {
       const res = await productController.updateProduct(httpRequest);
       expect(res.statusCode).toBe(400);
     });
+  });
 
-    describe('deleteProduct', () => {
-      it('must delete a product with 200 status code given valid data', async () => {
-        const httpRequest = {
-          body: {
-            deleteQuery: { name: 'abc' },
-          },
-        };
-        const productRepository = new ProductRepository();
-        const productController = new ProductController(productRepository);
-        productCollection.insertOne(mockProduct);
-        const res = await productController.deleteProduct(httpRequest);
-        expect(res.statusCode).toBe(200);
-      });
-      it('must delete a product with 400 status code given invalid data', async () => {
-        const httpRequest = {
-          body: {
-            deleteQuery: { name: 'abc' },
-          },
-        };
-        const productRepository = new ProductRepository();
-        const productController = new ProductController(productRepository);
-        const res = await productController.deleteProduct(httpRequest);
-        expect(res.statusCode).toBe(400);
-      });
+  describe('deleteProduct', () => {
+    it('must delete a product with 200 status code given valid data', async () => {
+      const httpRequest = {
+        params: {
+          deleteQuery: { name: 'abc' },
+        },
+      };
+      const productRepository = new ProductRepository();
+      const productController = new ProductController(productRepository);
+      productCollection.insertOne(mockProduct);
+      const res = await productController.deleteProduct(httpRequest);
+      expect(res.statusCode).toBe(200);
+    });
+    it('must delete a product with 400 status code given invalid data', async () => {
+      const httpRequest = {
+        params: {
+          deleteQuery: { name: 'abc' },
+        },
+      };
+      const productRepository = new ProductRepository();
+      const productController = new ProductController(productRepository);
+      const res = await productController.deleteProduct(httpRequest);
+      expect(res.statusCode).toBe(400);
     });
   });
 });
