@@ -1,7 +1,7 @@
 import {
   awsSignedUrlPromise,
   s3Config,
-} from '../../image-uploader/aws/aws-config';
+} from '../../image-uploader/aws';
 
 /**
  * Controller for the AWS routes.
