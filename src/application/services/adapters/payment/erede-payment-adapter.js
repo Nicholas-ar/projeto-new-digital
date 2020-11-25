@@ -8,7 +8,7 @@ const Environment = require('erede-node/lib/environment');
 
 
 
-const inProduction = env.NODE_ENV == 'production' ;
+const inProduction = process.env.NODE_ENV == 'production' ;
 
 /**
  * Payment adapter for the Redecard package
