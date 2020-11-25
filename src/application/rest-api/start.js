@@ -2,6 +2,8 @@ import app from './app';
 import { MongoHelper } from '../helpers/mongo-helper';
 import env from '../config/environment';
 
+require('dotenv').config();
+
 if (!env.AWS_TOKEN) {
   throw new Error('TOKEN environment variable must be defined');
 }
