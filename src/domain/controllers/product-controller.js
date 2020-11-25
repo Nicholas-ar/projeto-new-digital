@@ -3,6 +3,7 @@ import {
   HTTP_OK_200,
   HTTP_CREATED_201,
   HTTP_SERVER_ERROR_500,
+  HTTP_NO_CONTENT_204,
 } from '../helpers/http-helper';
 
 export class ProductController {
@@ -73,9 +74,10 @@ export class ProductController {
    */
   async updateProduct(httpRequest) {
     try {
+      const updateFormat = { $set: httpRequest.body };
       const response = await this.repository.update(
-        httpRequest.params.updateQuery,
-        httpRequest.params.updatedValues
+        httpRequest.params,
+        updateFormat
       );
       const updated = response.modifiedCount;
 
@@ -104,7 +106,7 @@ export class ProductController {
       if (found === 0) {
         return HTTP_BAD_REQUEST_400({ message: 'No products found' });
       }
-      return HTTP_OK_200(found);
+      return HTTP_NO_CONTENT_204(found);
     } catch (error) {
       return HTTP_SERVER_ERROR_500(error);
     }

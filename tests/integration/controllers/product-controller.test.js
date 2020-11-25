@@ -119,15 +119,13 @@ describe('Product Controller', () => {
     it('must update a product with 200 status code given valid data', async () => {
       const httpRequest = {
         params: {
-          updateQuery: { name: 'abc' },
-          updatedValues: {
-            $set: {
-              name: 'ps5',
-              price: 5000,
-              brand: 'sony',
-              releaseDate: 2020,
-            },
-          },
+          name: 'abc',
+        },
+        body: {
+          name: 'ps5',
+          price: 5000,
+          brand: 'sony',
+          releaseDate: 2020,
         },
       };
       const productRepository = new ProductRepository();
@@ -140,12 +138,10 @@ describe('Product Controller', () => {
     it('must return an order with 400 status code given invalid data', async () => {
       const httpRequest = {
         params: {
-          updateQuery: { name: 'abc' },
-          updatedValues: {
-            $set: {
-              name: 'ps5',
-            },
-          },
+          name: 'abc',
+        },
+        body: {
+          name: 'ps5',
         },
       };
       const productRepository = new ProductRepository();
@@ -156,7 +152,7 @@ describe('Product Controller', () => {
   });
 
   describe('deleteProduct', () => {
-    it('must delete a product with 200 status code given valid data', async () => {
+    it('must delete a product with 204 status code given valid data', async () => {
       const httpRequest = {
         params: {
           deleteQuery: { name: 'abc' },
@@ -166,7 +162,7 @@ describe('Product Controller', () => {
       const productController = new ProductController(productRepository);
       productCollection.insertOne(mockProduct);
       const res = await productController.deleteProduct(httpRequest);
-      expect(res.statusCode).toBe(200);
+      expect(res.statusCode).toBe(204);
     });
     it('must delete a product with 400 status code given invalid data', async () => {
       const httpRequest = {
