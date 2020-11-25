@@ -14,7 +14,7 @@ orderRoutes.post(
   expressRouterAdapter(makeOrderController(), 'createOrder')
 );
 orderRoutes.patch(
-  '/updateOrder',
+  '/orders/:_id',
   expressRouterAdapter(makeOrderController(), 'updateOrder')
 );
 

@@ -95,14 +95,9 @@ describe('authenticationRoutes', () => {
     it('must update an order retuning a 200', async () => {
       await ordersCollection.insertMany(makeFakeOrders());
       const response = await request(app)
-        .patch('/api/v1/updateOrder')
+        .patch('/api/v1/orders/1')
         .send({
-          query: {
-            _id: '1',
-          },
-          newValue: {
-            retrieved: true,
-          },
+          retrieved: true,
         })
         .expect(200);
       expect(response.body).toEqual({

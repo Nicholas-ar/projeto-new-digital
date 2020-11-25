@@ -130,8 +130,7 @@ export class OrderController {
    */
   async updateOrder(httpRequest) {
     try {
-      const { query, newValue } = httpRequest.body;
-      const order = await this.repository.update(query, newValue);
+      const order = await this.repository.update(httpRequest.params, httpRequest.body);
       if (order) return HTTP_OK_200(order);
       return HTTP_BAD_REQUEST_400(new InvalidQueryError());
     } catch (error) {
