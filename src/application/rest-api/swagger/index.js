@@ -19,6 +19,14 @@ export default {
     description: 'Backend para a aplicação QRobuy',
     version: '1.0.0',
   },
+  license: {
+    name: 'MIT',
+    url: 'https://raw.githubusercontent.com/Nicholas-ar/qrobuy-backend/main/LICENSE.md'
+  },
+  externalDocs: {
+    description: 'Link para o README',
+    url: 'https://raw.githubusercontent.com/Nicholas-ar/qrobuy-backend/main/README.md'
+  },
   servers: [
     {
       url: '/api/v1',
@@ -38,8 +46,8 @@ export default {
   paths: {
     '/signin': signinPath,
     '/signup': signupPath,
-    '/orders': ordersPath,
     '/orders/{id}': ordersIdPath,
+    '/orders': ordersPath,
   },
   schemas: {
     account: accountSchema,
