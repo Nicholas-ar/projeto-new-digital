@@ -52,8 +52,8 @@ export default class RedecardPaymentAdapter {
    */
   _makeStore() {
     return new Store(
-      env.REDECARD_TOKEN,
-      env.REDECARD_PV,
+      process.env.REDECARD_TOKEN,
+      process.env.REDECARD_PV,
       inProduction ? Environment.production() : Environment.sandbox()
     );
   }
