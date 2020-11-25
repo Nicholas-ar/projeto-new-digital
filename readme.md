@@ -14,7 +14,6 @@
 - Express.js
 - JWT
 - Argon2
-- eRede
 
 ## :cat: Getting Started
 
