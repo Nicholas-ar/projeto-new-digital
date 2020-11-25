@@ -60,8 +60,8 @@ export class OrdersMongoRepository {
   async update(query, newData) {
     const orderCollection = await MongoHelper.getCollection('orders');
     const result = await orderCollection.updateOne(query, { $set: newData });
-    const order = await orderCollection.findOne({ _id: query._id });
-    if (result.result.ok) return order
+    const order = await orderCollection.findOne(query);
+    if (result.result.ok === 1) return order;
     return false;
   }
 

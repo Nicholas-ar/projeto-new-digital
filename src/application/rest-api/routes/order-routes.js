@@ -10,15 +10,15 @@ orderRoutes.get(
   expressRouterAdapter(makeOrderController(), 'retrieveOrder')
 );
 orderRoutes.post(
-  '/newOrder',
+  '/orders',
   expressRouterAdapter(makeOrderController(), 'createOrder')
 );
 orderRoutes.patch(
-  '/updateOrder',
+  '/orders/:_id',
   expressRouterAdapter(makeOrderController(), 'updateOrder')
 );
 
 orderRoutes.get(
-  '/order/:id',
+  '/orders/:id',
   expressRouterAdapter(makeOrderController(), 'retrieveOrderById')
 );

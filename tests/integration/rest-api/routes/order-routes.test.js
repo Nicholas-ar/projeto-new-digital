@@ -66,7 +66,7 @@ describe('authenticationRoutes', () => {
 
     it('must return a 201 and retrun an order document', async () => {
       const result = await request(app)
-        .post('/api/v1/newOrder')
+        .post('/api/v1/orders')
         .send({
           orderData: {
             email: 'valid_email@email.com',
@@ -95,14 +95,9 @@ describe('authenticationRoutes', () => {
     it('must update an order retuning a 200', async () => {
       await ordersCollection.insertMany(makeFakeOrders());
       const response = await request(app)
-        .patch('/api/v1/updateOrder')
+        .patch('/api/v1/orders/1')
         .send({
-          query: {
-            _id: '1',
-          },
-          newValue: {
-            retrieved: true,
-          },
+          retrieved: true,
         })
         .expect(200);
       expect(response.body).toEqual({
@@ -119,7 +114,7 @@ describe('authenticationRoutes', () => {
 
     it('must retrieveOrderById returning a 200', async () => {
       await ordersCollection.insertMany(makeFakeOrders());
-      const response = await request(app).get('/api/v1/order/2').expect(200);
+      const response = await request(app).get('/api/v1/orders/2').expect(200);
       expect(response.body).toEqual({
         _id: '2',
         name: 'John Doe',

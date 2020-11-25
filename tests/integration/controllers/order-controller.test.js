@@ -22,14 +22,14 @@ const makeRepository = () => {
             email: 'valid_email@email.com',
             cpf: '12345612312',
             tid: '2134534253252',
-            delivered: false,
+            retrieved: false,
           },
           {
             _id: '2',
             email: 'valid_email@email.com',
             cpf: '12345612312',
             tid: '2134534253252',
-            delivered: true,
+            retrieved: true,
           },
         ]);
       });
@@ -41,7 +41,7 @@ const makeRepository = () => {
         email: 'valid_email@email.com',
         cpf,
         tid: '2134534253252',
-        delivered: false,
+        retrieved: false,
       };
     }
 
@@ -51,7 +51,7 @@ const makeRepository = () => {
         email: 'valid_email@email.com',
         cpf: '12345612312',
         tid: '2134534253252',
-        delivered: false,
+        retrieved: false,
       };
     }
 
@@ -113,14 +113,14 @@ describe('Order controller', () => {
             email: 'valid_email@email.com',
             cpf: '12345612312',
             tid: '2134534253252',
-            delivered: false,
+            retrieved: false,
           },
           {
             _id: '2',
             email: 'valid_email@email.com',
             cpf: '12345612312',
             tid: '2134534253252',
-            delivered: true,
+            retrieved: true,
           },
         ])
       );
@@ -146,7 +146,7 @@ describe('Order controller', () => {
           email: 'valid_email@email.com',
           cpf: '12345612312',
           tid: '2134534253252',
-          delivered: false,
+          retrieved: false,
         })
       );
     });
@@ -216,14 +216,14 @@ describe('Order controller', () => {
       email: 'valid_email@email.com',
       cpf: '12345612312',
       tid: '2134534253252',
-      delivered: false,
+      retrieved: false,
     });
     const makeHttpRequest = () => ({
       body: {
         orderData: {
           email: 'valid_email@email.com',
           cpf: '12345612312',
-          delivered: false,
+          retrieved: false,
         },
         paymentData: {
           orderPrice: 10,
@@ -307,7 +307,7 @@ describe('Order controller', () => {
       await sut.createOrder(httpRequest);
       expect(repositorySpy).toHaveBeenCalledWith({
         cpf: '12345612312',
-        delivered: false,
+        retrieved: false,
         email: 'valid_email@email.com',
         transactionId: 'transaction_id',
       });
@@ -323,7 +323,8 @@ describe('Order controller', () => {
 
   describe('updateOrder', () => {
     const makeHttpRequest = () => ({
-      body: { query: { _id: '1' }, newValue: { delivered: true } },
+      body: { retrieved: true },
+      params: { _id: '1' },
     });
 
     it('must update an order with 200 status code given valid data', async () => {
@@ -340,7 +341,7 @@ describe('Order controller', () => {
       await sut.updateOrder(httpRequest);
       expect(repositorySpy).toHaveBeenCalledWith(
         { _id: '1' },
-        { delivered: true }
+        { retrieved: true }
       );
     });
 
