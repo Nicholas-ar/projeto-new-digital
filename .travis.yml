@@ -19,8 +19,7 @@ env:
 deploy:
   provider: heroku
   edge: true
-  api_key:
-    secure: lgJVjH41apVN4mhg9sJBFMvkJSXosJ8lOgoUs+LiG9T0O2ANm98xiNn4LCGEJnhSSgq+WK6No+utEvIKMuAVVm1ppfuvrUWkrWf0mWSViCCQug0Pv8a7ipfg6pp6k6i7sGI19NP+UM4LXSQR9Z7+h6c8Ne9KJwfWkL6koO9IRNp5TAEveTRmAhMPKFDUhtw8MwS24WpnL7zpj56Zjg+u5yqmlhLhKy7rggrCuA6+i5mW8Vt7rsnb9DKnNnxV0qwhPILA+1comPAzFUpGFWGP3EO1WiqbfqUyIsq3LivgMMiZxcuIKKiEgt6i93UtKK6lmVvx4m76FuNYa+wMxdN1Scdx+74vgBIWuuE834hk40Q7J10uSGSN0WSPQOs8B9puYgdpW8jcKCpNS6aQMqWxg0Bo5jrXn21RzAf6ncsceZTV8TmdNEzy8L7Zog2e8D4ijjNJ+vBMb3k+QYHQptKO5seaby7YriUg7+GcG0MZEkROZzaafALRM9OgTTYAXLF23GoIKCbEsuAFtI8MgEzbaelSg5elD8RBYEY3ur3RyCkBjYS6BGBllVL4hYjCI/azHnqcLeC57GPZUgabVnbP9bn3C0IxkHEmmzWithbe7PGWir2iQz31AtTT5uoS+LBPAojc1W0yht3ivhUE4e3G8KwN85Rjb+QJGBpcDnjn2Jk=
+  api_key: $HEROKU_API_KEY
   app: qrobuy
   on:
     repo: abxsantos/teste-repo
