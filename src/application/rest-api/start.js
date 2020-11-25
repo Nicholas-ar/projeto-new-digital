@@ -16,6 +16,11 @@ require('dotenv').config();
 // if (!env.AWS_REGION) {
 //   throw new Error('REGION environment variable must be defined');
 // }
+console.log(process.env.MONGO_URL)
+console.log(process.env.AWS_REGION)
+console.log(process.env.AWS_REGION)
+console.log(process.env.AWS_ACCESS_KEY_ID)
+console.log(process.env.AWS_SECRET_ACCESS_KEY)
 
 MongoHelper.connect(process.env.MONGO_URL)
   .then(async () => {
