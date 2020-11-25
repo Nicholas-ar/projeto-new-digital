@@ -7,7 +7,7 @@
     "transpile": "babel ./src --out-dir build",
     "clean": "rimraf build",
     "build": "npm-run-all clean transpile",
-    "start": "node build/application/rest-api/start.js",
+    "start": "node ./build/application/rest-api/start.js",
     "start:dev": "nodemon src/application/rest-api/start.js",
     "test": "jest --passWithNoTests --noStackTrace --runInBand",
     "test:verbose": "jest --passWithNoTests --runInBand",
@@ -20,6 +20,9 @@
   "author": "Alexandre Xavier, Nicholas Araújo",
   "license": "MIT",
   "dependencies": {
+    "@babel/cli": "^7.12.8",
+    "@babel/core": "^7.12.9",
+    "@babel/preset-env": "^7.12.7",
     "@babel/plugin-transform-runtime": "^7.12.1",
     "argon2": "^0.27.0",
     "aws-sdk": "^2.797.0",
@@ -32,9 +35,6 @@
     "validator": "^13.1.17"
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.8",
-    "@babel/core": "^7.12.9",
-    "@babel/preset-env": "^7.12.7",
     "@shelf/jest-mongodb": "^1.2.3",
     "@types/jest": "^26.0.15",
     "babel-eslint": "^10.1.0",
