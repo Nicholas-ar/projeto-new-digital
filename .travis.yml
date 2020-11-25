@@ -6,7 +6,7 @@ branches:
   only:
   - main
 before_install:
-    - ./ecr_credentials.sh
+    - chmod -x ./ecr_credentials.sh && bash ./ecr_credentials.sh
 install: npm install
 cache:
   directories:
