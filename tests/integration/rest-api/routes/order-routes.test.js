@@ -66,7 +66,7 @@ describe('authenticationRoutes', () => {
 
     it('must return a 201 and retrun an order document', async () => {
       const result = await request(app)
-        .post('/api/v1/newOrder')
+        .post('/api/v1/orders')
         .send({
           orderData: {
             email: 'valid_email@email.com',
@@ -119,7 +119,7 @@ describe('authenticationRoutes', () => {
 
     it('must retrieveOrderById returning a 200', async () => {
       await ordersCollection.insertMany(makeFakeOrders());
-      const response = await request(app).get('/api/v1/order/2').expect(200);
+      const response = await request(app).get('/api/v1/orders/2').expect(200);
       expect(response.body).toEqual({
         _id: '2',
         name: 'John Doe',

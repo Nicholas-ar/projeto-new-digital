@@ -1,8 +1,14 @@
 import { badRequest, unauthorized, notFound, serverError } from './components';
+import { ordersIdPath } from './paths/orders-id-path';
+import { ordersPath } from './paths/orders-path';
 import { signinPath } from './paths/signin-path';
 import { signupPath } from './paths/signup-path';
 import { accountSchema } from './schemas/accountSchema';
 import { errorSchema } from './schemas/error-schema';
+import { ordersListResultSchema } from './schemas/order-list-result';
+import { orderParamsSchema } from './schemas/order-params-schema';
+import { orderPatchParamsSchema } from './schemas/order-patch-params-schema';
+import { orderResultSchema } from './schemas/order-result-schema';
 import { signinParamsSchema } from './schemas/signin-params-schema';
 import { signupParamsSchema } from './schemas/signup-params-schema';
 
@@ -25,15 +31,24 @@ export default {
     {
       name: 'Sign Up',
     },
+    {
+      name: 'Orders',
+    },
   ],
   paths: {
     '/signin': signinPath,
     '/signup': signupPath,
+    '/orders': ordersPath,
+    '/orders/{id}': ordersIdPath,
   },
   schemas: {
     account: accountSchema,
     signupParams: signupParamsSchema,
     signinParams: signinParamsSchema,
+    orderParams: orderParamsSchema,
+    order: orderResultSchema,
+    orderList: ordersListResultSchema,
+    orderPatchParams: orderPatchParamsSchema,
     error: errorSchema,
   },
   components: {
