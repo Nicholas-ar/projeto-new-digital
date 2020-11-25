@@ -1,18 +1,29 @@
 language: node_js
 node_js:
-  - stable
+- stable
+services: mongodb
 branches:
   only:
-    - production
-    - development
-    - main
+  - production
+  - development
+  - main
 env:
-  - NODE_ENV=test
+- NODE_ENV=test
+- MONGOURL=mongodb://localhost:27017/mongo
 install: npm install
 cache:
   directories:
-    - node_modules
+  - node_modules
 script: npm run test:ci
 after_success:
-  - npm run coverage
-  - bash <(curl -s https://codecov.io/bash)
+- npm run coverage
+- bash <(curl -s https://codecov.io/bash)
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: bXyHScl4lLgnaL+6NngmihGADHDGNHFUdjUJQeHNyd/rWhK/EzwklHTHS4sXIQARsGrPgs4+T9O6/1eNOycCZavO3v6Hms1wc6IkG94wyAghURcpIUJDAjdf+551Vtyndec3+9sasSYeR8mbRnF1bETKuwMGvwUshzhuZe8qq4bXKOf34c5lTaKdpAwh+WabmurkS696WQyxSU6Oq3dvyeu+dw4BinBr4WEVeOJXwhCFHkuDECyY0MNnTumqlGf+99l12qOpaog7rPUdjqZ6PxY8SLZ0Ms8kUY8/oAydl17NAGuHNQQXH23yknHbjCZNDHo93E7Tf9LhN9QmLK7I/7FJvVKjhc7+st5rGcLUyGB53wpMpcy/SaPkM4883zLAOMagcXlpnx/Hx7uKjcH69wM58ycQujwMLEVVRELzifrYx+VTqUCYiykNPl+fQPu2VhahTKd8Gthzbvy3p8Yq5vpByKeJrjmSw7Pet+T1CwtbAeCF4c1BESNX2zA6qgs/0pgeSu86N6/bMoFgnGzANmCWCdJ8BMzOMe+97U7Zj2MJysjKS3ey9P6zoFrB+olhgLqiJUzCBZj4FrqmNlZyAdZebmcDKErvCxwRRIwkoyubZiTbonjohdMvbrv7gjzK9YgQod2K4hnXuMwhbUDxJP2AZI9J/+M5jQa5PVIrRvk=
+  app: goclimb-server
+  skip_cleanup: true
+  on:
+    branch: main
