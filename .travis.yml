@@ -7,9 +7,6 @@ branches:
   - production
   - development
   - main
-env:
-- NODE_ENV=test
-- MONGOURL=mongodb://localhost:27017/mongo
 install: npm install
 cache:
   directories:
