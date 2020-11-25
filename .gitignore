@@ -1,9 +1,10 @@
+.env
 # dependencies
 /node_modules
 /data
 /.pnp
 .pnp.js
-
+package-log.json
 # testing
 /coverage
 
@@ -21,7 +22,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-globalConfig.json
+.env
 
 .vscode
 .idea
