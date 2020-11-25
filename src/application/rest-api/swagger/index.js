@@ -4,7 +4,7 @@ import { signupPath } from './paths/signup-path';
 import { accountSchema } from './schemas/accountSchema';
 import { errorSchema } from './schemas/error-schema';
 import { signinParamsSchema } from './schemas/signin-params-schema';
-import { signupParamsSchema } from './schemas/signupSchema';
+import { signupParamsSchema } from './schemas/signup-params-schema';
 
 export default {
   openapi: '3.0.0',
