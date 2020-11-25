@@ -20,7 +20,7 @@ deploy:
   provider: heroku
   edge: true
   api_key: $HEROKU_API_KEY
-  app: qrobuy
+  app: qrobuy-backend
   on:
     repo: abxsantos/teste-repo
     branch: main
