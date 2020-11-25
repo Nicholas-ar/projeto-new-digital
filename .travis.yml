@@ -1,22 +1,26 @@
 language: node_js
 node_js:
-- stable
+  - stable
 branches:
   only:
-  - main
+    - main
 install: npm install
 cache:
   directories:
-  - node_modules
+    - node_modules
 script: npm run test:verbose
 after_success:
-- npm run coverage
-- bash <(curl -s https://codecov.io/bash)
+  - npm run coverage
+  - bash <(curl -s https://codecov.io/bash)
 deploy:
   provider: heroku
   api_key:
     secure: bXyHScl4lLgnaL+6NngmihGADHDGNHFUdjUJQeHNyd/rWhK/EzwklHTHS4sXIQARsGrPgs4+T9O6/1eNOycCZavO3v6Hms1wc6IkG94wyAghURcpIUJDAjdf+551Vtyndec3+9sasSYeR8mbRnF1bETKuwMGvwUshzhuZe8qq4bXKOf34c5lTaKdpAwh+WabmurkS696WQyxSU6Oq3dvyeu+dw4BinBr4WEVeOJXwhCFHkuDECyY0MNnTumqlGf+99l12qOpaog7rPUdjqZ6PxY8SLZ0Ms8kUY8/oAydl17NAGuHNQQXH23yknHbjCZNDHo93E7Tf9LhN9QmLK7I/7FJvVKjhc7+st5rGcLUyGB53wpMpcy/SaPkM4883zLAOMagcXlpnx/Hx7uKjcH69wM58ycQujwMLEVVRELzifrYx+VTqUCYiykNPl+fQPu2VhahTKd8Gthzbvy3p8Yq5vpByKeJrjmSw7Pet+T1CwtbAeCF4c1BESNX2zA6qgs/0pgeSu86N6/bMoFgnGzANmCWCdJ8BMzOMe+97U7Zj2MJysjKS3ey9P6zoFrB+olhgLqiJUzCBZj4FrqmNlZyAdZebmcDKErvCxwRRIwkoyubZiTbonjohdMvbrv7gjzK9YgQod2K4hnXuMwhbUDxJP2AZI9J/+M5jQa5PVIrRvk=
   app: qrobuy-backend
-  skip_cleanup: true
+  cleanup: true
   on:
     branch: main
+env:
+  global:
+    - secure: grT+EjglRcCv5AKSTq+VOOivP90QnxjMR3xF8HXdprAhBrKgWt42JjkNPtzy0L+KwjJL74Ka4UT6RMLpcfLFuXvSlwYlJfywqvNo1mPB77/taYJm/gBEP9ulHR2ubFVn35btLxqkGjBLQBR1CYnhXJt1hH3Xs6MeKbsgHHXycF1IDOhaaLyJB3zW52PNRTxl8pC+IJRLKf5fqBBS0tZu2jciDEjfESBv41HPpWH//Idz/ovbFnNczqvk4R6l4aZhIsakqUvFES9ZNXe64vUgc9wDs9EdjVSaNplLdugFNpU4ZQ2qZDU8c0vzArCMKNBWEwpv7ARr3K/z+4/MdXkgpnuWp+r4qGLBUQzF3F5zRoX6nf0vXiVq2nLzgkpsztzrmn6VXXXR2Ads7n7Sbp4WS/bsXa3werDKFVotKZUtdWzPUrBRld3gjBIKBATm3Gl8Q8PYGRpKrAHWNzUEwdtrxBWtbg3TKmGvEWK7RtT+nBHqhxLOMN4hdI4rrEl3R9QQsDh4EOm+IlWDJL7Gg+2Nd4wn1gt3WPHsjDCAxwxrsB/tDtYeopoOkeG7mBKk6ie2taJwQfhg39FGR3PRgkFGZswjzftTyzKjUZ9gEymJ6LE1qGQQT50BZYurarQQBevbhJkNIgZA8fyslAjGi6d64jaC41qlpznnVlQUyan71/8=
+    - secure: RoRTY98xbVcwSf4HINE59DjHuIHuBFsZBaml3lrqS63v9GxPYuSe0QNeHu0eqMUGVEvWHKPmcFccKe9gOhkIuPRZqYUQMdBC3Mm2PXvpa6pZfDxZ3M7ZBNF5IxNKLJAiQq+emPHCnYE5WZ05uOvXbKPuUPuRepsq9WYVhnNaBCKuihhHkEPCf4JzS0lyne+pxe7NTjs+4nIKePCyBJwfy08cleMMOXsLN6Fc4n2UNtK47yrn+DpDS8Xl9UISk1+APo2Cwiljj/6Ao0ezx6b7nSfxCr2vzGPlpoq9bXuVsnsLTnn3fMY6Y24twSQELMejTDt9LtlaUcRAMtRx1NOQYa0OPpr7Gj6EBhzNmH5V6o6TjJvpK51QzbkUFlm3XZoZ/B6dQ3pbqUENcpj+TgQN6Mjf9FdJwfFcJMc/KrqH0WJcQTvglMFPga5AjDH6FXXIPb0w1Aa5HRoEHgFVUSE39CHVc3IvBy2Tpn+rMx2x/TR7RAKxSvqpeWYzRj/rJUiuovO0dx/VNWr5ulB9H3lM+U73/BCWQe+anLk4No4fD0tM0iOIIGfmsYVf0sfaGdZ5tDExRQlmWAAwfqEMP/3IRSEkZHak8WihlNsC2sHGE0dJDbc3k2c1LbS2PWjC/hKlHdSq+7yjUQrunQvjFDfu7WaYCkCwfRqjZ+RwWaHV2MM=
