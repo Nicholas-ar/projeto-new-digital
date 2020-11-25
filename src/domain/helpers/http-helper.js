@@ -51,7 +51,7 @@ export const HTTP_UNAUTHORIZED_401 = () => ({
 });
 
 /**
- * That returns an SERVER ERROR response, with a 500 statusCode and a data object, message inside the message.
+ * That returns an SERVER ERROR response, with a 500 statusCode and a data object, message inside the message
  * @param {Error} error
  * @returns {HttpResponse} -
  */
