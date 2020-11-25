@@ -1,6 +1,7 @@
 language: node_js
 node_js:
   - stable
+services: mongodb
 branches:
   only:
     - production
@@ -8,6 +9,7 @@ branches:
     - main
 env:
   - NODE_ENV=test
+  - MONGOURL=mongodb://localhost:27017/mongo
 install: npm install
 cache:
   directories:
