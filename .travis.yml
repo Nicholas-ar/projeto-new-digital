@@ -1,20 +1,18 @@
 language: node_js
 node_js:
-- stable
+  - stable
 services: mongodb
 branches:
   only:
-  - production
-  - development
-  - main
+    - main
 install: npm install
 cache:
   directories:
-  - node_modules
+    - node_modules
 script: npm run test:ci
 after_success:
-- npm run coverage
-- bash <(curl -s https://codecov.io/bash)
+  - npm run coverage
+  - bash <(curl -s https://codecov.io/bash)
 
 deploy:
   provider: heroku
