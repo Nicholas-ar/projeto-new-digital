@@ -41,7 +41,7 @@ describe('authenticationRoutes', () => {
   afterAll(async () => await MongoHelper.disconnect());
 
   describe('products route', () => {
-    it.skip('must create a product returning a 201', async () => {
+    it('must create a product returning a 201', async () => {
       const response = await request(app)
         .post('/api/v1/product')
         .send({
@@ -71,13 +71,13 @@ describe('authenticationRoutes', () => {
     });
   });
 
-  it.skip('must list registered products a 200', async () => {
+  it('must list registered products a 200', async () => {
     await productsCollection.insertMany(makeFakeProducts());
     const response = await request(app).get('/api/v1/products').expect(200);
     expect(response.body).toHaveLength(2);
   });
 
-  it.skip('must retrieve a registered product returning a 200', async () => {
+  it('must retrieve a registered product returning a 200', async () => {
     await productsCollection.insertMany(makeFakeProducts());
     const response = await request(app).get('/api/v1/product/2').expect(200);
     expect(response.body).toEqual({
@@ -94,7 +94,7 @@ describe('authenticationRoutes', () => {
     });
   });
 
-  it.skip('must update a registered product returning a 200', async () => {
+  it('must update a registered product returning a 200', async () => {
     await productsCollection.insertMany(makeFakeProducts());
     const response = await request(app)
       .patch('/api/v1/product/2')
@@ -103,23 +103,13 @@ describe('authenticationRoutes', () => {
       })
       .expect(200);
 
-    expect(response.body).toEqual({
-      _id: '2',
-      brand: 'Sony',
-      category: 'Console',
-      description: 'Expensive gaming console',
-      dimensions: '50 x 50 x 50',
-      name: 'PS5',
-      price: 6000,
-      releaseDate: 2020,
-      stock: 1,
-      weight: '50 kg',
-    });
+    expect(response.body).toEqual(1);
   });
 
-  it.skip('must delete a registered product returning a 204', async () => {
+  it('must delete a registered product returning a 204', async () => {
     await productsCollection.insertMany(makeFakeProducts());
     await request(app).delete('/api/v1/product/2').expect(204);
-    await expect(productsCollection.count()).toHaveLength(1);
+    const amount = await productsCollection.countDocuments();
+    await expect(amount).toEqual(1);
   });
 });

@@ -13,14 +13,14 @@ productRoutes.post(
   expressRouterAdapter(makeProductController(), 'createProduct')
 );
 productRoutes.get(
-  '/product/:id',
-  expressRouterAdapter(makeProductController(), 'retrieveById')
+  '/product/:_id',
+  expressRouterAdapter(makeProductController(), 'retrieveProduct')
 );
 productRoutes.patch(
-  '/product/:id',
+  '/product/:_id',
   expressRouterAdapter(makeProductController(), 'updateProduct')
 );
 productRoutes.delete(
-  '/product/:id',
+  '/product/:_id',
   expressRouterAdapter(makeProductController(), 'deleteProduct')
 );
