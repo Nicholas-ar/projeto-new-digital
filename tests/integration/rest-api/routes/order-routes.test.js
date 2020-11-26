@@ -31,6 +31,7 @@ const makeAdminUser = async () => {
   const user = await usersCollection.insertOne({
     email: 'valid_email@gmail.com',
     password: 'valid_password',
+    isAdmin: true,
   });
   const _id = user.ops[0]._id;
   const accessToken = sign({ id: _id }, env.JWT_SECRET);

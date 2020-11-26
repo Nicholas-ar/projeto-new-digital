@@ -3,6 +3,7 @@ const makeFakeAccount = () => ({
   _id: 'valid_id',
   email: 'valid_email',
   password: 'hashed_password',
+  isAdmin: true,
 });
 
 const makeDecrypter = () => {

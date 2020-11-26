@@ -7,7 +7,7 @@ export class LoadAccountByToken {
     const token = this._decrypter.decipher(accessToken);
     if (token) {
       const user = await this._repository.retrieveByToken(accessToken, role);
-      if(user) return user
+      if(user && user.isAdmin) return user
     }
     return null;
   }
