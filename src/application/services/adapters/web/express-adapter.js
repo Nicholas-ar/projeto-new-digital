@@ -1,6 +1,6 @@
 /**
  * Receives Req and Res from Express and adapts to our architecture
- * @param {Class} controller - Object constructor
+ * @param {Controller} controller - Object constructor
  * @param {string} method - methods of the controllers
  */
 
