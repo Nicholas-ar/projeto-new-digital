@@ -1,4 +1,9 @@
-import { HTTP_FORBIDDEN_403 } from '../helpers/http-helper';
+import { ServerError } from '../errors';
+import {
+  HTTP_FORBIDDEN_403,
+  HTTP_OK_200,
+  HTTP_SERVER_ERROR_500,
+} from '../helpers/http-helper';
 import { AuthenticationMiddleware } from './authentication-middleware';
 
 const makeFakeAccount = () => ({
@@ -51,5 +56,30 @@ describe('AuthenticationMiddleware', () => {
       },
     });
     expect(httpResponse).toEqual(HTTP_FORBIDDEN_403());
+  });
+
+  it('must return a 200 if LoadAccountByToken returns an User', async () => {
+    const { sut } = makeSut();
+    const httpResponse = await sut.execute({
+      headers: {
+        'x-access-token': 'any_token',
+      },
+    });
+    expect(httpResponse).toEqual(HTTP_OK_200({ _id: 'valid_id' }));
+  });
+
+  it('must return a 500 if LoadAccountByToken throws an error', async () => {
+    const { sut, loadAccountbyTokenStub } = makeSut();
+    jest
+      .spyOn(loadAccountbyTokenStub, 'load')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
+      );
+    const httpResponse = await sut.execute({
+      headers: {
+        'x-access-token': 'any_token',
+      },
+    });
+    expect(httpResponse).toEqual(HTTP_SERVER_ERROR_500(new Error()));
   });
 });
