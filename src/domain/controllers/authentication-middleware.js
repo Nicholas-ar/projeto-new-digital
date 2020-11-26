@@ -1,7 +1,16 @@
-import { HTTP_FORBIDDEN_403 } from "../helpers/http-helper";
+import { HTTP_FORBIDDEN_403 } from '../helpers/http-helper';
 
 export class AuthenticationMiddleware {
+  constructor(loadAccountByToken) {
+    this._loadAccountByToken = loadAccountByToken;
+  }
   async execute(httpRequest) {
-    return new Promise((resolve) => resolve(HTTP_FORBIDDEN_403()));
+    if (httpRequest.headers) {
+      const accessToken = httpRequest.headers['x-access-token'];
+      if (accessToken) {
+        await this._loadAccountByToken.load(accessToken);
+      }
+    }
+    return HTTP_FORBIDDEN_403();
   }
 }
