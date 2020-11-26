@@ -1,6 +1,8 @@
 import request from 'supertest';
 import app from '../../../../src/application/rest-api/app';
 import { MongoHelper } from '../../../../src/application/helpers/mongo-helper';
+import { sign } from 'jsonwebtoken';
+import env from '../../../../src/application/config/environment';
 
 const makeFakeOrders = () => [
   {
@@ -26,20 +28,47 @@ const makeFakeOrders = () => [
 ];
 
 let ordersCollection;
-describe('authenticationRoutes', () => {
+let usersCollection;
+describe('orders', () => {
   beforeAll(async () => await MongoHelper.connect(process.env.MONGO_URL));
 
   beforeEach(async () => {
     ordersCollection = await MongoHelper.getCollection('orders');
+    usersCollection = await MongoHelper.getCollection('users');
     await ordersCollection.deleteMany({});
+    await usersCollection.deleteMany({});
   });
 
   afterAll(async () => await MongoHelper.disconnect());
 
   describe('Orders route', () => {
-    it('must return 200 on retrieving orders list', async () => {
+    it('must return a 403 if user is not admin', async () => {
       await ordersCollection.insertMany(makeFakeOrders());
-      const response = await request(app).get('/api/v1/orders').expect(200);
+      await request(app).get('/api/v1/orders').expect(403);
+    });
+
+    it('must return 200 on retrieving orders list', async () => {
+      const user = await usersCollection.insertOne({
+        email: 'valid_email@gmail.com',
+        password: 'valid_password',
+      });
+      const _id = user.ops[0]._id;
+      const accessToken = sign({ id: _id }, env.JWT_SECRET);
+      await usersCollection.updateOne(
+        {
+          _id,
+        },
+        {
+          $set: {
+            accessToken,
+          },
+        }
+      );
+      await ordersCollection.insertMany(makeFakeOrders());
+      const response = await request(app)
+        .get('/api/v1/orders')
+        .set('x-access-token', accessToken)
+        .expect(200);
       expect(response.body).toEqual([
         {
           _id: '1',

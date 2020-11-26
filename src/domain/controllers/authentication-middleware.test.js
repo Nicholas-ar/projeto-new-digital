@@ -23,7 +23,7 @@ const makeLoadAccountByToken = () => {
 
 const makeSut = () => {
   const loadAccountbyTokenStub = makeLoadAccountByToken();
-  const sut = new AuthenticationMiddleware(loadAccountbyTokenStub);
+  const sut = new AuthenticationMiddleware(loadAccountbyTokenStub, true);
   return { sut, loadAccountbyTokenStub };
 };
 
@@ -42,7 +42,7 @@ describe('AuthenticationMiddleware', () => {
         'x-access-token': 'any_token',
       },
     });
-    expect(loadSpy).toHaveBeenCalledWith('any_token');
+    expect(loadSpy).toHaveBeenCalledWith('any_token', true);
   });
 
   it('must return a 403 if LoadAccountByToken returns null', async () => {

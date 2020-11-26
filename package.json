@@ -10,7 +10,7 @@
     "start": "node ./build/application/rest-api/start.js",
     "start:dev": "nodemon src/application/rest-api/start.js",
     "test": "jest --passWithNoTests --noStackTrace --runInBand",
-    "test:verbose": "jest --passWithNoTests --runInBand",
+    "test:verbose": "jest ./tests/integration/rest-api/routes/order-routes.test.js --passWithNoTests --runInBand",
     "test:unit": "jest tests/unit --watch --passWithNoTests --runInBand",
     "test:integration": "jest tests/integration --watch --passWithNoTests --passWithNoTests",
     "test:ci": "npm test -- --coverage --passWithNoTests",
