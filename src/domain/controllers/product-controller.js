@@ -7,8 +7,9 @@ import {
 } from '../helpers/http-helper';
 
 export class ProductController {
-  constructor(repository) {
+  constructor(repository, imageUploaderService) {
     this.repository = repository;
+    this.imageUploaderService = imageUploaderService;
   }
 
   /**
@@ -20,11 +21,13 @@ export class ProductController {
    */
   async createProduct(httpRequest) {
     try {
-      // presigned url that needs to be sent to the client for a PUT request containing the image file
-      // https://qrobuy.s3-sa-east-1.amazonaws.com/${imageName}.jpg => URL that needs to be saved into product document
-      // httpRequest.body.product.URLimage = `https://qrobuy.s3-sa-east-1.amazonaws.com/${imageName}.jpg`
+      const pressignedUrl = await this.imageUploaderService.execute(
+        httpRequest.body.imageName
+      );
+      //TODO: refactor this
+      httpRequest.body.product.imageUrl = `https://qrobuy.s3-sa-east-1.amazonaws.com/${httpRequest.body.imageName}.jpg`;
       const product = await this.repository.create(httpRequest.body.product);
-      return HTTP_CREATED_201(product);
+      return HTTP_CREATED_201({ product, pressignedUrl });
     } catch (error) {
       return HTTP_SERVER_ERROR_500(error);
     }
