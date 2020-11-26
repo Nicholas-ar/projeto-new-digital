@@ -1,4 +1,5 @@
 import { ProductRepository } from '../../../application/database/mongodb';
+import { AWSPresignedAdapter } from '../../../application/services/adapters/aws/aws-adapter';
 import { ProductController } from '../index';
 
 /**
@@ -7,7 +8,8 @@ import { ProductController } from '../index';
  * @returns {ProductController} - ProductController Object
  */
 export const makeProductController = () => {
+  const imageService = new AWSPresignedAdapter();
   const repository = new ProductRepository();
 
-  return new ProductController(repository);
+  return new ProductController(repository, imageService);
 };

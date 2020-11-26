@@ -56,18 +56,24 @@ describe('authenticationRoutes', () => {
             releaseDate: 2020,
             stock: 1,
           },
+          imageName: 'my_image',
         })
         .expect(201);
-      expect(response.body._id).toBeTruthy();
-      expect(response.body.name).toBe('PS5');
-      expect(response.body.description).toBe('Expensive gaming console');
-      expect(response.body.price).toEqual(5000);
-      expect(response.body.brand).toBe('Sony');
-      expect(response.body.category).toBe('Console');
-      expect(response.body.weight).toBe('50 kg');
-      expect(response.body.dimensions).toBe('50 x 50 x 50');
-      expect(response.body.releaseDate).toEqual(2020);
-      expect(response.body.stock).toEqual(1);
+
+      console.log(response.body);
+      expect(response.body.product._id).toBeTruthy();
+      expect(response.body.product.name).toBe('PS5');
+      expect(response.body.product.description).toBe(
+        'Expensive gaming console'
+      );
+      expect(response.body.product.price).toEqual(5000);
+      expect(response.body.product.brand).toBe('Sony');
+      expect(response.body.product.category).toBe('Console');
+      expect(response.body.product.weight).toBe('50 kg');
+      expect(response.body.product.dimensions).toBe('50 x 50 x 50');
+      expect(response.body.product.releaseDate).toEqual(2020);
+      expect(response.body.product.stock).toEqual(1);
+      expect(response.body.pressignedUrl).toBeTruthy();
     });
   });
 
