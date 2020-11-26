@@ -39,4 +39,17 @@ describe('AuthenticationMiddleware', () => {
     });
     expect(loadSpy).toHaveBeenCalledWith('any_token');
   });
+
+  it('must return a 403 if LoadAccountByToken returns null', async () => {
+    const { sut, loadAccountbyTokenStub } = makeSut();
+    jest
+      .spyOn(loadAccountbyTokenStub, 'load')
+      .mockReturnValueOnce(new Promise((resolve) => resolve(null)));
+    const httpResponse = await sut.execute({
+      headers: {
+        'x-access-token': 'invalid_token',
+      },
+    });
+    expect(httpResponse).toEqual(HTTP_FORBIDDEN_403());
+  });
 });
