@@ -60,7 +60,6 @@ describe('authenticationRoutes', () => {
         })
         .expect(201);
 
-      console.log(response.body);
       expect(response.body.product._id).toBeTruthy();
       expect(response.body.product.name).toBe('PS5');
       expect(response.body.product.description).toBe(
