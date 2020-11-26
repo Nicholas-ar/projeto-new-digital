@@ -8,21 +8,25 @@ export const orderRoutes = Router();
 
 const adminAuth = expressMiddlewareAdapter(makeAuthenticationMiddleware(true));
 
-orderRoutes.get('/orders', adminAuth, expressRouterAdapter(makeOrderController(), 'list'));
 orderRoutes.get(
-  '/order',
-  expressRouterAdapter(makeOrderController(), 'retrieveOrder')
+  '/orders',
+  adminAuth,
+  expressRouterAdapter(makeOrderController(), 'list')
 );
+
 orderRoutes.post(
   '/orders',
+  adminAuth,
   expressRouterAdapter(makeOrderController(), 'createOrder')
 );
 orderRoutes.patch(
   '/orders/:_id',
+  adminAuth,
   expressRouterAdapter(makeOrderController(), 'updateOrder')
 );
 
 orderRoutes.get(
   '/orders/:id',
+  adminAuth,
   expressRouterAdapter(makeOrderController(), 'retrieveOrderById')
 );
