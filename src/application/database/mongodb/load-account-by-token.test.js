@@ -1,4 +1,4 @@
-import { LoadAccountByTokenMongo } from './load-account-by-token-mongo';
+import { LoadAccountByToken } from './load-account-by-token';
 
 const makeFakeAccount = () => ({
   _id: 'valid_id',
@@ -27,7 +27,7 @@ const makeUserRepository = () => {
 const makeSut = () => {
   const userRepositoryStub = makeUserRepository();
   const decrypterStub = makeDecrypter();
-  const sut = new LoadAccountByTokenMongo(decrypterStub, userRepositoryStub);
+  const sut = new LoadAccountByToken(decrypterStub, userRepositoryStub);
   return { sut, decrypterStub, userRepositoryStub };
 };
 

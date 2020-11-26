@@ -1,4 +1,4 @@
-export class LoadAccountByTokenMongo {
+export class LoadAccountByToken {
   constructor(decrypter, repository) {
     this._decrypter = decrypter;
     this._repository = repository;
