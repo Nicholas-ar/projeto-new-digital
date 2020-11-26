@@ -3,7 +3,7 @@
 > Camada BackEnd da aplicação QroBuy desenvolvida para o New Digital Program da wBrain
 
 <div align="center">
-<img src="" height="300px" alt="imagem da versão web"><img src="" height="300px" alt="Imagem da versão mobile">
+<img height="300px" alt="imagem da versão web"><img src="" height="300px" alt="Imagem da versão mobile">
 </div>
 <br>
 

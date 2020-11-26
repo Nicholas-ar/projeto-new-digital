@@ -84,9 +84,9 @@ describe('Order Controller', () => {
       const sut = makeSut();
       const fakeOrderData = makeFakeOrder();
       const updateSpy = jest.spyOn(sut, 'update');
-      await sut.update({ cpf: fakeOrderData.cpf }, { delivered: true });
+      await sut.update({ _id: fakeOrderData._id }, { delivered: true });
       expect(updateSpy).toHaveBeenCalledWith(
-        { cpf: fakeOrderData.cpf },
+        { _id: fakeOrderData._id },
         { delivered: true }
       );
     });
@@ -98,7 +98,7 @@ describe('Order Controller', () => {
       const orderCollection = await MongoHelper.getCollection('orders');
       await orderCollection.insertOne(fakeOrderData);
 
-      await sut.update({ cpf: fakeOrderData.cpf }, { delivered: true });
+      await sut.update({ _id: fakeOrderData._id }, { delivered: true });
 
       const order = await orderCollection.findOne({
         email: 'valid_email@email.com',

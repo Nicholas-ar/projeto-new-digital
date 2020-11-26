@@ -9,6 +9,8 @@ module.exports = {
     '!<rootDir>/tests/**',
     '!**/index.js',
     '!**/*-config.js',
+    '!./docs/**',
+    '!**/swagger/**',
   ],
   testEnvironment: 'node',
   preset: '@shelf/jest-mongodb',

@@ -4,6 +4,16 @@ import { ProductController } from '../../../src/domain/controllers';
 
 let productCollection;
 
+const makeImageUploaderService = () => {
+  class ImageUploaderServiceStub {
+    async execute(fileName) {
+      return new Promise((resolve) => resolve('pressigned_url'));
+    }
+  }
+  return new ImageUploaderServiceStub();
+};
+
+
 const mockProduct = {
   name: 'abc',
   description: 'something',
@@ -30,22 +40,24 @@ describe('Product Controller', () => {
     const product = mockProduct;
     it('must create a product with 201 status code given valid data', async () => {
       const httpRequest = {
-        body: { product },
+        body: { product, imageName: 'my_image' },
       };
+      const imageUploaderServiceStub = makeImageUploaderService();
       const productRepository = new ProductRepository();
-      const productController = new ProductController(productRepository);
+      const productController = new ProductController(productRepository, imageUploaderServiceStub);
       const res = await productController.createProduct(httpRequest);
       const resProduct = res.body;
       expect(res.statusCode).toBe(201);
-      expect(resProduct._id).toBeTruthy();
-      expect(resProduct.description).toBe('something');
-      expect(resProduct.price).toBe(10000);
-      expect(resProduct.brand).toBe('generic');
-      expect(resProduct.category).toBe('generic');
-      expect(resProduct.weight).toBe('10 kg');
-      expect(resProduct.dimensions).toBe('50 x 50 x 50');
-      expect(resProduct.releaseDate).toBe(2010);
-      expect(resProduct.stock).toBe(10);
+      expect(resProduct.product._id).toBeTruthy();
+      expect(resProduct.product.description).toBe('something');
+      expect(resProduct.product.price).toBe(10000);
+      expect(resProduct.product.brand).toBe('generic');
+      expect(resProduct.product.category).toBe('generic');
+      expect(resProduct.product.weight).toBe('10 kg');
+      expect(resProduct.product.dimensions).toBe('50 x 50 x 50');
+      expect(resProduct.product.releaseDate).toBe(2010);
+      expect(resProduct.product.imageUrl).toBe(`https://qrobuy.s3-sa-east-1.amazonaws.com/${httpRequest.body.imageName}.jpg`);
+      expect(resProduct.product.stock).toBe(10);
     });
 
     it('must return with 500 status code given duplicate data', async () => {
