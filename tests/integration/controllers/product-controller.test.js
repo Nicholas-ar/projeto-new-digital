@@ -13,7 +13,6 @@ const makeImageUploaderService = () => {
   return new ImageUploaderServiceStub();
 };
 
-
 const mockProduct = {
   name: 'abc',
   description: 'something',
@@ -44,7 +43,10 @@ describe('Product Controller', () => {
       };
       const imageUploaderServiceStub = makeImageUploaderService();
       const productRepository = new ProductRepository();
-      const productController = new ProductController(productRepository, imageUploaderServiceStub);
+      const productController = new ProductController(
+        productRepository,
+        imageUploaderServiceStub
+      );
       const res = await productController.createProduct(httpRequest);
       const resProduct = res.body;
       expect(res.statusCode).toBe(201);
@@ -56,7 +58,9 @@ describe('Product Controller', () => {
       expect(resProduct.product.weight).toBe('10 kg');
       expect(resProduct.product.dimensions).toBe('50 x 50 x 50');
       expect(resProduct.product.releaseDate).toBe(2010);
-      expect(resProduct.product.imageUrl).toBe(`https://qrobuy.s3-sa-east-1.amazonaws.com/${httpRequest.body.imageName}.jpg`);
+      expect(resProduct.product.imageUrl).toBe(
+        `https://qrobuy.s3-sa-east-1.amazonaws.com/${httpRequest.body.imageName}.jpg`
+      );
       expect(resProduct.product.stock).toBe(10);
     });
 

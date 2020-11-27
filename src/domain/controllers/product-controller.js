@@ -5,6 +5,7 @@ import {
   HTTP_SERVER_ERROR_500,
   HTTP_NO_CONTENT_204,
 } from '../helpers/http-helper';
+import { qrCodeAdapter } from '../../application/services/adapters/qrcode-adapter';
 
 export class ProductController {
   constructor(repository, imageUploaderService) {
@@ -19,14 +20,32 @@ export class ProductController {
    * - A 201 http response will be returned otherwise, with the product on the body.
    *
    */
+
   async createProduct(httpRequest) {
     try {
+      const qrAdapter = new qrCodeAdapter();
       const pressignedUrl = await this.imageUploaderService.execute(
         httpRequest.body.imageName
       );
       //TODO: refactor this
       httpRequest.body.product.imageUrl = `https://qrobuy.s3-sa-east-1.amazonaws.com/${httpRequest.body.imageName}.jpg`;
-      const product = await this.repository.create(httpRequest.body.product);
+
+      const productNoQR = await this.repository.create(
+        httpRequest.body.product
+      );
+
+      //TODO: make sure this is the correct productUrl
+      const productUrl = `https://qrobuy-backend.herokuapp.com/api/v1/product/${productNoQR._id}`;
+      const tempQRCodeString = await qrAdapter.generateQRCode(productUrl);
+      await this.repository.update(
+        { _id: productNoQR._id },
+        { $set: { qrCodeString: tempQRCodeString } }
+      );
+
+      const product = await this.repository.getByQuery({
+        _id: productNoQR._id,
+      });
+
       return HTTP_CREATED_201({ product, pressignedUrl });
     } catch (error) {
       return HTTP_SERVER_ERROR_500(error);
@@ -59,6 +78,7 @@ export class ProductController {
    * - A 500 http response will be returned if an error is thrown during the process.
    * - A 200 http response will be returned otherwise, containing an array with the products info in the body.
    */
+
   async retrieveAll() {
     try {
       const allProducts = await this.repository.getAll();
@@ -75,6 +95,7 @@ export class ProductController {
    * - A 500 http response will be returned if an error is thrown during the process.
    * - A 200 http response will be returned otherwise, containing an binary value in the body, indicating if the update has been successful.
    */
+
   async updateProduct(httpRequest) {
     try {
       const updateFormat = { $set: httpRequest.body };

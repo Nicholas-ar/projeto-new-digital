@@ -29,6 +29,15 @@ export class ProductRepository {
   }
 
   /**
+   * Retrieves the first product that matches given id from the database
+   * @returns {Promise<Object> }
+   */
+  async retrieveById(id) {
+    const productCollection = await MongoHelper.getCollection('products');
+    return await productCollection.findOne({ _id: id });
+  }
+
+  /**
 
    * Gets all Products in the database
    * @returns {Promise<Array<Product>>}
