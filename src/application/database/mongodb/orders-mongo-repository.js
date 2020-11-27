@@ -6,11 +6,22 @@ import { MongoHelper } from '../../helpers/mongo-helper';
  * Orders repository for the Mongo database
  * @method list
  * @method retrieveByCpf
+ * @method listByEmail
  * @method create
  * @method update
  * @method delete
  */
 export class OrdersMongoRepository {
+  /**
+   * Lists all Orders in the database
+   * @param {String} email
+   * @returns {Promise<Array<Order>>}
+   */
+  async listByEmail(email) {
+    const orderCollection = await MongoHelper.getCollection('orders');
+    return await orderCollection.find({ email }).toArray();
+  }
+
   /**
    * Lists all Orders in the database
    * @returns {Promise<Array<Order>>}
@@ -66,7 +77,6 @@ export class OrdersMongoRepository {
       { $set: newData }
     );
     const order = await orderCollection.findOne(objectId);
-    console.log(order)
     if (result.result.ok === 1) return order;
     return false;
   }
