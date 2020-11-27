@@ -35,7 +35,11 @@ export class ProductRepository {
    */
   async getById(id) {
     const productCollection = await MongoHelper.getCollection('products');
-    return await productCollection.findOne({ _id: { $in: [ObjectID(id)] } });
+    const products = await productCollection.find({}).toArray();
+    if (typeof products[0]._id === typeof 'teste') {
+      return await productCollection.findOne({ _id: id });
+    }
+    return await productCollection.findOne(new ObjectID(id));
   }
 
   /**
