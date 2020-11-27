@@ -29,7 +29,6 @@ describe('authenticationRoutes', () => {
     it('must return a 200 on login', async () => {
       const password = await hash('valid_password');
       await usersCollection.insertOne({
-        name: 'valid_name',
         email: 'valid_email@gmail.com',
         password,
       });

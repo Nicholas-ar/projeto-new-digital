@@ -5,7 +5,7 @@ import { expressRouterAdapter } from '../../services/adapters/web/express-adapte
 
 export const authenticationRoutes = Router();
 
-authenticationRoutes.get(
+authenticationRoutes.post(
   '/signin',
   expressRouterAdapter(makeSignInController(), 'execute')
 );

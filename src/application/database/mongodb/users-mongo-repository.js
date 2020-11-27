@@ -32,13 +32,13 @@ export class UsersMongoRespository {
 
   /**
    * Retrieves the first user from the database that matches the given email
-   * @param {String} accessToken
+   * @param {Object} accessToken
    * @param {boolean} role
    * @returns {Promise<User>}
    */
   async retrieveByToken(accessToken, role) {
     const usersCollection = await MongoHelper.getCollection('users');
-    return await usersCollection.findOne({ accessToken });
+    return await usersCollection.findOne({ _id: accessToken.id });
   }
 
   /**
