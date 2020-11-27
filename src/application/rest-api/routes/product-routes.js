@@ -14,7 +14,6 @@ productRoutes.get(
 );
 productRoutes.post(
   '/product',
-  adminAuth,
   expressRouterAdapter(makeProductController(), 'createProduct')
 );
 productRoutes.get(
@@ -23,11 +22,9 @@ productRoutes.get(
 );
 productRoutes.patch(
   '/product/:_id',
-  adminAuth,
   expressRouterAdapter(makeProductController(), 'updateProduct')
 );
 productRoutes.delete(
   '/product/:_id',
-  adminAuth,
   expressRouterAdapter(makeProductController(), 'deleteProduct')
 );
