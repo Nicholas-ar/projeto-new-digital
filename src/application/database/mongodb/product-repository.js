@@ -1,4 +1,5 @@
 import { MongoHelper } from '../../helpers/mongo-helper';
+import { ObjectID } from 'mongodb';
 
 /**
  * Products repository for the Mongo database
@@ -32,9 +33,9 @@ export class ProductRepository {
    * Retrieves the first product that matches given id from the database
    * @returns {Promise<Object> }
    */
-  async retrieveById(id) {
+  async getById(id) {
     const productCollection = await MongoHelper.getCollection('products');
-    return await productCollection.findOne({ _id: id });
+    return await productCollection.findOne({ _id: { $in: [ObjectID(id)] } });
   }
 
   /**
