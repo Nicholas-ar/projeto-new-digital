@@ -103,33 +103,10 @@ describe('orders', () => {
   });
 
   describe('orders post', () => {
-    it('must return a 403 if user is not admin', async () => {
-      await request(app)
-        .post('/api/v1/orders')
-        .send({
-          orderData: {
-            email: 'valid_email@email.com',
-            cpf: '12595312790',
-            delivered: false,
-          },
-          paymentData: {
-            orderPrice: 10,
-            orderReference: Math.floor(Math.random() * 10001),
-            cardNumber: '5448280000000007',
-            cvv: '235',
-            expirationMonth: '12',
-            expirationYear: '2020',
-            cardHolderName: 'Fulano de Tal',
-          },
-        })
-        .expect(403);
-    });
-
     it('must return a 201 given valid information', async () => {
       const accessToken = await makeAdminUser();
       const result = await request(app)
         .post('/api/v1/orders')
-        .set('x-access-token', accessToken)
         .send({
           orderData: {
             email: 'valid_email@email.com',
