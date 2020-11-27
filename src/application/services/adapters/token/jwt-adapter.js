@@ -9,6 +9,7 @@ require('dotenv').config();
  */
 export class JwtAdapter {
   constructor() {
+    // TODO refactor this
     this.secret = process.env.JWT_SECRET;
   }
 
@@ -20,5 +21,15 @@ export class JwtAdapter {
   generate(value) {
     const accessToken = jwt.sign({ id: value }, this.secret);
     return accessToken;
+  }
+
+  /**
+   * Generates a JWT given an index value and a secret
+   * @param {String} value - JSON web token.
+   * @returns {String | Object} - Access token generated based on ID value
+   */
+  decipher(value) {
+    const result = jwt.verify(value, this.secret);
+    return result;
   }
 }
