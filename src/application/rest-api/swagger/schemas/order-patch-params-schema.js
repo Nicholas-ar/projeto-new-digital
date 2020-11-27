@@ -12,26 +12,39 @@ export const orderPatchParamsSchema = {
     newValue: {
       type: 'object',
       properties: {
-        email: {
-          type: 'string',
+        orderData: {
+          properties: {
+            email: { type: 'string' },
+            cpf: { type: 'string' },
+            delivered: { type: 'boolean' },
+          },
         },
-        name: {
-          type: 'string',
-        },
-        cpf: {
-          type: 'string',
-        },
-        price: {
-          type: 'integer',
-        },
-        date: {
-          type: 'string',
-        },
-        retrieved: {
-          type: 'boolean',
+        paymentData: {
+          properties: {
+            orderPrice: { type: 'number' },
+            orderReference: { type: 'number' },
+            cardNumber: { type: 'string' },
+            cvv: { type: 'string' },
+            expirationMonth: { type: 'string' },
+            expirationYear: { type: 'string' },
+            cardHolderName: { type: 'string' },
+          },
         },
       },
     },
   },
-  required: ['query', 'newValue', 'cpf', 'price', 'date'],
+  required: [
+    'query',
+    'newValue',
+    'email',
+    'cpf',
+    'delivered',
+    'orderPrice',
+    'orderReference',
+    'cardNumber',
+    'cvv',
+    'expirationMonth',
+    'expirationYear',
+    'cardHolderName',
+  ],
 };
