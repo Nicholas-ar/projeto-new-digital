@@ -34,8 +34,7 @@ export class ProductController {
         httpRequest.body.product
       );
 
-      //TODO: make sure this is the correct productUrl
-      const productUrl = `https://qrobuy-backend.herokuapp.com/api/v1/product/${productNoQR._id}`;
+      const productUrl = `https://qrobuy.netlify.app/product/${productNoQR._id}`;
       const tempQRCodeString = await qrAdapter.generateQRCode(productUrl);
       await this.repository.update(
         { _id: productNoQR._id },
