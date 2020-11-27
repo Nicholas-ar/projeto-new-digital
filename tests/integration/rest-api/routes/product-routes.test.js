@@ -182,10 +182,7 @@ describe('Products routes', () => {
     it('must return a 403 if user is not admin', async () => {
       await productsCollection.insertMany(makeFakeProducts());
       await request(app)
-        .patch('/api/v1/product/2')
-        .send({
-          price: 6000,
-        })
+        .delete('/api/v1/product/2')
         .expect(403);
     });
 
@@ -195,9 +192,6 @@ describe('Products routes', () => {
       await request(app)
         .delete('/api/v1/product/2')
         .set('x-access-token', accessToken)
-        .send({
-          price: 6000,
-        })
         .expect(204);
       const amount = await productsCollection.countDocuments();
       expect(amount).toEqual(1);
