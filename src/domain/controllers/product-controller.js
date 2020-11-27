@@ -23,6 +23,7 @@ export class ProductController {
 
   async createProduct(httpRequest) {
     try {
+      console.log(httpRequest)
       const qrAdapter = new qrCodeAdapter();
       const pressignedUrl = await this.imageUploaderService.execute(
         httpRequest.body.imageName
