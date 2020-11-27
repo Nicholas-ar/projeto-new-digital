@@ -98,6 +98,7 @@ const makeHttpRequest = () => ({
 const makeHashedHttpRequest = () => ({
   email: 'any_email@email.com',
   password: 'hashed_password',
+  isAdmin: false,
 });
 
 describe('Signup Controller', () => {
