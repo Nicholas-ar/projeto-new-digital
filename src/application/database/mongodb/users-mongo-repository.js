@@ -17,7 +17,6 @@ export class UsersMongoRespository {
   async create(userData) {
     const usersCollection = await MongoHelper.getCollection('users');
     const result = await usersCollection.insertOne(userData);
-    console.log(result.ops[0])
     return result.ops[0];
   }
 
