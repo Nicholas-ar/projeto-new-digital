@@ -33,7 +33,7 @@ describe('authenticationRoutes', () => {
         password,
       });
       await request(app)
-        .get('/api/v1/signin')
+        .post('/api/v1/signin')
         .send({
           email: 'valid_email@gmail.com',
           password: 'valid_password',
@@ -49,7 +49,7 @@ describe('authenticationRoutes', () => {
         password,
       });
       await request(app)
-        .get('/api/v1/signin')
+        .post('/api/v1/signin')
         .send({
           email: 'valid_email@gmail.com',
           password: 'another_password',

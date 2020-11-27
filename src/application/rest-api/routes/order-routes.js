@@ -16,7 +16,6 @@ orderRoutes.get(
 
 orderRoutes.post(
   '/orders',
-  adminAuth,
   expressRouterAdapter(makeOrderController(), 'createOrder')
 );
 orderRoutes.patch(

@@ -17,6 +17,7 @@ export class UsersMongoRespository {
   async create(userData) {
     const usersCollection = await MongoHelper.getCollection('users');
     const result = await usersCollection.insertOne(userData);
+    console.log(result.ops[0])
     return result.ops[0];
   }
 
@@ -38,7 +39,7 @@ export class UsersMongoRespository {
    */
   async retrieveByToken(accessToken, role) {
     const usersCollection = await MongoHelper.getCollection('users');
-    return await usersCollection.findOne({ _id: accessToken.id });
+    return await usersCollection.findOne({ accessToken });
   }
 
   /**
@@ -53,5 +54,6 @@ export class UsersMongoRespository {
       { _id: id },
       { $set: { accessToken: token } }
     );
+    await usersCollection.findOne({ _id: id });
   }
 }
