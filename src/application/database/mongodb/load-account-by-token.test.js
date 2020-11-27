@@ -46,9 +46,11 @@ describe('LoadAccountByTokenMongo', () => {
     expect(result).toBeNull();
   });
 
-  it.skip('must throw if Decrypter throws', async () => {
+  it('must throw if Decrypter throws', async () => {
     const { sut, decrypterStub } = makeSut();
-    jest.spyOn(decrypterStub, 'decipher').mockReturnValueOnce(new Error());
+    jest.spyOn(decrypterStub, 'decipher').mockImplementationOnce(() => {
+      throw new Error();
+    });
     const result = sut.load('any_token', true);
     await expect(result).rejects.toThrow();
   });
