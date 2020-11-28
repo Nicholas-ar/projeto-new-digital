@@ -1,11 +1,8 @@
-import { AuthenticationService, ValidationService } from '../../application/services/protocols';
+
+import { ValidationService, AuthenticationService } from '../../domain/services/protocols';
+import { HTTP_BAD_REQUEST_400, HTTP_UNAUTHORIZED_401, HTTP_OK_200, HTTP_SERVER_ERROR_500 } from '../helpers/http-helper';
+
 import { HttpRequest, HttpResponse } from './protocols/http.definition';
-import {
-  HTTP_OK_200,
-  HTTP_SERVER_ERROR_500,
-  HTTP_UNAUTHORIZED_401,
-  HTTP_BAD_REQUEST_400,
-} from '../helpers/http-helper';
 
 export class SignInController {
   /**

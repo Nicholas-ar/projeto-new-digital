@@ -1,5 +1,5 @@
-import { User } from '../../../domain/entities';
-import { UsersMongoRespository } from '../../database/mongodb/users-mongo-repository';
+import { User } from '../../../entities';
+import { UsersMongoRespository } from '../../../../application/database/mongodb/users-mongo-repository';
 
 /**
  * @abstract

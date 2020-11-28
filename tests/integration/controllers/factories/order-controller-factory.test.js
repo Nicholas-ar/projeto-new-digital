@@ -1,5 +1,5 @@
-import { OrderController } from '../../../../src/domain/controllers';
-import { makeOrderController } from '../../../../src/domain/controllers/factories/order-controller-factory';
+import { OrderController } from "../../../../src/application/controllers";
+import { makeOrderController } from "../../../../src/application/controllers/factories/order-controller-factory";
 
 describe('makeOrderController', () => {
   it('must return an OrderController with correct dependencies', () => {

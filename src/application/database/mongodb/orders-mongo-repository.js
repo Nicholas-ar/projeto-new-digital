@@ -57,6 +57,9 @@ export class OrdersMongoRepository {
    * @returns {Promise<Order>}
    */
   async create(orderData) {
+    const creationDate = new Date();
+    orderData.date = `${creationDate.getDay()}/${creationDate.getMonth()}/${creationDate.getFullYear()}`;
+    orderData.delivered = false;
     const orderCollection = await MongoHelper.getCollection('orders');
     const result = await orderCollection.insertOne(orderData);
     return result.ops[0];

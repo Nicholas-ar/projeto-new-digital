@@ -1,5 +1,5 @@
-import { SignUpController } from '../../../../src/domain/controllers/signup-controller';
-import { makeSignUpController } from '../../../../src/domain/controllers/factories/signup-controller-factory';
+import { SignUpController } from "../../../../src/application/controllers";
+import { makeSignUpController } from "../../../../src/application/controllers/factories/signup-controller-factory";
 
 describe('makeSignUnController', () => {
   it('must return an SignUpController with correct injected dependencies', () => {

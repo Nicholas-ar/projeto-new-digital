@@ -1,6 +1,6 @@
+import { ProductController } from '../../../src/application/controllers/product-controller';
 import { ProductRepository } from '../../../src/application/database/mongodb';
 import { MongoHelper } from '../../../src/application/helpers/mongo-helper';
-import { ProductController } from '../../../src/domain/controllers';
 
 let productCollection;
 

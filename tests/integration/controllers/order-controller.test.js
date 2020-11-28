@@ -1,16 +1,12 @@
-import {
-  HTTP_BAD_REQUEST_400,
-  HTTP_OK_200,
-  HTTP_CREATED_201,
-  HTTP_SERVER_ERROR_500,
-} from '../../../src/domain/helpers/http-helper';
-import { OrderController } from '../../../src/domain/controllers/';
+
 import {
   InvalidParameterError,
   InvalidQueryError,
   OrderNotFoundError,
 } from '../../../src/domain/errors';
 import { InvalidTransactionCredentialsError } from '../../../src/domain/errors/invalid-transaction-credentials-error';
+import { OrderController } from '../../../src/application/controllers/order-controller';
+import { HTTP_OK_200, HTTP_SERVER_ERROR_500, HTTP_BAD_REQUEST_400, HTTP_CREATED_201 } from '../../../src/application/helpers/http-helper';
 
 const makeRepository = () => {
   class RepositoryStub {

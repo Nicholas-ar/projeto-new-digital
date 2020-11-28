@@ -1,14 +1,9 @@
-import {
-  HTTP_BAD_REQUEST_400,
-  HTTP_OK_200,
-  HTTP_CREATED_201,
-  HTTP_SERVER_ERROR_500,
-  HTTP_NO_CONTENT_204,
-} from '../helpers/http-helper';
+
 import { qrCodeAdapter } from '../../../src/application/services/adapters/qrcode/qrcode-adapter';
 import { ProductRepository } from '../../application/database/protocols';
 import { HttpRequest } from './protocols/http.definition';
-import { ImageUploaderService } from '../../application/services/protocols';
+import { HTTP_CREATED_201, HTTP_SERVER_ERROR_500, HTTP_BAD_REQUEST_400, HTTP_OK_200, HTTP_NO_CONTENT_204 } from '../helpers/http-helper';
+import { ImageUploaderService } from '../../domain/services/protocols';
 
 export class ProductController {
   /**

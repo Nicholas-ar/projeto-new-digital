@@ -1,4 +1,4 @@
-import { LoadAccountByToken } from '../../services/authentication/load-account-by-token';
+import { LoadAccountByToken } from '../../../../src/application/services/authentication/load-account-by-token';
 
 const makeFakeAccount = () => ({
   _id: 'valid_id',

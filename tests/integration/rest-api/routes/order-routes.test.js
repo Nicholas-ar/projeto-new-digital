@@ -87,7 +87,12 @@ describe('orders', () => {
           orderData: {
             email: 'valid_email@email.com',
             cpf: '12595312790',
-            delivered: false,
+            cartItems: [
+              {
+                productName: 'Poste',
+                quantity: 1,
+              },
+            ],
           },
           paymentData: {
             orderPrice: 10,
