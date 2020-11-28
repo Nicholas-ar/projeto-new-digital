@@ -36,6 +36,7 @@ export class ProductController {
         httpRequest.body.product
       );
 
+      //TODO: make sure this is the correct productUrl
       const productUrl = `https://qrobuy.netlify.app/product/${productNoQR._id}`;
       const tempQRCodeString = await qrAdapter.generateQRCode(productUrl);
       await this._repository.update(
@@ -68,6 +69,26 @@ export class ProductController {
       if (!resProduct)
         return HTTP_BAD_REQUEST_400({
           message: 'No products with this query found',
+        });
+      return HTTP_OK_200(resProduct);
+    } catch (error) {
+      return HTTP_SERVER_ERROR_500(error);
+    }
+  }
+
+  /**
+   * Receives an HttpRequest containing a valid product id in the body
+   * @param httpRequest
+   * - A 400 http response will be returned if no matches are found in the database.
+   * - A 500 http response will be returned if an error is thrown during the process.
+   * - A 200 http response will be returned otherwise, containing the product info in the body.
+   */
+  async retrieveProductById(httpRequest) {
+    try {
+      const resProduct = await this.repository.getById(httpRequest.params._id);
+      if (!resProduct)
+        return HTTP_BAD_REQUEST_400({
+          message: 'No products with this id found',
         });
       return HTTP_OK_200(resProduct);
     } catch (error) {
