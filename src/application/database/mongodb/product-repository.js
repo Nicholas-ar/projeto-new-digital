@@ -1,7 +1,6 @@
 import { ObjectID } from 'mongodb';
 import { Product, ProductData } from '../../../domain/entities';
 import { MongoHelper } from '../../helpers/mongo-helper';
-import { ObjectID } from 'mongodb';
 
 /**
  * Products repository for the Mongo database
@@ -36,19 +35,15 @@ export class ProductRepository {
 
   /**
    * Retrieves the first product that matches given id from the database
-   * @param {String} id 
+   * @param {String} id
    * @returns {Promise<Product> }
    */
   async getById(id) {
     const productCollection = await MongoHelper.getCollection('products');
-<<<<<<< HEAD
-=======
     const products = await productCollection.find({}).toArray();
     if (typeof products[0]._id === typeof 'teste') {
-      return await productCollection.findOne({ _id: id });
+      return await productCollection.findOne(new ObjectID(id));
     }
->>>>>>> main
-    return await productCollection.findOne(new ObjectID(id));
   }
 
   /**
