@@ -19,7 +19,7 @@ productRoutes.post(
 );
 productRoutes.get(
   '/product/:_id',
-  expressRouterAdapter(makeProductController(), 'retrieveProduct')
+  expressRouterAdapter(makeProductController(), 'retrieveProductById')
 );
 productRoutes.patch(
   '/product/:_id',
