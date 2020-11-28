@@ -9,21 +9,33 @@
 
 ## :boom: Tecnologias utilizadas
 
-- NodeJS (versão 14.7 ou superior)
 - MongoDB
 - Express.js
 - JWT
 - Argon2
 - eRede
+- AWS S3
 
 ## :cat: Getting Started
-
+It's necessary to have Node version 14.7+ installed.
+<br>
+To install the dependencies use:
 ```shell
-- -docker-compose up
+npm install
 ```
-
-Pronto! Você conseguiu rodar a aplicação.
+<br>
+Configure the .env file with the variables in the .env.example
+<br>
+If you have docker-compose, start the MongoDB server using:
+```shell
+docker-compose up
+```
+<br>
+ To start the server, simply use:
+```shell
+npm run start:dev
+```
+and access it at `http://localhost:3333/`
 
 ## :fire: Task list
 
-- [x] Criar repositório no GithHub

@@ -1,13 +1,9 @@
-import {
-  HTTP_OK_200,
-  HTTP_SERVER_ERROR_500,
-  HTTP_UNAUTHORIZED_401,
-  HTTP_BAD_REQUEST_400,
-} from '../../../src/domain/helpers/http-helper';
+
 
 import { MissingParameterError } from '../../../src/domain/errors';
+import { SignInController } from '../../../src/application/controllers/signin-controller';
+import { HTTP_OK_200, HTTP_UNAUTHORIZED_401, HTTP_SERVER_ERROR_500, HTTP_BAD_REQUEST_400 } from '../../../src/application/helpers/http-helper';
 
-import { SignInController } from '../../../src/domain/controllers';
 
 const makeAuthentication = () => {
   class AuthenticationStub {

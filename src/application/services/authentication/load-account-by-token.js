@@ -1,5 +1,5 @@
 import { User } from '../../../domain/entities';
-import { UsersMongoRespository } from './users-mongo-repository';
+import { UsersMongoRespository } from '../../database/mongodb/users-mongo-repository';
 
 /**
  * @method load - Retrieves the user based on accessToken

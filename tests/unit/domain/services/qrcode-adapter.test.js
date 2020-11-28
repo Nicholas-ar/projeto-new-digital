@@ -1,4 +1,4 @@
-import { qrCodeAdapter } from './qrcode-adapter.js';
+import { qrCodeAdapter } from '../../../../src/application/services/adapters/qrcode/qrcode-adapter';
 import { toDataURL } from 'qrcode';
 
 describe('qrCodeAdapter', () => {

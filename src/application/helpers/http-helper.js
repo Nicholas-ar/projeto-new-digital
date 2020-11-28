@@ -1,5 +1,5 @@
 import { HttpResponse } from '../controllers/protocols/http.definition';
-import { AccessDeniedError, ServerError, UnauthorizedError } from '../errors';
+import { AccessDeniedError, ServerError, UnauthorizedError } from '../../domain/errors';
 
 /**
  * That returns a Bad Request response, with a 400 statusCode and an error body.
@@ -58,7 +58,6 @@ export const HTTP_FORBIDDEN_403 = () => ({
   statusCode: 403,
   body: new AccessDeniedError(),
 });
-
 
 /**
  * That returns an SERVER ERROR response, with a 500 statusCode and a data object, message inside the message.

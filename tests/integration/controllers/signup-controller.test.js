@@ -1,14 +1,14 @@
 import {
-  HTTP_CREATED_201,
-  HTTP_BAD_REQUEST_400,
-  HTTP_SERVER_ERROR_500,
-} from '../../../src/domain/helpers/http-helper';
-import {
   EmailInUseError,
   MissingParameterError,
   ServerError,
 } from '../../../src/domain/errors';
-import { SignUpController } from '../../../src/domain/controllers';
+import { SignUpController } from '../../../src/application/controllers';
+import {
+  HTTP_BAD_REQUEST_400,
+  HTTP_SERVER_ERROR_500,
+  HTTP_CREATED_201,
+} from '../../../src/application/helpers/http-helper';
 
 const makeAuthentication = () => {
   class AuthenticationStub {

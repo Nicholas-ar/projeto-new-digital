@@ -14,7 +14,9 @@ const makeFakePaymentData = () => ({
 describe('RedecardPaymentAdapter', () => {
   it('must call the pay method with correct data', async () => {
     const sut = makeSut();
-    const paySpy = jest.spyOn(sut, 'pay').mockReturnValueOnce('transaction_id');
+    const paySpy = jest
+      .spyOn(sut, 'pay')
+      .mockReturnValueOnce(new Promise((resolve) => resolve('transaction_id')));
     const fakePaymentData = makeFakePaymentData();
     await sut.pay(fakePaymentData);
     expect(paySpy).toHaveBeenCalledWith(fakePaymentData);

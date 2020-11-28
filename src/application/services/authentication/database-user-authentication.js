@@ -1,6 +1,6 @@
 import { User } from '../../../domain/entities/user';
+import { HasherService, TokenService } from '../../../domain/services/protocols';
 import { UsersRepository } from '../../database/protocols/users-repository.definition';
-import { HasherService, TokenService } from '../protocols';
 
 /**
  * Autheticator object that retrieves an user by it's email, validates the

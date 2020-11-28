@@ -1,4 +1,4 @@
-import { UserData } from '../../../domain/entities/user';
+import { UserData } from '../../../entities/user';
 
 /**
  * @abstract

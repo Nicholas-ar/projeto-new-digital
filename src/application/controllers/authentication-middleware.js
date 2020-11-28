@@ -1,15 +1,12 @@
-import { LoadAccountByToken } from '../../application/database/protocols/load-account-by-token.definition';
-import {
-  HTTP_FORBIDDEN_403,
-  HTTP_OK_200,
-  HTTP_SERVER_ERROR_500,
-} from '../helpers/http-helper';
+import { LoadAccountByTokenService } from '../../domain/services/protocols';
+import { HTTP_OK_200, HTTP_FORBIDDEN_403, HTTP_SERVER_ERROR_500 } from '../helpers/http-helper';
+
 import { HttpRequest, HttpResponse } from './protocols/http.definition';
 
 export class AuthenticationMiddleware {
   /**
    *
-   * @param {LoadAccountByToken} loadAccountByToken
+   * @param {LoadAccountByTokenService} loadAccountByToken
    * @param {Boolean} role
    */
   constructor(loadAccountByToken, role) {

@@ -1,18 +1,12 @@
-import {
-  HTTP_BAD_REQUEST_400,
-  HTTP_OK_200,
-  HTTP_CREATED_201,
-  HTTP_SERVER_ERROR_500,
-  HTTP_NO_CONTENT_204,
-} from '../helpers/http-helper';
-import { qrCodeAdapter } from '../../application/services/adapters/qrcode-adapter';
+
+import { qrCodeAdapter } from '../../../src/application/services/adapters/qrcode/qrcode-adapter';
 import { ProductRepository } from '../../application/database/protocols';
 import { HttpRequest } from './protocols/http.definition';
-import { ImageUploaderService } from '../../application/services/protocols';
+import { HTTP_CREATED_201, HTTP_SERVER_ERROR_500, HTTP_BAD_REQUEST_400, HTTP_OK_200, HTTP_NO_CONTENT_204 } from '../helpers/http-helper';
+import { ImageUploaderService } from '../../domain/services/protocols';
 
 export class ProductController {
   /**
-   *
    * @param {ProductRepository} repository
    * @param {ImageUploaderService} imageUploaderService
    */
@@ -61,14 +55,16 @@ export class ProductController {
 
   /**
    * Receives an HttpRequest containing a valid product query field in the body
-   * @param httpRequest
+   * @param {HttpRequest} httpRequest
    * - A 400 http response will be returned if no matches are found in the database.
    * - A 500 http response will be returned if an error is thrown during the process.
    * - A 200 http response will be returned otherwise, containing the product info in the body.
    */
   async retrieveProduct(httpRequest) {
     try {
-      const resProduct = await this._repository.retrieveById(httpRequest.params._id);
+      const resProduct = await this._repository.retrieveById(
+        httpRequest.params._id
+      );
       if (!resProduct)
         return HTTP_BAD_REQUEST_400({
           message: 'No products with this query found',

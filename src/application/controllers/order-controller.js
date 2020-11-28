@@ -1,24 +1,15 @@
 import { OrdersRepository } from '../../application/database/protocols/orders-repository.definition';
-
+import { OrderData } from '../../domain/entities';
 import {
-  PaymentData,
-  PaymentService,
-  ValidationService,
-} from '../../application/services/protocols';
-import { OrderData } from '../entities';
-
-import {
+  OrderNotFoundError,
   InvalidTransactionCredentialsError,
   InvalidQueryError,
-  OrderNotFoundError,
-} from '../errors';
+} from '../../domain/errors';
+import { PaymentService, PaymentData, ValidationService } from '../../domain/services/protocols';
+import { HTTP_OK_200, HTTP_SERVER_ERROR_500, HTTP_BAD_REQUEST_400, HTTP_CREATED_201 } from '../helpers/http-helper';
 
-import {
-  HTTP_BAD_REQUEST_400,
-  HTTP_OK_200,
-  HTTP_CREATED_201,
-  HTTP_SERVER_ERROR_500,
-} from '../helpers/http-helper';
+
+
 import { HttpRequest, HttpResponse } from './protocols/http.definition';
 
 export class OrderController {
@@ -120,7 +111,6 @@ export class OrderController {
    */
   async createOrder(httpRequest) {
     try {
-      console.log(httpRequest);
       /**@type {Object<OrderData, PaymentData>}*/
       const { orderData, paymentData } = httpRequest.body;
       const error = this.cpfValidator.validate(httpRequest.body.orderData.cpf);
@@ -148,7 +138,6 @@ export class OrderController {
    */
   async updateOrder(httpRequest) {
     try {
-      console.log(httpRequest);
       const order = await this.repository.update(
         httpRequest.params,
         httpRequest.body

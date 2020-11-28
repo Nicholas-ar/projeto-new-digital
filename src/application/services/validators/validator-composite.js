@@ -1,4 +1,4 @@
-import { ValidationService } from "../protocols";
+import { ValidationService } from '../../../domain/services/protocols';
 
 /**
  * Validator composit that receives a list of Validators,
@@ -14,7 +14,7 @@ export class ValidatorServiceComposite {
   }
 
   /**
-   * @param {any} input 
+   * @param {any} input
    */
   validate(input) {
     for (const validation of this._validators) {
