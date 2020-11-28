@@ -1,4 +1,4 @@
-import { Product } from '../../../domain/entities';
+import { Product, ProductData } from '../../../domain/entities';
 
 /**
  * @abstract
@@ -15,16 +15,17 @@ export class ProductRepository {
   }
 
   /**
-   * Create a  in the database
-   * @param {String} productData
-   * @returns {Promise<Array<Product>>}
+   * Create a Product document in the database
+   * @param {ProductData} productData
+   * @returns {Promise<Product>}
    */
   async create(productData) {
     throw Error('Not implemmented');
   }
 
   /**
-   * Lists all Orders in the database
+   * Lists all products in the database
+   * @param {Object} productQuery
    * @returns {Promise<Array<Product>>}
    */
   async getByQuery(productQuery) {
@@ -32,15 +33,15 @@ export class ProductRepository {
   }
 
   /**
-   * Creates an User into the database
-   * @returns {Promise<String>}
+   * retrieves a product baed on id
+   * @returns {Promise<Product>}
    */
   async retrieveById(id) {
     throw Error('Not implemmented');
   }
 
   /**
-   * Creates an User into the database
+   * List all products
    * @returns {Promise<Array<Product>>}
    */
   async getAll() {
@@ -48,7 +49,7 @@ export class ProductRepository {
   }
 
   /**
-   * Retrieves the first order that matches given CPF from the database
+   * Retrieves the first product that matches given query from the database, updating it
    * @param {Object} productQuery
    * @param {Object} valuesToChange
    * @returns {Promise<Array<Product>>}

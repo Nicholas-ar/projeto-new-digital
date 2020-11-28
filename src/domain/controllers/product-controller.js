@@ -8,6 +8,7 @@ import {
 import { qrCodeAdapter } from '../../application/services/adapters/qrcode-adapter';
 import { ProductRepository } from '../../application/database/protocols';
 import { HttpRequest } from './protocols/http.definition';
+import { ImageUploaderService } from '../../application/services/protocols';
 
 export class ProductController {
   /**
@@ -80,7 +81,6 @@ export class ProductController {
 
   /**
    * Receives an empty HttpRequest
-   * @param httpRequest
    * - A 500 http response will be returned if an error is thrown during the process.
    * - A 200 http response will be returned otherwise, containing an array with the products info in the body.
    */
@@ -96,7 +96,7 @@ export class ProductController {
 
   /**
    * Receives an HttpRequest with an update query and the values to be updated in the format $set: {...}
-   * @param httpRequest
+   * @param {HttpRequest} httpRequest
    * - A 400 http response will be returned if no matches are found to be updated in the database.
    * - A 500 http response will be returned if an error is thrown during the process.
    * - A 200 http response will be returned otherwise, containing an binary value in the body, indicating if the update has been successful.
@@ -122,7 +122,7 @@ export class ProductController {
 
   /**
    * Receives an HttpRequest with an delete query
-   * @param httpRequest
+   * @param {HttpRequest} httpRequest
    * - A 400 http response will be returned if no matches are found to be deleted in the database.
    * - A 500 http response will be returned if an error is thrown during the process.
    * - A 200 http response will be returned otherwise, containing an binary value in the body, indicating if the deletion has been successful.

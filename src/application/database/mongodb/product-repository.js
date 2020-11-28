@@ -14,6 +14,7 @@ export class ProductRepository {
   /**
    * Inserts a product in the database
    * @param {ProductData} productData
+   * @returns {Promise<Product>}
    */
   async create(productData) {
     const productCollection = await MongoHelper.getCollection('products');

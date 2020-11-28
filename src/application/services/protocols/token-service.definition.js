@@ -5,7 +5,6 @@
  */
 export class TokenService {
   constructor() {
-    this._secret = String;
     throw new Error('Not implemented');
   }
 
