@@ -1,3 +1,4 @@
+import { ObjectID } from 'mongodb';
 import { Product, ProductData } from '../../../domain/entities';
 import { MongoHelper } from '../../helpers/mongo-helper';
 
@@ -39,7 +40,7 @@ export class ProductRepository {
    */
   async retrieveById(id) {
     const productCollection = await MongoHelper.getCollection('products');
-    return await productCollection.findOne({ _id: id });
+    return await productCollection.findOne(new ObjectID(id));
   }
 
   /**
