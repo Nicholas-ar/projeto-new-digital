@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/application/rest-api/start.js",
+  "type": "module",
   "scripts": {
     "transpile": "babel ./src --out-dir build",
     "clean": "rimraf build",
