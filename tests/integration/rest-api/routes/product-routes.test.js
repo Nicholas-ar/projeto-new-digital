@@ -134,34 +134,17 @@ describe('Products routes', () => {
   });
 
   describe('retrieve products', () => {
-    it('must retrieve a registered product returning a status code of 200', async () => {
+    it('must retrieve a registered product returning a 200', async () => {
       await productsCollection.insertMany(makeFakeProducts());
-      const response = await request(app).get('/api/v1/product/2').expect(200);
-      expect(response.body).toEqual({
-        name: 'PS5',
-        description: 'Expensive gaming console',
-        price: 5000,
-        brand: 'Sony',
-        category: 'Console',
-        weight: '50 kg',
-        dimensions: '50 x 50 x 50',
-        releaseDate: 2020,
-        stock: 1,
-      });
-      it('must retrieve a registered product returning a 200', async () => {
-        await productsCollection.insertMany(makeFakeProducts());
-        const orders = await productsCollection.find({}).toArray();
-        const _id = orders[0]._id;
-        const response = await request(app)
-          .get(`/api/v1/product/${_id}`)
-          .expect(200);
-        expect(JSON.stringify(response.body)).toEqual(
-          JSON.stringify(orders[0])
-        );
-      });
+      const orders = await productsCollection.find({}).toArray();
+      const _id = orders[0]._id;
+      const response = await request(app)
+        .get(`/api/v1/product/${_id}`)
+        .expect(200);
+      expect(JSON.stringify(response.body)).toEqual(JSON.stringify(orders[0]));
     });
   });
-  
+
   describe('update products', () => {
     it.skip('must return a 403 if user is not admin', async () => {
       await productsCollection.insertMany(makeFakeProducts());

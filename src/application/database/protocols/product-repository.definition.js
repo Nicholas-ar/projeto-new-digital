@@ -36,7 +36,7 @@ export class ProductRepository {
    * retrieves a product baed on id
    * @returns {Promise<Product>}
    */
-  async retrieveById(id) {
+  async getById(id) {
     throw Error('Not implemmented');
   }
 
