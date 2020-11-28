@@ -67,7 +67,7 @@ describe('Products routes', () => {
   afterAll(async () => await MongoHelper.disconnect());
 
   describe('create product', () => {
-    it.skip('must return a 403 if user is not admin', async () => {
+    it('must return a 403 if user is not admin', async () => {
       await productsCollection.insertMany(makeFakeProducts());
       await request(app)
         .post('/api/v1/product')
@@ -146,7 +146,7 @@ describe('Products routes', () => {
   });
 
   describe('update products', () => {
-    it.skip('must return a 403 if user is not admin', async () => {
+    it('must return a 403 if user is not admin', async () => {
       await productsCollection.insertMany(makeFakeProducts());
       await request(app)
         .patch('/api/v1/product/2')
@@ -172,7 +172,7 @@ describe('Products routes', () => {
   });
 
   describe('delete product', () => {
-    it.skip('must return a 403 if user is not admin', async () => {
+    it('must return a 403 if user is not admin', async () => {
       await productsCollection.insertMany(makeFakeProducts());
       await request(app).delete('/api/v1/product/2').expect(403);
     });

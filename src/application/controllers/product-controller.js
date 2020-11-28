@@ -1,8 +1,13 @@
-
 import { qrCodeAdapter } from '../../../src/application/services/adapters/qrcode/qrcode-adapter';
 import { ProductRepository } from '../../application/database/protocols';
 import { HttpRequest } from './protocols/http.definition';
-import { HTTP_CREATED_201, HTTP_SERVER_ERROR_500, HTTP_BAD_REQUEST_400, HTTP_OK_200, HTTP_NO_CONTENT_204 } from '../helpers/http-helper';
+import {
+  HTTP_CREATED_201,
+  HTTP_SERVER_ERROR_500,
+  HTTP_BAD_REQUEST_400,
+  HTTP_OK_200,
+  HTTP_NO_CONTENT_204,
+} from '../helpers/http-helper';
 import { ImageUploaderService } from '../../domain/services/protocols';
 
 export class ProductController {
@@ -63,9 +68,7 @@ export class ProductController {
    */
   async retrieveProduct(httpRequest) {
     try {
-      const resProduct = await this._repository.getById(
-        httpRequest.params._id
-      );
+      const resProduct = await this._repository.getById(httpRequest.params._id);
       if (!resProduct)
         return HTTP_BAD_REQUEST_400({
           message: 'No products with this query found',
@@ -85,7 +88,7 @@ export class ProductController {
    */
   async retrieveProductById(httpRequest) {
     try {
-      const resProduct = await this.repository.getById(httpRequest.params._id);
+      const resProduct = await this._repository.getById(httpRequest.params._id);
       if (!resProduct)
         return HTTP_BAD_REQUEST_400({
           message: 'No products with this id found',
