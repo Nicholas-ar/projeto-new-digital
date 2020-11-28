@@ -1,6 +1,6 @@
 import Router from 'express';
-import { makeAuthenticationMiddleware } from '../../../domain/controllers/factories/make-authentication-middleware';
-import { makeOrderController } from '../../../domain/controllers/factories/order-controller-factory';
+import { makeAuthenticationMiddleware } from '../../controllers/factories/make-authentication-middleware';
+import { makeOrderController } from '../../controllers/factories/order-controller-factory';
 import { expressRouterAdapter } from '../../services/adapters/web/express-adapter';
 import { expressMiddlewareAdapter } from '../../services/adapters/web/express-middleware-adapter';
 
@@ -16,7 +16,6 @@ orderRoutes.get(
 
 orderRoutes.post(
   '/orders',
-  adminAuth,
   expressRouterAdapter(makeOrderController(), 'createOrder')
 );
 orderRoutes.patch(
@@ -29,4 +28,9 @@ orderRoutes.get(
   '/orders/:id',
   adminAuth,
   expressRouterAdapter(makeOrderController(), 'retrieveOrderById')
+);
+
+orderRoutes.get(
+  '/user/orders/',
+  expressRouterAdapter(makeOrderController(), 'listUserOrders')
 );

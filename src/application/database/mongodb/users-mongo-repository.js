@@ -38,7 +38,7 @@ export class UsersMongoRespository {
    */
   async retrieveByToken(accessToken, role) {
     const usersCollection = await MongoHelper.getCollection('users');
-    return await usersCollection.findOne({ _id: accessToken.id });
+    return await usersCollection.findOne({ accessToken });
   }
 
   /**
@@ -53,5 +53,6 @@ export class UsersMongoRespository {
       { _id: id },
       { $set: { accessToken: token } }
     );
+    await usersCollection.findOne({ _id: id });
   }
 }

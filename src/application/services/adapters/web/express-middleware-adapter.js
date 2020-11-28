@@ -6,8 +6,8 @@
 export const expressMiddlewareAdapter = (middleware) => {
   return async (req, res, next) => {
     const httpRequest = { headers: req.headers };
-
     const httpResponse = await middleware.execute(httpRequest);
+
     if (httpResponse.statusCode === 200) {
       Object.assign(req, httpResponse.body);
       next();

@@ -1,19 +1,29 @@
-import {
-  HTTP_BAD_REQUEST_400,
-  HTTP_OK_200,
-  HTTP_CREATED_201,
-  HTTP_SERVER_ERROR_500,
-} from '../../../src/domain/helpers/http-helper';
-import { OrderController } from '../../../src/domain/controllers/';
+
 import {
   InvalidParameterError,
   InvalidQueryError,
   OrderNotFoundError,
 } from '../../../src/domain/errors';
 import { InvalidTransactionCredentialsError } from '../../../src/domain/errors/invalid-transaction-credentials-error';
+import { OrderController } from '../../../src/application/controllers/order-controller';
+import { HTTP_OK_200, HTTP_SERVER_ERROR_500, HTTP_BAD_REQUEST_400, HTTP_CREATED_201 } from '../../../src/application/helpers/http-helper';
 
 const makeRepository = () => {
   class RepositoryStub {
+    async listByEmail() {
+      return new Promise((resolve) => {
+        resolve([
+          {
+            _id: '1',
+            email: 'valid_email@email.com',
+            cpf: '12345612312',
+            tid: '2134534253252',
+            retrieved: false,
+          },
+        ]);
+      });
+    }
+
     async list() {
       return new Promise((resolve) => {
         resolve([
@@ -100,6 +110,25 @@ const makeFakeRetrievalRequest = () => ({
 });
 
 describe('Order controller', () => {
+  describe('list user orders', () => {
+    it('must list all orders belonging to an user', async () => {
+      const { sut } = makeSut();
+      const httpRequest = { body: { email: 'valid_email@email.com' } };
+      const httpResponse = await sut.listUserOrders(httpRequest);
+      expect(httpResponse).toEqual(
+        HTTP_OK_200([
+          {
+            _id: '1',
+            email: 'valid_email@email.com',
+            cpf: '12345612312',
+            tid: '2134534253252',
+            retrieved: false,
+          },
+        ])
+      );
+    });
+  });
+
   describe('list', () => {
     const makeHttpRequest = () => ({ body: {} });
     it('must list all orders returning a 200 status code', async () => {

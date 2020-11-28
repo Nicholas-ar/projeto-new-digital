@@ -1,22 +1,15 @@
 import { OrdersRepository } from '../../application/database/protocols/orders-repository.definition';
-
+import { OrderData } from '../../domain/entities';
 import {
-  PaymentService,
-  ValidationService,
-} from '../../application/services/protocols';
-
-import {
+  OrderNotFoundError,
   InvalidTransactionCredentialsError,
   InvalidQueryError,
-  OrderNotFoundError,
-} from '../errors';
+} from '../../domain/errors';
+import { PaymentService, PaymentData, ValidationService } from '../../domain/services/protocols';
+import { HTTP_OK_200, HTTP_SERVER_ERROR_500, HTTP_BAD_REQUEST_400, HTTP_CREATED_201 } from '../helpers/http-helper';
 
-import {
-  HTTP_BAD_REQUEST_400,
-  HTTP_OK_200,
-  HTTP_CREATED_201,
-  HTTP_SERVER_ERROR_500,
-} from '../helpers/http-helper';
+
+
 import { HttpRequest, HttpResponse } from './protocols/http.definition';
 
 export class OrderController {
@@ -47,7 +40,22 @@ export class OrderController {
    *                                  - A 500 http response will be returned if an error is thrown during the process.
    *                                  - A 200 http response will be returned otherwise, containing the Order entity in the body.
    */
-  async list(httpRequest) {
+  async listUserOrders(httpRequest) {
+    try {
+      const orders = await this.repository.listByEmail(httpRequest.body.email);
+      return HTTP_OK_200(orders);
+    } catch (error) {
+      return HTTP_SERVER_ERROR_500(error);
+    }
+  }
+
+  /**
+   * Receives a HttpRequest containing a valid cpf field in the body
+   * @returns {Promise<HttpResponse>} - A 400 http response will be returned if the CPF is invalid or no matches are found in the database.
+   *                                  - A 500 http response will be returned if an error is thrown during the process.
+   *                                  - A 200 http response will be returned otherwise, containing the Order entity in the body.
+   */
+  async list() {
     try {
       const orders = await this.repository.list();
       return HTTP_OK_200(orders);
@@ -75,7 +83,7 @@ export class OrderController {
     }
   }
 
-   /**
+  /**
    * Receives a HttpRequest containing a valid id field in the parameters
    * @param {HttpRequest} httpRequest
    * @returns {Promise<HttpResponse>} - A 400 http response will be returned if the CPF is invalid or no matches are found in the database.
@@ -85,13 +93,12 @@ export class OrderController {
   async retrieveOrderById(httpRequest) {
     try {
       const order = await this.repository.retrieveById(httpRequest.params.id);
-      if (!order) return HTTP_BAD_REQUEST_400(new OrderNotFoundError()); 
+      if (!order) return HTTP_BAD_REQUEST_400(new OrderNotFoundError());
       return HTTP_OK_200(order);
     } catch (error) {
       return HTTP_SERVER_ERROR_500(error);
     }
   }
-
 
   /**
    * Receives a HttpRequest containing the order and payment information.
@@ -104,6 +111,7 @@ export class OrderController {
    */
   async createOrder(httpRequest) {
     try {
+      /**@type {Object<OrderData, PaymentData>}*/
       const { orderData, paymentData } = httpRequest.body;
       const error = this.cpfValidator.validate(httpRequest.body.orderData.cpf);
       if (error) return HTTP_BAD_REQUEST_400(error);
@@ -111,7 +119,7 @@ export class OrderController {
       if (transactionId) {
         orderData.transactionId = transactionId;
         const order = await this.repository.create(httpRequest.body.orderData);
-        
+
         if (order) return HTTP_CREATED_201(order);
       }
       return HTTP_BAD_REQUEST_400(new InvalidTransactionCredentialsError());
@@ -130,7 +138,10 @@ export class OrderController {
    */
   async updateOrder(httpRequest) {
     try {
-      const order = await this.repository.update(httpRequest.params, httpRequest.body);
+      const order = await this.repository.update(
+        httpRequest.params,
+        httpRequest.body
+      );
       if (order) return HTTP_OK_200(order);
       return HTTP_BAD_REQUEST_400(new InvalidQueryError());
     } catch (error) {

@@ -1,15 +1,27 @@
-import { Order, OrderData } from '../../../domain/entities/order';
+import { ObjectID } from 'mongodb';
+import { Order, OrderData } from '../../../domain/entities';
 import { MongoHelper } from '../../helpers/mongo-helper';
 
 /**
  * Orders repository for the Mongo database
  * @method list
  * @method retrieveByCpf
+ * @method listByEmail
  * @method create
  * @method update
  * @method delete
  */
 export class OrdersMongoRepository {
+  /**
+   * Lists all Orders in the database
+   * @param {String} email
+   * @returns {Promise<Array<Order>>}
+   */
+  async listByEmail(email) {
+    const orderCollection = await MongoHelper.getCollection('orders');
+    return await orderCollection.find({ email }).toArray();
+  }
+
   /**
    * Lists all Orders in the database
    * @returns {Promise<Array<Order>>}
@@ -36,15 +48,18 @@ export class OrdersMongoRepository {
    */
   async retrieveById(id) {
     const orderCollection = await MongoHelper.getCollection('orders');
-    return await orderCollection.findOne({ _id: id });
+    return await orderCollection.findOne(new ObjectID(id));
   }
 
   /**
-   * Creates an User into the database
+   * Creates an Order document into the database
    * @param {OrderData} orderData
    * @returns {Promise<Order>}
    */
   async create(orderData) {
+    const creationDate = new Date();
+    orderData.date = `${creationDate.getDay()}/${creationDate.getMonth()}/${creationDate.getFullYear()}`;
+    orderData.delivered = false;
     const orderCollection = await MongoHelper.getCollection('orders');
     const result = await orderCollection.insertOne(orderData);
     return result.ops[0];
@@ -59,9 +74,13 @@ export class OrdersMongoRepository {
    */
   async update(query, newData) {
     const orderCollection = await MongoHelper.getCollection('orders');
-    const result = await orderCollection.updateOne(query, { $set: newData });
-    const order = await orderCollection.findOne(query);
-    if (result.result.ok === 1) return order;
+    const objectId = new ObjectID(query._id);
+    const result = await orderCollection.updateOne(
+      { _id: objectId },
+      { $set: newData }
+    );
+    const order = await orderCollection.findOne(objectId);
+    if (result.result.ok) return order;
     return false;
   }
 

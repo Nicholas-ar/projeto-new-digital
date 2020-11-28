@@ -1,10 +1,6 @@
-import { ServerError } from '../errors';
-import {
-  HTTP_FORBIDDEN_403,
-  HTTP_OK_200,
-  HTTP_SERVER_ERROR_500,
-} from '../helpers/http-helper';
-import { AuthenticationMiddleware } from './authentication-middleware';
+
+import { AuthenticationMiddleware } from '../../../src/application/controllers/authentication-middleware';
+import { HTTP_FORBIDDEN_403, HTTP_OK_200, HTTP_SERVER_ERROR_500 } from '../../../src/application/helpers/http-helper';
 
 const makeFakeAccount = () => ({
   _id: 'valid_id',

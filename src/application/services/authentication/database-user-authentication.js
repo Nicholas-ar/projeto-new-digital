@@ -1,6 +1,6 @@
 import { User } from '../../../domain/entities/user';
+import { HasherService, TokenService } from '../../../domain/services/protocols';
 import { UsersRepository } from '../../database/protocols/users-repository.definition';
-import { HasherService, TokenGeneratorService } from '../protocols';
 
 /**
  * Autheticator object that retrieves an user by it's email, validates the
@@ -11,7 +11,7 @@ export class DatabaseUserAuthentication {
   /**
    * @param {UsersRepository} repository
    * @param {HasherService} hashComparerService
-   * @param {TokenGeneratorService} tokenGeneratorService
+   * @param {TokenService} tokenGeneratorService
    */
   constructor(repository, hashComparerService, tokenGeneratorService) {
     this._repository = repository;

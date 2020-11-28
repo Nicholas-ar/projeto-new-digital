@@ -134,6 +134,16 @@ describe('Products routes', () => {
   });
 
   describe('retrieve products', () => {
+<<<<<<< HEAD
+    const makeFakeProducts = () => [
+      {
+        name: 'abc',
+        description: 'something',
+        price: 10000,
+        brand: 'generic',
+        category: 'generic',
+        weight: '10 kg',
+=======
     it('must retrieve a registered product returning a status code of 200', async () => {
       await productsCollection.insertMany(makeFakeProducts());
       const response = await request(app).get('/api/v1/product/2').expect(200);
@@ -142,13 +152,31 @@ describe('Products routes', () => {
         brand: 'Sony',
         category: 'Console',
         description: 'Expensive gaming console',
+>>>>>>> main
         dimensions: '50 x 50 x 50',
+        releaseDate: 2010,
+        stock: 10,
+      },
+      {
         name: 'PS5',
+        description: 'Expensive gaming console',
         price: 5000,
+        brand: 'Sony',
+        category: 'Console',
+        weight: '50 kg',
+        dimensions: '50 x 50 x 50',
         releaseDate: 2020,
         stock: 1,
-        weight: '50 kg',
-      });
+      },
+    ];
+    it('must retrieve a registered product returning a 200', async () => {
+      await productsCollection.insertMany(makeFakeProducts());
+      const orders = await productsCollection.find({}).toArray();
+      const _id = orders[0]._id;
+      const response = await request(app)
+        .get(`/api/v1/product/${_id}`)
+        .expect(200);
+      expect(JSON.stringify(response.body)).toEqual(JSON.stringify(orders[0]));
     });
   });
 
@@ -181,12 +209,7 @@ describe('Products routes', () => {
   describe('delete product', () => {
     it.skip('must return a 403 if user is not admin', async () => {
       await productsCollection.insertMany(makeFakeProducts());
-      await request(app)
-        .patch('/api/v1/product/2')
-        .send({
-          price: 6000,
-        })
-        .expect(403);
+      await request(app).delete('/api/v1/product/2').expect(403);
     });
 
     it('must delete a registered product returning a 204', async () => {
@@ -195,9 +218,6 @@ describe('Products routes', () => {
       await request(app)
         .delete('/api/v1/product/2')
         .set('x-access-token', accessToken)
-        .send({
-          price: 6000,
-        })
         .expect(204);
       const amount = await productsCollection.countDocuments();
       expect(amount).toEqual(1);
