@@ -1,14 +1,27 @@
+import { LoadAccountByToken } from '../../application/database/protocols/load-account-by-token.definition';
 import {
   HTTP_FORBIDDEN_403,
   HTTP_OK_200,
   HTTP_SERVER_ERROR_500,
 } from '../helpers/http-helper';
+import { HttpRequest, HttpResponse } from './protocols/http.definition';
 
 export class AuthenticationMiddleware {
+  /**
+   *
+   * @param {LoadAccountByToken} loadAccountByToken
+   * @param {Boolean} role
+   */
   constructor(loadAccountByToken, role) {
     this._loadAccountByToken = loadAccountByToken;
     this._role = role;
   }
+
+  /**
+   * Middleware for authenticating the admin users via accessTokens
+   * @param {HttpRequest} httpRequest
+   * @returns {Promise<HttpResponse>}
+   */
   async execute(httpRequest) {
     try {
       if (httpRequest.headers) {

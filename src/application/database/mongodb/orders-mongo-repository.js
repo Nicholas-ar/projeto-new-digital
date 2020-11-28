@@ -1,5 +1,5 @@
 import { ObjectID } from 'mongodb';
-import { Order, OrderData } from '../../../domain/entities/order';
+import { Order, OrderData } from '../../../domain/entities';
 import { MongoHelper } from '../../helpers/mongo-helper';
 
 /**
@@ -52,7 +52,7 @@ export class OrdersMongoRepository {
   }
 
   /**
-   * Creates an User into the database
+   * Creates an Order document into the database
    * @param {OrderData} orderData
    * @returns {Promise<Order>}
    */
@@ -77,7 +77,7 @@ export class OrdersMongoRepository {
       { $set: newData }
     );
     const order = await orderCollection.findOne(objectId);
-    if (result.result.ok === 1) return order;
+    if (result.result.ok) return order;
     return false;
   }
 

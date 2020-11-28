@@ -1,3 +1,4 @@
+import { Product, ProductData } from '../../../domain/entities';
 import { MongoHelper } from '../../helpers/mongo-helper';
 
 /**
@@ -12,6 +13,7 @@ import { MongoHelper } from '../../helpers/mongo-helper';
 export class ProductRepository {
   /**
    * Inserts a product in the database
+   * @param {ProductData} productData
    */
   async create(productData) {
     const productCollection = await MongoHelper.getCollection('products');
@@ -21,7 +23,8 @@ export class ProductRepository {
 
   /**
    * Gets a product in the database specified by a query
-   * @returns {Promise<Object>}
+   * @param {Object} productQuery
+   * @returns {Promise<Product>}
    */
   async getByQuery(productQuery) {
     const productCollection = await MongoHelper.getCollection('products');
@@ -30,7 +33,8 @@ export class ProductRepository {
 
   /**
    * Retrieves the first product that matches given id from the database
-   * @returns {Promise<Object> }
+   * @param {String} id 
+   * @returns {Promise<Product> }
    */
   async retrieveById(id) {
     const productCollection = await MongoHelper.getCollection('products');

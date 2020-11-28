@@ -1,4 +1,4 @@
-import { Order, OrderData } from '../../../domain/entities/order';
+import { Order, OrderData } from '../../../domain/entities';
 
 /**
  * @abstract
@@ -16,7 +16,7 @@ export class OrdersRepository {
     throw Error('Not implemmented');
   }
 
-    /**
+  /**
    * Lists all Orders in the database
    * @param {String} email
    * @returns {Promise<Array<Order>>}

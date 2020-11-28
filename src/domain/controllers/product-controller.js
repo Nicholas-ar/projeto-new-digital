@@ -6,42 +6,49 @@ import {
   HTTP_NO_CONTENT_204,
 } from '../helpers/http-helper';
 import { qrCodeAdapter } from '../../application/services/adapters/qrcode-adapter';
+import { ProductRepository } from '../../application/database/protocols';
+import { HttpRequest } from './protocols/http.definition';
 
 export class ProductController {
+  /**
+   *
+   * @param {ProductRepository} repository
+   * @param {ImageUploaderService} imageUploaderService
+   */
   constructor(repository, imageUploaderService) {
-    this.repository = repository;
-    this.imageUploaderService = imageUploaderService;
+    this._repository = repository;
+    this._imageUploaderService = imageUploaderService;
   }
 
   /**
    * Receives an HttpRequest containing a valid product field in the body
-   * @param httpRequest
+   * @param {HttpRequest} httpRequest
+   * r@
    * - A 500 http response will be returned if an error is thrown during the process.
    * - A 201 http response will be returned otherwise, with the product on the body.
    *
    */
-
   async createProduct(httpRequest) {
     try {
       const qrAdapter = new qrCodeAdapter();
-      const pressignedUrl = await this.imageUploaderService.execute(
+      const pressignedUrl = await this._imageUploaderService.execute(
         httpRequest.body.imageName
       );
       //TODO: refactor this
       httpRequest.body.product.imageUrl = `https://qrobuy.s3-sa-east-1.amazonaws.com/${httpRequest.body.imageName}.jpg`;
 
-      const productNoQR = await this.repository.create(
+      const productNoQR = await this._repository.create(
         httpRequest.body.product
       );
 
       const productUrl = `https://qrobuy.netlify.app/product/${productNoQR._id}`;
       const tempQRCodeString = await qrAdapter.generateQRCode(productUrl);
-      await this.repository.update(
+      await this._repository.update(
         { _id: productNoQR._id },
         { $set: { qrCodeString: tempQRCodeString } }
       );
 
-      const product = await this.repository.getByQuery({
+      const product = await this._repository.getByQuery({
         _id: productNoQR._id,
       });
 
@@ -60,7 +67,7 @@ export class ProductController {
    */
   async retrieveProduct(httpRequest) {
     try {
-      const resProduct = await this.repository.getByQuery(httpRequest.params);
+      const resProduct = await this._repository.getByQuery(httpRequest.params);
       if (!resProduct)
         return HTTP_BAD_REQUEST_400({
           message: 'No products with this query found',
@@ -80,7 +87,7 @@ export class ProductController {
 
   async retrieveAll() {
     try {
-      const allProducts = await this.repository.getAll();
+      const allProducts = await this._repository.getAll();
       return HTTP_OK_200(allProducts);
     } catch (error) {
       return HTTP_SERVER_ERROR_500(error);
@@ -98,7 +105,7 @@ export class ProductController {
   async updateProduct(httpRequest) {
     try {
       const updateFormat = { $set: httpRequest.body };
-      const response = await this.repository.update(
+      const response = await this._repository.update(
         httpRequest.params,
         updateFormat
       );
@@ -122,7 +129,7 @@ export class ProductController {
    */
   async deleteProduct(httpRequest) {
     try {
-      const response = await this.repository.delete(
+      const response = await this._repository.delete(
         httpRequest.params.deleteQuery
       );
       const found = response.deletedCount;
