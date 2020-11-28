@@ -14,6 +14,20 @@ import { InvalidTransactionCredentialsError } from '../../../src/domain/errors/i
 
 const makeRepository = () => {
   class RepositoryStub {
+    async listByEmail() {
+      return new Promise((resolve) => {
+        resolve([
+          {
+            _id: '1',
+            email: 'valid_email@email.com',
+            cpf: '12345612312',
+            tid: '2134534253252',
+            retrieved: false,
+          },
+        ]);
+      });
+    }
+
     async list() {
       return new Promise((resolve) => {
         resolve([
@@ -100,6 +114,25 @@ const makeFakeRetrievalRequest = () => ({
 });
 
 describe('Order controller', () => {
+  describe('list user orders', () => {
+    it('must list all orders belonging to an user', async () => {
+      const { sut } = makeSut();
+      const httpRequest = { body: { email: 'valid_email@email.com' } };
+      const httpResponse = await sut.listUserOrders(httpRequest);
+      expect(httpResponse).toEqual(
+        HTTP_OK_200([
+          {
+            _id: '1',
+            email: 'valid_email@email.com',
+            cpf: '12345612312',
+            tid: '2134534253252',
+            retrieved: false,
+          },
+        ])
+      );
+    });
+  });
+
   describe('list', () => {
     const makeHttpRequest = () => ({ body: {} });
     it('must list all orders returning a 200 status code', async () => {

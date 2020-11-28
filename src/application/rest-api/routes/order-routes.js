@@ -29,3 +29,8 @@ orderRoutes.get(
   adminAuth,
   expressRouterAdapter(makeOrderController(), 'retrieveOrderById')
 );
+
+orderRoutes.get(
+  '/user/orders/',
+  expressRouterAdapter(makeOrderController(), 'listUserOrders')
+);

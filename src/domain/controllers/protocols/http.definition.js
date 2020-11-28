@@ -11,6 +11,7 @@ export const HttpResponse = {
 /**
  * @typedef HttpRequest
  * @property {any} body
+ * @property {any} [headers]
  * @property {any} [params]
  */
 export const HttpRequest = {

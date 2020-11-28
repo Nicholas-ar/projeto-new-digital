@@ -1,19 +1,28 @@
 /**
  * @abstract
- * @name TokenGeneratorService
+ * @name TokenService
  * @method generate
  */
-export class TokenGeneratorService {
+export class TokenService {
   constructor() {
     throw new Error('Not implemented');
   }
 
   /**
-   * Generates a JWT given an index value and a secret
+   * Generates a token given a value
    * @param {String} value - Reference value that will be used for associating a JSON web token.
    * @returns {String} - Access token generated based on ID value
    */
   generate(value) {
+    throw new Error('Not implemented');
+  }
+
+  /**
+   * Decodes a token given a value
+   * @param {String} value Token
+   * @returns {String | Object} - Access token generated
+   */
+  decipher(value) {
     throw new Error('Not implemented');
   }
 }

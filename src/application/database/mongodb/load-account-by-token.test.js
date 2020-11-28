@@ -1,4 +1,4 @@
-import { LoadAccountByToken } from '../mongodb/load-account-by-token';
+import { LoadAccountByToken } from '../mongodb';
 const makeFakeAccount = () => ({
   _id: 'valid_id',
   email: 'valid_email',

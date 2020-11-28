@@ -6,7 +6,6 @@ import env from '../../../../src/application/config/environment';
 
 const makeFakeOrders = () => [
   {
-    _id: '1',
     name: 'John Doe',
     email: 'valid_email@email.com',
     cpf: '12595312790',
@@ -16,7 +15,6 @@ const makeFakeOrders = () => [
     date: '16/11/2020',
   },
   {
-    _id: '2',
     name: 'John Doe',
     email: 'valid_email@email.com',
     cpf: '12595312790',
@@ -52,7 +50,6 @@ let ordersCollection;
 let usersCollection;
 
 describe('orders', () => {
-  
   beforeAll(async () => await MongoHelper.connect(process.env.MONGO_URL));
 
   beforeEach(async () => {
@@ -77,34 +74,13 @@ describe('orders', () => {
         .get('/api/v1/orders')
         .set('x-access-token', accessToken)
         .expect(200);
-      expect(response.body).toEqual([
-        {
-          _id: '1',
-          name: 'John Doe',
-          email: 'valid_email@email.com',
-          cpf: '12595312790',
-          tid: '2134534253252',
-          retrieved: false,
-          price: 28923,
-          date: '16/11/2020',
-        },
-        {
-          _id: '2',
-          name: 'John Doe',
-          email: 'valid_email@email.com',
-          cpf: '12595312790',
-          tid: '2134534253252',
-          retrieved: false,
-          price: 28900,
-          date: '16/11/2020',
-        },
-      ]);
+      const orders = await ordersCollection.find({}).toArray();
+      expect(JSON.stringify(response.body)).toEqual(JSON.stringify(orders));
     });
   });
 
   describe('orders post', () => {
     it('must return a 201 given valid information', async () => {
-      const accessToken = await makeAdminUser();
       const result = await request(app)
         .post('/api/v1/orders')
         .send({
@@ -142,20 +118,13 @@ describe('orders', () => {
     it('must return 200 on retrieving an order', async () => {
       const accessToken = await makeAdminUser();
       await ordersCollection.insertMany(makeFakeOrders());
+      const orders = await ordersCollection.find({}).toArray();
+      const id = orders[0]._id;
       const response = await request(app)
-        .get('/api/v1/orders/1')
+        .get(`/api/v1/orders/${id}`)
         .set('x-access-token', accessToken)
         .expect(200);
-      expect(response.body).toEqual({
-        _id: '1',
-        name: 'John Doe',
-        email: 'valid_email@email.com',
-        cpf: '12595312790',
-        tid: '2134534253252',
-        retrieved: false,
-        price: 28923,
-        date: '16/11/2020',
-      });
+      expect(JSON.stringify(response.body)).toEqual(JSON.stringify(orders[0]));
     });
   });
 
@@ -173,23 +142,80 @@ describe('orders', () => {
     it('must update an order retuning a 200', async () => {
       const accessToken = await makeAdminUser();
       await ordersCollection.insertMany(makeFakeOrders());
+      let orders = await ordersCollection.find({}).toArray();
+      const id = orders[0]._id;
       const response = await request(app)
-        .patch('/api/v1/orders/1')
+        .patch(`/api/v1/orders/${id}`)
         .set('x-access-token', accessToken)
         .send({
           retrieved: true,
         })
         .expect(200);
-      expect(response.body).toEqual({
-        _id: '1',
-        cpf: '12595312790',
-        date: '16/11/2020',
-        email: 'valid_email@email.com',
-        name: 'John Doe',
-        price: 28923,
-        retrieved: true,
-        tid: '2134534253252',
+      orders = await ordersCollection.find({}).toArray();
+      expect(JSON.stringify(response.body)).toEqual(JSON.stringify(orders[0]));
+    });
+  });
+
+  describe('user orders', () => {
+    const makeUser = async () => {
+      const user = await usersCollection.insertOne({
+        email: 'perereca_man@gmail.com',
+        password: 'valid_password',
+        isAdmin: false,
       });
+      const _id = user.ops[0]._id;
+      const accessToken = sign({ id: _id }, env.JWT_SECRET);
+      await usersCollection.updateOne(
+        {
+          _id,
+        },
+        {
+          $set: {
+            accessToken,
+          },
+        }
+      );
+      return user.email;
+    };
+
+    const makeFakeOrders = () => [
+      {
+        name: 'John Doe',
+        email: 'valid_email@email.com',
+        cpf: '12595312790',
+        tid: '2134534253252',
+        retrieved: false,
+        price: 28923,
+        date: '16/11/2020',
+      },
+      {
+        name: 'John Doe',
+        email: 'valid_email@email.com',
+        cpf: '12595312790',
+        tid: '2134534253252',
+        retrieved: false,
+        price: 28900,
+        date: '16/11/2020',
+      },
+      {
+        name: 'Perereca Man',
+        email: 'perereca_man@email.com',
+        cpf: '12595312790',
+        tid: '2134534253252',
+        retrieved: false,
+        price: 28920,
+        date: '16/11/2020',
+      },
+    ];
+    it('must list all orders belongin to an user retuning a 200', async () => {
+      const email = await makeUser();
+      await ordersCollection.insertMany(makeFakeOrders());
+      let orders = await ordersCollection.find({ email }).toArray();
+      const response = await request(app)
+        .get('/api/v1/user/orders/')
+        .send({ email })
+        .expect(200);
+      expect(JSON.stringify(response.body)).toEqual(JSON.stringify(orders));
     });
   });
 });

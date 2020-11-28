@@ -1,9 +1,10 @@
-import { Order, OrderData } from '../../../domain/entities/order';
+import { Order, OrderData } from '../../../domain/entities';
 
 /**
  * @abstract
  * @name OrdersRepository
  * @method list
+ * @method listByEmail
  * @method create
  * @method retrieveByCpf
  * @method retrieveById
@@ -12,6 +13,15 @@ import { Order, OrderData } from '../../../domain/entities/order';
  */
 export class OrdersRepository {
   constructor() {
+    throw Error('Not implemmented');
+  }
+
+  /**
+   * Lists all Orders in the database
+   * @param {String} email
+   * @returns {Promise<Array<Order>>}
+   */
+  async listByEmail(email) {
     throw Error('Not implemmented');
   }
 

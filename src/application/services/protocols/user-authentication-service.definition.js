@@ -3,11 +3,11 @@ import { UsersRepository } from '../../database/protocols/users-repository.defin
 import { HasherService, TokenService } from '../protocols';
 
 /**
- * Autheticator object that retrieves an user by it's email, validates the
- * given password with the hash found in the database and returns an access token
+ * @abstract
+ * @name UserAuthenticationService
  * @method authenticate
  */
-export class DatabaseUserAuthentication {
+export class UserAuthenticationService {
   /**
    * @param {UsersRepository} repository
    * @param {HasherService} hashComparerService
@@ -25,18 +25,6 @@ export class DatabaseUserAuthentication {
    * @return {Promise<String> | Null} - The access token if succeeds authenticating, Null otherwise.
    */
   async authenticate(data) {
-    const user = await this._repository.retrieveByEmail(data.email);
-    if (user) {
-      const isValid = await this._hashComparerService.compare(
-        user.password,
-        data.password
-      );
-      if (isValid) {
-        const accessToken = this._tokenGeneratorService.generate(user._id);
-        await this._repository.updateAccessToken(user._id, accessToken);
-        return accessToken;
-      }
-    }
-    return null;
+    throw new Error('Not implemented');
   }
 }

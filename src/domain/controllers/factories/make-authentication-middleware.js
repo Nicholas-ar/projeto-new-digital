@@ -3,6 +3,11 @@ import { LoadAccountByToken } from '../../../application/database/mongodb/load-a
 import { JwtAdapter } from '../../../application/services/adapters/token/jwt-adapter';
 import { AuthenticationMiddleware } from '../authentication-middleware';
 
+/**
+ * Factory method for the authentication middleware
+ * @param {Boolean} role
+ * @return {AuthenticationMiddleware}
+ */
 export const makeAuthenticationMiddleware = (role) => {
   const decrypter = new JwtAdapter();
   const userRepository = new UsersMongoRespository();
