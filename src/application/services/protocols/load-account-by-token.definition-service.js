@@ -1,12 +1,12 @@
-import { Order, OrderData, User } from '../../../domain/entities';
-import { UsersMongoRespository } from '../mongodb/users-mongo-repository';
+import { User } from '../../../domain/entities';
+import { UsersMongoRespository } from '../../database/mongodb/users-mongo-repository';
 
 /**
  * @abstract
- * @name LoadAccountByToken
+ * @name LoadAccountByTokenService
  * @method load
  */
-export class LoadAccountByToken {
+export class LoadAccountByTokenService {
   /**
    *
    * @param {*} decrypter

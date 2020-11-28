@@ -1,4 +1,3 @@
-import { ServerError } from '../errors';
 import {
   HTTP_FORBIDDEN_403,
   HTTP_OK_200,

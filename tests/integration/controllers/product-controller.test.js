@@ -78,14 +78,14 @@ describe('Product Controller', () => {
 
   describe('RetrieveProduct', () => {
     it('must return a product with 200 status code given a valid product name', async () => {
-      const httpRequest = {
-        params: {
-          name: 'abc',
-        },
-      };
+      const imageUploaderServiceStub = makeImageUploaderService();
       const productRepository = new ProductRepository();
-      const productController = new ProductController(productRepository);
-      await productCollection.insertOne(mockProduct);
+      const productController = new ProductController(
+        productRepository,
+        imageUploaderServiceStub
+      );
+      const result = await productCollection.insertOne(mockProduct);
+      const httpRequest = { params: { _id: result.ops[0]._id }, body: {} };
       const res = await productController.retrieveProduct(httpRequest);
       const product = res.body;
       expect(res.statusCode).toBe(200);

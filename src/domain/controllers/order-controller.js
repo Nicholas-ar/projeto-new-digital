@@ -120,7 +120,6 @@ export class OrderController {
    */
   async createOrder(httpRequest) {
     try {
-      console.log(httpRequest);
       /**@type {Object<OrderData, PaymentData>}*/
       const { orderData, paymentData } = httpRequest.body;
       const error = this.cpfValidator.validate(httpRequest.body.orderData.cpf);
@@ -148,7 +147,6 @@ export class OrderController {
    */
   async updateOrder(httpRequest) {
     try {
-      console.log(httpRequest);
       const order = await this.repository.update(
         httpRequest.params,
         httpRequest.body
