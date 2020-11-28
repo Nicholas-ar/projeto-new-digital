@@ -68,7 +68,7 @@ export class ProductController {
    */
   async retrieveProduct(httpRequest) {
     try {
-      const resProduct = await this._repository.getByQuery(httpRequest.params);
+      const resProduct = await this._repository.retrieveById(httpRequest.params._id);
       if (!resProduct)
         return HTTP_BAD_REQUEST_400({
           message: 'No products with this query found',
