@@ -1,5 +1,5 @@
-import { qrCodeAdapter } from '../../../../../src/application/services/adapters/qrcode-adapter.js';
 import { toDataURL } from 'qrcode';
+import { qrCodeAdapter } from '../../../../../src/application/services/adapters/qrcode/qrcode-adapter';
 
 describe('qrCodeAdapter', () => {
   it('Must return the expected string given a url parameter', async () => {
