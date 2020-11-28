@@ -63,7 +63,7 @@ export class ProductController {
    */
   async retrieveProduct(httpRequest) {
     try {
-      const resProduct = await this._repository.retrieveById(
+      const resProduct = await this._repository.getById(
         httpRequest.params._id
       );
       if (!resProduct)
