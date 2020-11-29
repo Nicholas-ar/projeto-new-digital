@@ -1,6 +1,6 @@
-import { toDataURL } from 'qrcode';
+const qrcode = require('qrcode');
 
-export class qrCodeAdapter {
+class qrCodeAdapter {
   /**
    * Returns a data URI that can be used to generate a qr code when inputted in src of an img html tag
    * @param {string} url
@@ -8,7 +8,9 @@ export class qrCodeAdapter {
    */
 
   async generateQRCode(url) {
-    const qrUrl = await toDataURL(url);
+    const qrUrl = await qrcode.toDataURL(url);
     return qrUrl;
   }
 }
+
+module.exports = { qrCodeAdapter };
