@@ -45,6 +45,7 @@ export class SignUpController {
       });
       return HTTP_CREATED_201({ accessToken });
     } catch (error) {
+      console.error(error)
       return HTTP_SERVER_ERROR_500(error);
     }
   }

@@ -55,6 +55,7 @@ export class ProductController {
 
       return HTTP_CREATED_201({ product, pressignedUrl });
     } catch (error) {
+      console.error(error)
       return HTTP_SERVER_ERROR_500(error);
     }
   }
@@ -75,6 +76,7 @@ export class ProductController {
         });
       return HTTP_OK_200(resProduct);
     } catch (error) {
+      console.error(error)
       return HTTP_SERVER_ERROR_500(error);
     }
   }
@@ -95,6 +97,7 @@ export class ProductController {
         });
       return HTTP_OK_200(resProduct);
     } catch (error) {
+      console.error(error)
       return HTTP_SERVER_ERROR_500(error);
     }
   }
@@ -110,6 +113,7 @@ export class ProductController {
       const allProducts = await this._repository.getAll();
       return HTTP_OK_200(allProducts);
     } catch (error) {
+      console.error(error)
       return HTTP_SERVER_ERROR_500(error);
     }
   }
@@ -136,6 +140,7 @@ export class ProductController {
       }
       return HTTP_OK_200(updated);
     } catch (error) {
+      console.error(error)
       return HTTP_SERVER_ERROR_500(error);
     }
   }
@@ -158,6 +163,7 @@ export class ProductController {
       }
       return HTTP_NO_CONTENT_204(found);
     } catch (error) {
+      console.error(error)
       return HTTP_SERVER_ERROR_500(error);
     }
   }

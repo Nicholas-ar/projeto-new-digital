@@ -36,6 +36,7 @@ export class SignInController {
       if (!accessToken) return HTTP_UNAUTHORIZED_401();
       return HTTP_OK_200({ accessToken });
     } catch (error) {
+      console.error(error)
       return HTTP_SERVER_ERROR_500(error);
     }
   }

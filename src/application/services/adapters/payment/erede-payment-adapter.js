@@ -42,6 +42,7 @@ export default class RedecardPaymentAdapter {
 
       return await this._makePaymentRequest(store, transaction);
     } catch (error) {
+      console.error(error)
       throw error;
     }
   }
