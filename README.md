@@ -1,12 +1,12 @@
 # :star: QroBuy - BackEnd
 
 > Camada BackEnd da aplicação QroBuy desenvolvida para o New Digital Program da wBrain
-
+<!---
 <div align="center">
 <img height="300px" alt="imagem da versão web"><img src="" height="300px" alt="Imagem da versão mobile">
 </div>
 <br>
-
+-->
 ## :boom: Tecnologias utilizadas
 
 - MongoDB
@@ -36,6 +36,6 @@ docker-compose up
 npm run start:dev
 ```
 and access it at `http://localhost:3333/`
-
+<!---
 ## :fire: Task list
-
+-->
