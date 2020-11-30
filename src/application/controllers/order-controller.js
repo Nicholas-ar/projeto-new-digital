@@ -45,6 +45,7 @@ export class OrderController {
       const orders = await this.repository.listByEmail(httpRequest.body.email);
       return HTTP_OK_200(orders);
     } catch (error) {
+      console.error(error)
       return HTTP_SERVER_ERROR_500(error);
     }
   }
@@ -60,6 +61,7 @@ export class OrderController {
       const orders = await this.repository.list();
       return HTTP_OK_200(orders);
     } catch (error) {
+      console.error(error)
       return HTTP_SERVER_ERROR_500(error);
     }
   }
@@ -79,6 +81,7 @@ export class OrderController {
       if (!order) return HTTP_BAD_REQUEST_400(new OrderNotFoundError());
       return HTTP_OK_200(order);
     } catch (error) {
+      console.error(error)
       return HTTP_SERVER_ERROR_500(error);
     }
   }
@@ -96,6 +99,7 @@ export class OrderController {
       if (!order) return HTTP_BAD_REQUEST_400(new OrderNotFoundError());
       return HTTP_OK_200(order);
     } catch (error) {
+      console.error(error)
       return HTTP_SERVER_ERROR_500(error);
     }
   }
@@ -124,6 +128,7 @@ export class OrderController {
       }
       return HTTP_BAD_REQUEST_400(new InvalidTransactionCredentialsError());
     } catch (error) {
+      console.error(error)
       return HTTP_SERVER_ERROR_500(error);
     }
   }
@@ -145,6 +150,7 @@ export class OrderController {
       if (order) return HTTP_OK_200(order);
       return HTTP_BAD_REQUEST_400(new InvalidQueryError());
     } catch (error) {
+      console.error(error)
       return HTTP_SERVER_ERROR_500(error);
     }
   }

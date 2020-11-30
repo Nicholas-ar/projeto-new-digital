@@ -33,6 +33,7 @@ export class AuthenticationMiddleware {
       }
       return HTTP_FORBIDDEN_403();
     } catch (error) {
+      console.error(error)
       return HTTP_SERVER_ERROR_500(error);
     }
   }

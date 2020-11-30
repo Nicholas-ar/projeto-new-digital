@@ -42,6 +42,7 @@ export default class RedecardPaymentAdapter {
 
       return await this._makePaymentRequest(store, transaction);
     } catch (error) {
+      console.error(error)
       throw error;
     }
   }
@@ -52,7 +53,8 @@ export default class RedecardPaymentAdapter {
     return new Store(
       env.REDECARD_TOKEN,
       env.REDECARD_PV,
-      inProduction ? Environment.production() : Environment.sandbox()
+      // inProduction ? Environment.production() : Environment.sandbox()
+      Environment.sandbox()
     );
   }
   /**
